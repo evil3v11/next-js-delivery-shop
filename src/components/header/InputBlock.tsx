@@ -7,7 +7,8 @@ const InputBlock = () => {
       <input
         type="text"
         placeholder="Найти товар"
-        className="w-full h-10 rounded p-2 outline-1 outline-primary focus:shadow-button-default text-[#8f8f8f] text-base leading-[150%]"
+        className="w-full h-10 rounded p-2 outline-1 outline-primary 
+        focus:shadow-button-default text-[#8f8f8f] text-base leading-[150%]"
       />
       <button className="absolute right-2 top-2 cursor-pointer">
         <Image src={iconSearch} alt="Поиск" height={24} width={24} />
