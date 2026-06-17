@@ -8,4 +8,5 @@ export interface ProductCardProps {
   rating: number;
   weight?: string;
   volume?: string;
+  categories: string[] 
 }

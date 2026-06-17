@@ -11,6 +11,7 @@ const ProductCard = ({
   basePrice,
   discountPercent,
   rating,
+  categories,
 }: ProductCardProps) => {
   const cardDiscountPercent = 6;
   const calculateFinalPrice = (price: number, discount: number): number => {
@@ -21,8 +22,15 @@ const ProductCard = ({
     return calculateFinalPrice(price, discount);
   };
 
-  const finalPrice = calculatePriceByCard(basePrice, discountPercent);
-  const priceByCard = calculatePriceByCard(finalPrice, cardDiscountPercent);
+  const isNewProduct = categories?.includes("new");
+
+  const finalPrice = isNewProduct
+    ? basePrice
+    : calculatePriceByCard(basePrice, discountPercent);
+
+  const priceByCard = isNewProduct
+    ? basePrice
+    : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
   const formatPrice = (price: number): string =>
     price.toFixed(2).replace(".", ",");
@@ -30,14 +38,14 @@ const ProductCard = ({
   return (
     <div
       className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white
-    md:w-[224px] xl:w-[272px] align-top p-0 hover:shadow-article duration-300"
+      md:w-[224px] xl:w-[272px] align-top p-0 hover:shadow-article duration-300"
     >
       <div className="relative w-40 h-40 md:w-[224px] xl:w-[272px]">
         <Image
           src={img}
           alt="Акция"
           fill
-          className="object-cover md:object-contain"
+          className="object-contain"
           sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 272px"
         />
         <button
@@ -53,7 +61,7 @@ const ProductCard = ({
           />
         </button>
 
-        {discountPercent && (
+        {discountPercent > 0 && (
           <div
             className="absolute bg-[#FF6633] px-3 py-1 rounded text-white bottom-2.5 
         left-2.5"
@@ -66,11 +74,13 @@ const ProductCard = ({
       <div className="flex flex-col justify-between p-2 gap-y-2">
         <div className="flex flex-row justify-between items-end">
           <div className="flex flex-col gap-x-1">
-            <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold">
+            <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-[#414141]">
               <span>{formatPrice(priceByCard)}</span>
               <span>₽</span>
             </div>
-            <p className="text-[#bfbfbf] text-[8px] md:text-xs">С картой</p>
+            {discountPercent > 0 && (
+              <p className="text-[#bfbfbf] text-[8px] md:text-xs">С картой</p>
+            )}
           </div>
 
           {finalPrice !== basePrice && (
@@ -79,7 +89,7 @@ const ProductCard = ({
                 <span>{formatPrice(finalPrice)}</span>
                 <span>₽</span>
               </div>
-              <p className="text-[#bfbfbf] text-[8px] md:text-xs">Обычная</p>
+              <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">Обычная</p>
             </div>
           )}
         </div>
