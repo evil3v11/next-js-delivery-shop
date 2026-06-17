@@ -1,5 +1,6 @@
 import Slider from "@/components/slider/Slider";
 import Promotions from "@/components/Promotions";
+import NewProducts from "@/components/NewProducts";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <div className="px-[max(12px,calc((100%-1208px)/2))] flex flex-col gap-y-20 md:gap-y-25
       xl:gap-y-30">
         <Promotions />
+        <NewProducts />
       </div>
     </main>
   );
