@@ -1,25 +1,28 @@
-import Image from "next/image";
-
-import iconRight from "../../public/icons-header/icon-arrow-right.svg";
+import { ProductCardProps } from "@/types/product";
+import { shuffleArray } from "@/utils/shuffleArray";
 
 import ProductCard from "./ProductCard";
-import database from "@/data/database.json";
+import ViewAllButton from "./ViewAllButton";
 
-const Purchases = () => {
-  const userPurchases = database.users[0].purchases
-    .map((purchase) => {
-      const product = database.products.find(
-        (product) => product.id === purchase.id,
-      );
+const Purchases = async () => {
+  let products: ProductCardProps[] = [];
+  let error = null;
 
-      if (!product) return undefined;
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/users/purchases`,
+    );
+    products = await response.json();
+    products = shuffleArray(products);
 
-      const { discountPercent, ...rest } = product;
-      void discountPercent;
-      
-      return rest;
-    })
-    .filter((item) => item !== undefined);
+  } catch (e) {
+    error = "Error fetching purchases";
+    console.error("Error in Purchases component: ", e);
+  }
+
+  if (error) {
+    return <div className="text-red-500">Ошибка: {error}</div>;
+  }
 
   return (
     <section>
@@ -28,24 +31,13 @@ const Purchases = () => {
           <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
             Покупали раньше
           </h2>
-          <button className="flex flex-row items-center gap-x-2 cursor-pointer">
-            <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf]">
-              Все покупки
-            </p>
-            <Image
-              src={iconRight}
-              alt="К новинкам"
-              width={24}
-              height={24}
-              sizes="24px"
-            />
-          </button>
+          <ViewAllButton btnText="Все покупки" href="purchases" />
         </div>
 
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-8">
-          {userPurchases.map((item, index) => (
+          {products.slice(0, 4).map((item, index) => (
             <li
-              key={item.id}
+              key={item._id}
               className={`flex justify-center ${index >= 4 ? "hidden" : ""} ${index >= 3 ? "md:hidden xl:block" : ""} ${index >= 4 ? "xl:hidden" : ""}`}
             >
               <ProductCard {...item} />

@@ -8,19 +8,19 @@ import iconMenuMobile from "../../../public/icons-header/icon-menu-mob.svg";
 const TopMenu = () => {
   return (
     <ul className="flex flex-row gap-x-6 items-end">
-      <li className="flex flex-col items-center gap-2.5 md:hidden w-11 cursor-pointer">
+      <li className="flex flex-col items-center gap-2.5 md:hidden w-11 h-auto cursor-pointer">
         <Image src={iconMenuMobile} alt="Меню" width={24} height={24} />
         <span>Каталог</span>
       </li>
-      <li className="flex flex-col items-center gap-2.5 w-11 cursor-pointer">
+      <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">
         <Image src={iconHeart} alt="Избранное" width={24} height={24} />
         <span>Избранное</span>
       </li>
-      <li className="flex flex-col items-center gap-2.5 w-11 cursor-pointer">
+      <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">
         <Image src={iconBox} alt="Заказы" width={24} height={24} />
         <span>Заказы</span>
       </li>
-      <li className="flex flex-col items-center gap-2.5 w-11 cursor-pointer">
+      <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">
         <Image src={iconCart} alt="Корзина" width={24} height={24} />
         <span>Корзина</span>
       </li>
