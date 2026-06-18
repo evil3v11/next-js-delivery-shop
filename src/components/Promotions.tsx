@@ -1,12 +1,27 @@
-import Image from "next/image";
-import iconRight from "../../public/icons-header/icon-arrow-right.svg";
-import ProductCard from "./ProductCard";
-import database from "@/data/database.json";
+import { ProductCardProps } from "@/types/product";
+import { shuffleArray } from "@/utils/shuffleArray";
 
-const Promotions = () => {
-  const promotionalProducts = database.products.filter((p) =>
-    p.categories.includes("actions"),
-  );
+import ProductCard from "./ProductCard";
+import ViewAllButton from "./ViewAllButton";
+
+const Promotions = async () => {
+  let products: ProductCardProps[] = [];
+  let error = null;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/products?category=actions`,
+    );
+    products = await response.json();
+    products = shuffleArray(products);
+  } catch (e) {
+    error = "Error fetching promotional products";
+    console.error("Error in Promotions component: ", e);
+  }
+
+  if (error) {
+    return <div className="text-red-500">Ошибка: {error}</div>;
+  }
 
   return (
     <section>
@@ -15,24 +30,13 @@ const Promotions = () => {
           <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
             Акции
           </h2>
-          <button className="flex flex-row items-center gap-x-2 cursor-pointer">
-            <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf]">
-              Все акции
-            </p>
-            <Image
-              src={iconRight}
-              alt="К акциям"
-              width={24}
-              height={24}
-              sizes="24px"
-            />
-          </button>
+          <ViewAllButton btnText="Все акции" href="actions" />
         </div>
 
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-8">
-          {promotionalProducts.map((item, index) => (
+          {products.slice(0, 4).map((item, index) => (
             <li
-              key={item.id}
+              key={item._id}
               className={`flex justify-center ${index >= 4 ? "hidden" : ""} ${index >= 3 ? "md:hidden xl:block" : ""} ${index >= 4 ? "xl:hidden" : ""}`}
             >
               <ProductCard {...item} />

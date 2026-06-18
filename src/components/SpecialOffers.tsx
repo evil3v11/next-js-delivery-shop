@@ -17,8 +17,8 @@ const SpecialOffers = () => {
         >
           <div
             className="h-[170px] md:w-[352px] xl:w-[584px] xl:h-auto bg-[#FCD5BA] 
-          rounded p-4 hover:shadow-banner-orange relative overflow-hidden xl:flex 
-          xl:justify-between xl:px-10 xl:py-5"
+          rounded p-4 shadow-card hover:shadow-banner-orange relative overflow-hidden xl:flex 
+          xl:justify-between xl:px-10 xl:py-5 transition-all duration-300 cursor-pointer"
           >
             <div className="flex flex-col w-[174px] gap-y-1.5">
               <h3
@@ -34,13 +34,14 @@ const SpecialOffers = () => {
 
             <div
               className="absolute -top-3 -right-20 xl:relative xl:top-0 xl:right-0 
-          xl:scale-150"
+          xl:scale-140"
             >
               <Image
                 src={bannerCard}
                 alt="Карта Северяночка"
                 width={250}
                 height={175}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -48,8 +49,8 @@ const SpecialOffers = () => {
 
           <div
             className="flex justify-between h-[170px] md:w-[352px] xl:w-[584px] xl:h-auto
-          bg-[#E5FFDE] rounded p-4 hover:shadow-banner-green relative xl:px-10 
-          xl:py-5"
+          bg-[#E5FFDE] rounded p-4 shadow-card hover:shadow-banner-green relative xl:px-10 
+          xl:py-5 transition-all duration-300 cursor-pointer"
           >
             <div className="flex flex-col w-[174px] gap-y-1.5">
               <h3
@@ -69,6 +70,7 @@ const SpecialOffers = () => {
                 alt="Акционные товары"
                 width={132}
                 height={126}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>

@@ -38,9 +38,9 @@ const ProductCard = ({
   return (
     <div
       className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white
-      md:w-[224px] xl:w-[272px] align-top p-0 hover:shadow-article duration-300"
+      md:w-56 xl:w-68 align-top p-0 hover:shadow-article duration-300"
     >
-      <div className="relative w-40 h-40 md:w-[224px] xl:w-[272px]">
+      <div className="relative w-40 h-40 md:w-56 xl:w-68">
         <Image
           src={img}
           alt="Акция"

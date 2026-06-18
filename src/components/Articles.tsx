@@ -1,52 +1,54 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Article } from "@/types/articles";
 
-import iconRight from "../../public/icons-header/icon-arrow-right.svg";
-import articlesDatabase from "@/data/articlesDatabase.json";
+import ViewAllButton from "./ViewAllButton";
 
-const Articles = () => {
-  const articles = articlesDatabase;
+const Articles = async () => {
+  let articles: Article[] = [];
+  let error = null;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/articles`,
+    );
+
+    articles = await response.json();
+  } catch (e) {
+    error = "Error fetching articles";
+    console.error("Error in Article component: ", e);
+  }
+
+  if (error) {
+    return <div className="text-red-500">Ошибка: {error}</div>;
+  }
 
   return (
     <section>
-      <div className="flex flex-col justify-center xl:max-w-[1208px] text-[#414141]">
+      <div className="flex flex-col justify-center xl:max-w-302 text-[#414141]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold">Статьи</h2>
-          <Link
-            href="#"
-            className="flex flex-row items-center gap-x-2 cursor-pointer"
-          >
-            <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf] 
-            duration-300">
-              К статьям
-            </p>
-            <Image
-              src={iconRight}
-              alt="К статьям"
-              width={24}
-              height={24}
-              sizes="24px"
-            />
-          </Link>
+          <ViewAllButton btnText="Все статьи" href="articles" />
         </div>
 
         {/* Список статей */}
         <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <li key={article.id} className="h-75 md:h-105">
-              <article className="bg-white h-full flex flex-col rounded overflow-hidden 
-              shadow-card hover:shadow-article duration-300">
+          {articles.slice(0, 3).map((article) => (
+            <li key={article._id} className="h-75 md:h-105">
+              <article
+                className="bg-white h-full flex flex-col rounded overflow-hidden 
+              shadow-card hover:shadow-article duration-300"
+              >
                 <div className="relative h-48 w-full">
                   <Image
                     src={article.img}
                     alt={article.title}
                     fill
                     className="object-cover"
-                    quality={100}
+                    quality={75}
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                 </div>
-                <div className="p-2.5 flex-1 flex flex-col gap-y-2.5 leading-[1.5]">
+                <div className="p-2.5 flex-1 flex flex-col gap-y-2.5 leading-normal">
                   <time className="text-[8px] text-[#8f8f8f]">
                     {new Date(article.createdAt).toLocaleDateString("ru-RU")}
                   </time>

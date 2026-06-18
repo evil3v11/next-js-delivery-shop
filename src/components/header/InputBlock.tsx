@@ -3,7 +3,7 @@ import iconSearch from "../../../public/icons-header/icon-search.svg";
 
 const InputBlock = () => {
   return (
-    <div className=" relative min-w-[261px] grow">
+    <div className=" relative min-w-65.25 grow">
       <input
         type="text"
         placeholder="Найти товар"

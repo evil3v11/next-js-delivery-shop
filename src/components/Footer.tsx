@@ -1,4 +1,4 @@
-
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,14 +10,23 @@ const Footer = () => {
         {/* Логотип со ссылкой на главную */}
         <div className="logo">
           <Link href="/" className="relative w-23 h-16 md:w-16 md:h-11 block">
-            <Image src="/icons-footer/logo-footer.png" alt="Логотип" fill />
+            <Image
+              src="/icons-footer/logo-footer.png"
+              alt="Логотип"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
           </Link>
         </div>
 
         {/* Социальные сети с кликабельными иконками */}
         <div className="social flex flex-row gap-x-5 md:flex-col xl:flex-row gap-y-3 justify-between">
           <div className="flex gap-x-5 items-start">
-            <Link href="https://vk.com" target="_blank" rel="noopener noreferrer">
+            <Link
+              href="https://vk.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image
                 src="/icons-footer/VK.svg"
                 alt="VKontakte"
@@ -26,7 +35,11 @@ const Footer = () => {
                 className="hover:opacity-80 transition-opacity duration-300"
               />
             </Link>
-            <Link href="https://ok.ru" target="_blank" rel="noopener noreferrer">
+            <Link
+              href="https://ok.ru"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Image
                 src="/icons-footer/OK.svg"
                 alt="Odnoklassniki"

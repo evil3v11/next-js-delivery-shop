@@ -10,7 +10,7 @@ const SlideOne = () => {
 
       <div className="flex flex-row gap-x-2 xl:gap-x-4 items-center z-10 relative">
         <div className="relative hidden md:block md:w-50 md:h-33 xl:w-75 xl:h-50 top-7">
-          <Image src="/images/graphics/food.png" alt="Слайд" fill />
+          <Image src="/images/graphics/food.png" alt="Слайд" fill sizes="(max-width: 768px) 100vw, 50vw" loading="eager"/>
         </div>
 
         <h2 className="text-lg md:text-2xl xl:text-5xl font-bold text-[#414141]">
