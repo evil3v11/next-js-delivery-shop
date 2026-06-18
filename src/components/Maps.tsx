@@ -36,7 +36,7 @@ const Maps = () => {
                   onClick={() => setCurrentLocation(key)}
                   className={`px-4 py-2 text-xs justify-center items-center 
                   active:shadow-button-active border-none rounded cursor-pointer 
-                  transition-colors duration-300 
+                  transition-colors duration-300 text-[#414141] 
                   ${
                     isActive
                       ? "bg-primary text-white hover:shadow-button-default"
