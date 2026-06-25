@@ -13,7 +13,7 @@ const AllArticles = async () => {
     articles = await response.json();
   } catch (e) {
     error = "Error fetching articles";
-    console.error("Error in Article component: ", e);
+    console.error("Error in AllArticles component: ", e);
   }
 
   if (error) {
