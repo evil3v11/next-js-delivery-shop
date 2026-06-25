@@ -1,12 +1,10 @@
 import Slider from "@/components/slider/Slider";
-import Promotions from "@/components/Promotions";
-import NewProducts from "@/components/NewProducts";
-import Purchases from "@/components/Purchases";
+import Promotions from "./(products)/Promotions";
+import NewProducts from "./(products)/NewProducts";
+import Purchases from "./(user)/Purchases";
 import SpecialOffers from "@/components/SpecialOffers";
 import Maps from "@/components/Maps";
-import Articles from "@/components/Articles";
-
-export const dynamic = "force-dynamic";
+import Articles from "./(articles)/Articles";
 
 const Home = () => {
   return (
