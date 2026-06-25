@@ -35,6 +35,8 @@ const ProductCard = ({
   const formatPrice = (price: number): string =>
     price.toFixed(2).replace(".", ",");
 
+  const ratingValue = rating?.rate || 5;
+
   return (
     <div
       className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white
@@ -89,7 +91,9 @@ const ProductCard = ({
                 <span>{formatPrice(finalPrice)}</span>
                 <span>₽</span>
               </div>
-              <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">Обычная</p>
+              <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">
+                Обычная
+              </p>
             </div>
           )}
         </div>
@@ -100,7 +104,7 @@ const ProductCard = ({
         >
           {description}
         </div>
-        {rating > 0 && <StarRating rating={rating} />}
+        {ratingValue > 0 && <StarRating rating={ratingValue} />}
         <button
           className="border border-primary hover:text-white hover:bg-[#ff6633]
         hover:border-transparent active:shadow-button-active w-full h-10 rounded p-2
