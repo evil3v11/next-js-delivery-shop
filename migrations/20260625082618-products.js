@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const products = require("./productsDatabase.json");
 
 module.exports = {
