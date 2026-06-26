@@ -1,18 +1,24 @@
 import fetchProductsByCategory from "../fetchProducts";
-import ProductsSection from "../ProductsSection";
+import GenericListPage from "../GenericListPage";
 
 export const metadata = {
   title: 'Акции магазина "Северяночка"',
   description: 'Акционные товары магазина "Северяночка"',
 };
 
-const AllPromotions = async () => {
-  const products = await fetchProductsByCategory("actions");
+const AllPromotions = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: string; itemsPerPage?: string }>;
+}) => {
   return (
-    <ProductsSection
-      title="Все акции"
-      viewAllBtn={{ text: "На главную", href: "/" }}
-      products={products}
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchProductsByCategory("actions"),
+        pageTitle: "Все акции",
+        basePath: "/actions",
+      }}
     />
   );
 };

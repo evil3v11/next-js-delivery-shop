@@ -9,7 +9,7 @@ const ErrorBoundary = ({ error, reset }: ErrorProps) => {
       <p className="text-sm">{error.message || "Unexpected error"}</p>
       <button
         onClick={() => reset()}
-        className="px-4 py-2 bg-indigo-500 text-white rounded"
+        className="px-4 py-2 bg-indigo-500 hover:bg-indigo-400 transition-colors duration-300 text-white rounded cursor-pointer"
       >
         Click to load again
       </button>

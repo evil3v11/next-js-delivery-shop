@@ -1,4 +1,4 @@
-import { Article } from "@/types/articles";
+import { ArticleCardProps } from "@/types/articles";
 
 const fetchArticles = async () => {
   try {
@@ -9,7 +9,7 @@ const fetchArticles = async () => {
 
     if (!response.ok) throw new Error(`Error fetching articles data`);
 
-    const articles: Article[] = await response.json();
+    const articles: ArticleCardProps[] = await response.json();
     return articles;
   } catch (e) {
     console.error("Error fetching articles: ", e);

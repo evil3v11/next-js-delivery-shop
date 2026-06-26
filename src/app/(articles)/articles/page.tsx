@@ -1,19 +1,25 @@
+import GenericListPage from "@/app/(products)/GenericListPage";
 import fetchArticles from "../fetchArticles";
-
-import ArticlesSection from "../ArticlesSection";
 
 export const metadata = {
   title: 'Статьи на сайте магазина "Северяночка"',
   description: 'Читайте статьи на сайте магазина "Северяночка"',
 };
 
-const AllArticles = async () => {
-  const articles = await fetchArticles();
+const AllArticles = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: string; itemsPerPage?: string }>;
+}) => {
   return (
-    <ArticlesSection
-      title="Все статьи"
-      viewAllBtn={{ text: "На главную", href: "/" }}
-      articles={articles}
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchArticles(),
+        pageTitle: "Все статьи",
+        basePath: "/articles",
+        contentType: "articles",
+      }}
     />
   );
 };
