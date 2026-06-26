@@ -1,3 +1,5 @@
+import { shuffleArray } from "@/utils/shuffleArray";
+
 import fetchProductsByCategory from "./fetchProducts";
 import ProductsSection from "./ProductsSection";
 
@@ -7,7 +9,7 @@ const Promotions = async () => {
     <ProductsSection
       title="Акции"
       viewAllBtn={{ text: "Все акции", href: "/actions" }}
-      products={products}
+      products={shuffleArray(products)}
       compact
     />
   );

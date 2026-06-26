@@ -1,5 +1,4 @@
 import { ProductCardProps } from "@/types/product";
-import { shuffleArray } from "@/utils/shuffleArray";
 
 const fetchProductsByCategory = async (category: string) => {
   try {
@@ -13,8 +12,8 @@ const fetchProductsByCategory = async (category: string) => {
 
     const products: ProductCardProps[] = await response.json();
     const availableProducts = products.filter((p) => p.quantity > 0);
-    
-    return shuffleArray(availableProducts);
+
+    return availableProducts;
   } catch (e) {
     console.error("Error fetching product data: ", e);
     throw e;

@@ -1,15 +1,21 @@
-import ProductsSection from "@/app/(products)/ProductsSection";
 import fetchPurchases from "../fetchPurchases";
+import GenericListPage from "@/app/(products)/GenericListPage";
 
-const AllNewProducts = async () => {
-  const purchasedProducts = await fetchPurchases();
+const AllPurchases = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: string; itemsPerPage?: string }>;
+}) => {
   return (
-    <ProductsSection
-      title="Все покупки"
-      viewAllBtn={{ text: "На главную", href: "/" }}
-      products={purchasedProducts}
+    <GenericListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchPurchases(),
+        pageTitle: "Все покупки",
+        basePath: "/purchases",
+      }}
     />
   );
 };
 
-export default AllNewProducts;
+export default AllPurchases;

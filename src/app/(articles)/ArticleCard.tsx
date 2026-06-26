@@ -1,8 +1,8 @@
 import Image from "next/image";
 
-import { Article } from "@/types/articles";
+import { ArticleCardProps } from "@/types/articles";
 
-const ArticleCard = ({ img, title, createdAt, text }: Article) => {
+const ArticleCard = ({ img, title, createdAt, text }: ArticleCardProps) => {
   return (
     <article
       className="bg-white h-full flex flex-col rounded overflow-hidden shadow-card 
