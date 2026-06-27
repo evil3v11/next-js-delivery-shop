@@ -1,19 +1,35 @@
-import { ProductCardProps } from "@/types/product";
-
-const fetchProductsByCategory = async (category: string) => {
+const fetchProductsByCategory = async (
+  category: string,
+  options?: {
+    randomLimit?: number;
+    pagination?: { startIdx: number; perPage: number };
+  },
+) => {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL!}/api/products?category=${category}`,
-      { next: { revalidate: 3600 } },
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`);
+    url.searchParams.append("category", category);
+
+    if (options?.randomLimit) {
+      url.searchParams.append("randomLimit", String(options.randomLimit));
+    } else if (options?.pagination) {
+      url.searchParams.append(
+        "startIndex",
+        String(options.pagination.startIdx),
+      );
+      url.searchParams.append("perPage", String(options.pagination.perPage));
+    }
+
+    const response = await fetch(String(url), { next: { revalidate: 3600 } });
 
     if (!response.ok)
       throw new Error(`Error fetching ${category} product data`);
 
-    const products: ProductCardProps[] = await response.json();
-    const availableProducts = products.filter((p) => p.quantity > 0);
-
-    return availableProducts;
+    const data = await response.json();
+    
+    return {
+      items: data.products || data,
+      totalCount: data.totalCount || data.length,
+    };
   } catch (e) {
     console.error("Error fetching product data: ", e);
     throw e;

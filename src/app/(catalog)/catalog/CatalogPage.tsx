@@ -13,8 +13,12 @@ const CatalogPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [draggingCategory, setDraggingCategory] = useState<CatalogProps | null>(null);
-  const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null);
+  const [draggingCategory, setDraggingCategory] = useState<CatalogProps | null>(
+    null,
+  );
+  const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(
+    null,
+  );
   // TODO: Make admin panel
   const isAdmin = true;
 
@@ -61,8 +65,7 @@ const CatalogPage = () => {
       if (!response.ok)
         throw new Error("Ошибка при обновлении порядка категорий");
 
-      const result = await response.json();
-      if (result.success) console.log("Порядок категорий обновился успешно");
+      await response.json();
     } catch (e) {
       console.log("Ошибка при сохранении порядка: ", e);
       setError("Ошибка при сохранении порядка");
