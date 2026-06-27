@@ -15,7 +15,10 @@ const AllPromotions = async ({
     <GenericListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchProductsByCategory("actions"),
+        fetchData: ({ pagination: { startIdx, perPage } }) =>
+          fetchProductsByCategory("actions", {
+            pagination: { startIdx, perPage },
+          }),
         pageTitle: "Все акции",
         basePath: "/actions",
       }}

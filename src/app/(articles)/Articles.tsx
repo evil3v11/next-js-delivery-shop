@@ -1,15 +1,17 @@
 import fetchArticles from "./fetchArticles";
 
 import ArticlesSection from "./ArticlesSection";
+import { CONFIG } from "../../../config/config";
 
 const Articles = async () => {
-  const articles = await fetchArticles();
+  const { items } = await fetchArticles({
+    articlesLimit: CONFIG.ITEMS_PER_PAGE_MAIN_ARTICLES,
+  });
   return (
     <ArticlesSection
       title="Статьи"
       viewAllBtn={{ text: "Все статьи", href: "/articles" }}
-      articles={articles}
-      compact
+      articles={items}
     />
   );
 };
