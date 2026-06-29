@@ -8,7 +8,6 @@ const HighlightText = ({
   if (!highlight.trim().length) return <>{text}</>;
 
   const textParts = text.split(new RegExp(`(${highlight})`, "gi"));
-  console.log(textParts);
   return (
     <span>
       {textParts.map((part, i) =>

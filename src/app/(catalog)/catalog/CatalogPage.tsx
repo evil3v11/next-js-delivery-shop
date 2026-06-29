@@ -67,7 +67,7 @@ const CatalogPage = () => {
 
       await response.json();
     } catch (e) {
-      console.log("Ошибка при сохранении порядка: ", e);
+      console.error("Ошибка при сохранении порядка: ", e);
       setError("Ошибка при сохранении порядка");
     } finally {
       setIsLoading(false);

@@ -6,7 +6,7 @@ import actionCart from "../../public/images/banners/banner-action-cart.png";
 const SpecialOffers = () => {
   return (
     <section>
-      <div className="flex flex-col gap-y-4 md:gap-y-8 lg:gap-y-10">
+      <div className="flex flex-col gap-y-4 md:gap-y-8 lg:gap-y-10 px-[max(12px,calc((100%-1208px)/2))]">
         <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
           Специальные предложения
         </h2>
@@ -16,7 +16,7 @@ const SpecialOffers = () => {
       xl:gap-x-10 relative"
         >
           <div
-            className="h-[170px] md:w-[352px] xl:w-[584px] xl:h-auto bg-[#FCD5BA] 
+            className="h-[170px] w-full xl:w-[584px] xl:h-auto bg-[#FCD5BA] 
           rounded p-4 shadow-card hover:shadow-banner-orange relative overflow-hidden xl:flex 
           xl:justify-between xl:px-10 xl:py-5 transition-all duration-300 cursor-pointer"
           >
@@ -48,7 +48,7 @@ const SpecialOffers = () => {
           </div>
 
           <div
-            className="flex justify-between h-[170px] md:w-[352px] xl:w-[584px] xl:h-auto
+            className="flex justify-between h-[170px] w-full xl:w-[584px] xl:h-auto
           bg-[#E5FFDE] rounded p-4 shadow-card hover:shadow-banner-green relative xl:px-10 
           xl:py-5 transition-all duration-300 cursor-pointer"
           >

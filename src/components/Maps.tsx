@@ -19,7 +19,7 @@ const Maps = () => {
       }}
     >
       <section>
-        <div className="flex flex-col justify-center xl:max-w-302">
+        <div className="flex flex-col justify-center xl:max-w-302 px-[max(12px,calc((100%-1208px)/2))] w-full">
           <h2
             className="mb-4 md:mb-8 xl:mb-10 text-2xl xl:text-4xl text-left font-bold 
           text-[#414141]"
