@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { ProductCardProps } from "@/types/product";
@@ -48,7 +48,7 @@ const SearchResult = () => {
         {!products.length ? (
           <p className="text-2xl mt-5">По вашему запросу ничего не найдено</p>
         ) : (
-          <ProductsSection title="" products={products} />
+          <ProductsSection title="" products={products} applyIndexStyle={false} />
         )}
       </div>
   );
