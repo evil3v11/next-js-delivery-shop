@@ -1,5 +1,6 @@
 import { getDB } from "@/utils/api-routes";
 import { NextResponse } from "next/server";
+
 import { SearchProduct } from "@/types/searchProducts";
 
 export const GET = async (request: Request) => {
@@ -11,7 +12,12 @@ export const GET = async (request: Request) => {
     const products = await db
       .collection("products")
       .find({
-        $or: [{ title: { $regex: query, $options: "i" } }],
+        $and: [
+          {
+            $or: [{ title: { $regex: query, $options: "i" } }],
+          },
+          { quantity: { $gt: 0 } },
+        ],
       })
       .project({
         title: 1,

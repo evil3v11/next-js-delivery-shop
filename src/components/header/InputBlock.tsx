@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -21,17 +22,18 @@ const InputBlock = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [groupedProducts, setGroupedProducts] = useState<
-    { category: string; products: SearchProduct[]; }[]
+    { category: string; products: SearchProduct[] }[]
   >([]);
 
+  const router = useRouter();
+
   useEffect(() => {
-    const fetchSearchData = async () => {
+    const fetchSearchData = async (): Promise<void> => {
       if (query.length > 1) {
         try {
           setIsLoading(true);
           const response = await fetch(`/api/search?query=${query}`);
           const data = await response.json();
-          console.log(data);
           setGroupedProducts(data);
         } catch (error) {
           console.error("Не найден продукт или категория\n", error);
@@ -47,7 +49,7 @@ const InputBlock = () => {
     return () => clearTimeout(debounceTimer);
   }, [query]);
 
-  const handleInputFocus = () => setIsOpen(true);
+  const handleInputFocus = (): void => setIsOpen(true);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent): void => {
@@ -62,28 +64,40 @@ const InputBlock = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const resetSearch = () => {
+  const resetSearch = (): void => {
     setQuery("");
     setIsOpen(false);
   };
 
+  const handleSearch = (): void => {
+    if (query.trim()) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
+      setIsOpen(false);
+      setQuery("");
+    }
+  }
+
   return (
     <div ref={searchbarRef} className="relative min-w-65.25 grow">
       <div className="relative rounded border border-primary shadow-button-default leading-[150%]">
-        <input
-          placeholder="Найти товар"
-          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
-          onFocus={handleInputFocus}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-
-        <Image
-          src={iconSearch}
-          alt="Поиск"
-          height={24}
-          width={24}
-          className="absolute right-2 top-2"
-        />
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handleSearch();
+        }}>
+          <input
+            placeholder="Найти товар"
+            className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
+            onFocus={handleInputFocus}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-2 w-6 h-6 cursor-pointer"
+          >
+            <Image src={iconSearch} alt="Поиск" height={24} width={24} />
+          </button>
+        </form>
       </div>
 
       {isOpen && (

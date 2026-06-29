@@ -10,7 +10,7 @@ const ProductsSection = ({
 }: ProductsSectionProps) => {
   return (
     <section>
-      <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))] mt-10">
+      <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
             {title}
@@ -21,10 +21,10 @@ const ProductsSection = ({
         </div>
 
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-8">
-          {products.map((item, index) => (
+          {products.map((item) => (
             <li
               key={item._id}
-              className={`flex justify-center ${index >= 3 ? "md:hidden xl:block" : ""}`}
+              className="flex justify-center"
             >
               <ProductCard {...item} />
             </li>

@@ -6,7 +6,7 @@ interface LoaderProps {
 const Loader = ({ text = "", className = "" }: LoaderProps) => {
   return (
     <div
-      className={`flex flex-col items-center justify-center gap-3 ${className}`}
+      className={` min-h-20 flex flex-col items-center justify-center gap-3 ${className}`}
     >
       <div className="relative w-12 h-12">
         <div className="w-full h-full border-4 border-orange-500 border-t-transparent 

@@ -12,7 +12,7 @@ import iconToRight from "../../public/icons-products/icon-arrow-right.svg";
 const Breadcrumbs = () => {
   const pathname = usePathname();
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
   const breadcrumbs = pathSegments.map((segment, index) => {
