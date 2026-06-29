@@ -14,4 +14,5 @@ export interface ProductCardProps {
   volume?: string;
   categories: string[];
   quantity: number;
+  tags: string[];
 }

@@ -10,12 +10,12 @@ export const GET = async (request: Request) => {
     const db = await getDB();
     const url = new URL(request.url);
 
-    const category = url.searchParams.get("category");
+    const tag = url.searchParams.get("tag");
     const randomLimit = url.searchParams.get("randomLimit");
     const startIndex = Number(url.searchParams.get("startIndex") || "0");
     const perPage = Number(url.searchParams.get("perPage") || CONFIG.ITEMS_PER_PAGE);
 
-    if (!category) {
+    if (!tag) {
       return NextResponse.json(
         { message: "Параметр категории обязателен" },
         { status: 400 },
@@ -23,7 +23,7 @@ export const GET = async (request: Request) => {
     }
 
     const query = {
-      categories: category,
+      tags: tag,
       quantity: { $gt: 0 },
     };
 
