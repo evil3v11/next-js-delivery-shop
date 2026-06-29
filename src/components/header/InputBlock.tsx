@@ -14,7 +14,11 @@ import burgerMenu from "../../../public/icons-header/icon-burgerMenu.svg";
 
 import HighlightText from "../HighlightText";
 
-const InputBlock = () => {
+const InputBlock = ({
+  onFocusChangeAction,
+}: {
+  onFocusChangeAction: (isFocused: boolean) => void;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const searchbarRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +53,10 @@ const InputBlock = () => {
     return () => clearTimeout(debounceTimer);
   }, [query]);
 
-  const handleInputFocus = (): void => setIsOpen(true);
+  const handleInputFocus = (): void => {
+    setIsOpen(true);
+    onFocusChangeAction(true);
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent): void => {
@@ -67,6 +74,7 @@ const InputBlock = () => {
   const resetSearch = (): void => {
     setQuery("");
     setIsOpen(false);
+    onFocusChangeAction(false);
   };
 
   const handleSearch = (): void => {
@@ -75,21 +83,26 @@ const InputBlock = () => {
       setIsOpen(false);
       setQuery("");
     }
-  }
+  };
+
+  const handleInputBlur = () => onFocusChangeAction(false);
 
   return (
     <div ref={searchbarRef} className="relative min-w-65.25 grow">
       <div className="relative rounded border border-primary shadow-button-default leading-[150%]">
-        <form onSubmit={(e) => {
-          e.preventDefault()
-          handleSearch();
-        }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
           <input
             placeholder="Найти товар"
             className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
             onFocus={handleInputFocus}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onBlur={handleInputBlur}
           />
           <button
             type="submit"

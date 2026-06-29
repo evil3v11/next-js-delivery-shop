@@ -7,7 +7,8 @@ const ProductsSection = ({
   title,
   products,
   viewAllBtn,
-}: ProductsSectionProps) => {
+  applyIndexStyle = true,
+}: ProductsSectionProps & { applyIndexStyle?: boolean }) => {
   return (
     <section>
       <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
@@ -21,10 +22,13 @@ const ProductsSection = ({
         </div>
 
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-8">
-          {products.map((item) => (
+          {products.map((item, index) => (
             <li
               key={item._id}
-              className="flex justify-center"
+              className={
+                applyIndexStyle ? (index >= 3 ? "md:hidden xl:block" : "") : ""
+              }
+              style={{ display: "flex", justifyContent: "center" }}
             >
               <ProductCard {...item} />
             </li>
