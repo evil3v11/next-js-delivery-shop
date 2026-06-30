@@ -10,8 +10,11 @@ import Pagination from "./Pagination";
 
 const getItemsPerPageByWidth = (contentType?: string): number => {
   const width = window.innerWidth;
-  if (contentType) {
-    return width < 640 ? 2 : 3;
+  if (contentType === "articles") {
+    return width < 640 ? 1 : 3;
+  }
+  if (contentType === "category") {
+    return width < 768 ? 8 : 6;
   }
   if (width < 768) {
     return 2;
@@ -34,10 +37,17 @@ const PaginationWrapper = ({
   basePath: string;
   contentType?: string;
 }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(
-    contentType === "articles" ? 1 : CONFIG.ITEMS_PER_PAGE,
-  );
+  let initialItemsPerPage;
 
+  if (contentType === "articles") {
+    initialItemsPerPage = 1;
+  } else if (contentType === "category") {
+    initialItemsPerPage = CONFIG.ITEMS_PER_PAGE_CATEGORY;
+  } else {
+    initialItemsPerPage = CONFIG.ITEMS_PER_PAGE;
+  }
+
+  const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -53,7 +63,7 @@ const PaginationWrapper = ({
 
       router.replace(`${basePath}?${params.toString()}`, { scroll: false });
     };
-    
+
     updateItemsPerPage();
 
     const handleResize = debounce(updateItemsPerPage, 200);
