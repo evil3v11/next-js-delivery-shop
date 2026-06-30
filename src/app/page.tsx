@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import Slider from "@/components/slider/Slider";
 import Promotions from "./(products)/Promotions";
 import NewProducts from "./(products)/NewProducts";
@@ -5,7 +7,6 @@ import Purchases from "./(user)/Purchases";
 import SpecialOffers from "@/components/SpecialOffers";
 import Maps from "@/components/Maps";
 import Articles from "./(articles)/Articles";
-import { Suspense } from "react";
 import Loader from "@/components/Loader";
 
 const Home = () => {

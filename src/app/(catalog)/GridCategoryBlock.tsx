@@ -1,13 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { CatalogProps } from "@/types/catalog";
 
-const GridCategoryBlock = ({ id, img, title }: CatalogProps) => {
+const GridCategoryBlock = ({
+  slug,
+  img,
+  title,
+  priority,
+}: CatalogProps & { priority: boolean }) => {
   return (
     <Link
-      href={`category-${id}`}
-      className="block relative h-full overflow-hidden group min-w-40 
-                md:min-w-[224px] xl:min-w-[274px]"
+      href={`/category/${slug}`}
+      className="block relative h-full overflow-hidden group min-w-40 md:min-w-[224px] xl:min-w-[274px]"
     >
       <Image
         src={img}
@@ -15,7 +20,9 @@ const GridCategoryBlock = ({ id, img, title }: CatalogProps) => {
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="object-cover transition-transform group-hover:scale-105"
-        priority={false}
+        priority={priority}
+        quality={priority ? 90 : 75}
+        loading={priority ? "eager" : "lazy"}
       />
       <div
         className="absolute inset-0 top-auto h-[117px] group-hover:h-[177px]
@@ -23,8 +30,10 @@ const GridCategoryBlock = ({ id, img, title }: CatalogProps) => {
                   group-hover:bg-[linear-gradient(180deg,rgba(255,102,51,0)_0%,rgba(255,102,51,1)_100%)]
                   transition-all duration-300"
       />
-      <div className="absolute left-2.5 bottom-2.5 flex items-center">
-        <span className="text-white text-lg font-bold">{title}</span>
+      <div className="absolute left-2.5 bottom-2.5 right-2.5 flex items-center">
+        <span className="text-white text-lg font-bold wrap-break-word whitespace-normal max-w-[calc(100%-10px)]">
+          {title}
+        </span>
       </div>
     </Link>
   );

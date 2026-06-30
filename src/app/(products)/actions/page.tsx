@@ -1,5 +1,8 @@
+import { Suspense } from "react";
+
 import fetchProductsByTag from "../fetchProducts";
 import GenericListPage from "../GenericListPage";
+import Loader from "@/components/Loader";
 
 export const metadata = {
   title: 'Акции магазина "Северяночка"',
@@ -12,17 +15,19 @@ const AllPromotions = async ({
   searchParams: Promise<{ page: string; itemsPerPage?: string }>;
 }) => {
   return (
-    <GenericListPage
-      searchParams={searchParams}
-      props={{
-        fetchData: ({ pagination: { startIdx, perPage } }) =>
-          fetchProductsByTag("actions", {
-            pagination: { startIdx, perPage },
-          }),
-        pageTitle: "Все акции",
-        basePath: "/actions",
-      }}
-    />
+    <Suspense fallback={<Loader />}>
+      <GenericListPage
+        searchParams={searchParams}
+        props={{
+          fetchData: ({ pagination: { startIdx, perPage } }) =>
+            fetchProductsByTag("actions", {
+              pagination: { startIdx, perPage },
+            }),
+          pageTitle: "Все акции",
+          basePath: "/actions",
+        }}
+      />
+    </Suspense>
   );
 };
 

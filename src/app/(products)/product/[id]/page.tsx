@@ -4,7 +4,7 @@ const ProductPage = async ({params}: {params: Promise<{id: string}>}) => {
   try {
     productId = (await params).id
   } catch (e) {
-    console.error("Ошибка получения продукта\n", e)
+    throw e
   }
   return (
     <div>

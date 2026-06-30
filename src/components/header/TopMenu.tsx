@@ -4,14 +4,17 @@ import iconHeart from "../../../public/icons-header/icon-heart.svg";
 import iconBox from "../../../public/icons-header/icon-box.svg";
 import iconCart from "../../../public/icons-header/icon-cart.svg";
 import iconMenuMobile from "../../../public/icons-header/icon-menu-mob.svg";
+import Link from "next/link";
 
 const TopMenu = () => {
   return (
     <ul className="flex flex-row gap-x-6 items-end">
-      <li className="flex flex-col items-center gap-2.5 md:hidden w-11 h-auto cursor-pointer">
-        <Image src={iconMenuMobile} alt="Меню" width={24} height={24} />
-        <span>Каталог</span>
-      </li>
+      <Link href="/catalog">
+        <li className="flex flex-col items-center gap-2.5 md:hidden w-11 h-auto cursor-pointer">
+          <Image src={iconMenuMobile} alt="Меню" width={24} height={24} />
+          <span>Каталог</span>
+        </li>
+      </Link>
       <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">
         <Image src={iconHeart} alt="Избранное" width={24} height={24} />
         <span>Избранное</span>

@@ -1,16 +1,23 @@
-const CategoryPage = async ({params}: {params: Promise<{category: string}>}) => {
-  let category: string = ""
+import ErrorComponent from "@/components/ErrorComponent";
+
+const CategoryPage = async ({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) => {
+  let category: string = "";
 
   try {
-    category = (await params).category
+    category = (await params).category;
   } catch (e) {
-    console.error("Ошибка получения категорий\n", e)
+    return (
+      <ErrorComponent
+        error={e instanceof Error ? e : new Error(String(e))}
+        userMessage="Не удалось загрузить статьи"
+      />
+    );
   }
-  return (
-    <div>
-      Страница категории {category}
-    </div>
-  )
-}
+  return <div>Страница категории {category}</div>;
+};
 
-export default CategoryPage
+export default CategoryPage;
