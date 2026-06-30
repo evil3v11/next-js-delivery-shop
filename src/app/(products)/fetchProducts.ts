@@ -31,7 +31,6 @@ const fetchProductsByTag = async (
       totalCount: data.totalCount || data.length,
     };
   } catch (e) {
-    console.error("Error fetching product data: ", e);
     throw e;
   }
 };

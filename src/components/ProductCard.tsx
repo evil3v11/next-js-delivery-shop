@@ -1,10 +1,11 @@
 import Image from "next/image";
-
-import iconHeart from "../../public/icons-header/icon-heart.svg";
+import Link from "next/link";
 
 import { ProductCardProps } from "@/types/product";
+import { CONFIG } from "../../config/config";
+
+import iconHeart from "../../public/icons-header/icon-heart.svg";
 import StarRating from "./StarRating";
-import Link from "next/link";
 
 const ProductCard = ({
   _id,
@@ -15,7 +16,7 @@ const ProductCard = ({
   rating,
   tags,
 }: ProductCardProps) => {
-  const cardDiscountPercent = 6;
+  const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount ? price * (1 - discount / 100) : price;
   };
