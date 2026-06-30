@@ -9,8 +9,10 @@ interface PaginatedResponse {
 }
 
 export interface GenericListPageProps {
-  fetchData: (options: { pagination: { startIdx: number; perPage: number } }) => Promise<PaginatedResponse>;
+  fetchData: (options: {
+    pagination: { startIdx: number; perPage: number };
+  }) => Promise<PaginatedResponse>;
   pageTitle: string;
   basePath: string;
-  contentType?: "articles";
+  contentType?: string;
 }
