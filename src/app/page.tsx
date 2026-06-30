@@ -11,13 +11,12 @@ import Loader from "@/components/Loader";
 
 const Home = () => {
   return (
-    <main className="w-full mx-auto mb-20">
+    <main className="w-full mx-auto">
       <Suspense fallback={<Loader text="слайдера" />}>
         <Slider />
       </Suspense>
       <div
-        className="px-[max(12px,calc((100%-1208px)/2))] flex flex-col gap-y-20 md:gap-y-25
-      xl:gap-y-30"
+        className="px-[max(12px,calc((100%-1208px)/2))] flex flex-col gap-y-20"
       >
         {[
           { component: <Promotions />, text: "акций" },
