@@ -29,20 +29,27 @@ const ProductsSection = ({
             <ViewAllButton btnText={viewAllBtn.text} href={viewAllBtn.href} />
           )}
         </div>
-
-        <ul className={`grid ${gridClasses} gap-4 md:gap-6 xl:gap-8`}>
-          {products.map((item, index) => (
-            <li
-              key={item._id}
-              className={
-                applyIndexStyle ? (index >= 3 ? "md:hidden xl:block" : "") : ""
-              }
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <ProductCard {...item} />
-            </li>
-          ))}
-        </ul>
+        {products && products.length > 0 ? (
+          <ul className={`grid ${gridClasses} gap-4 md:gap-6 xl:gap-8`}>
+            {products.map((item, index) => (
+              <li
+                key={item._id}
+                className={
+                  applyIndexStyle
+                    ? index >= 3
+                      ? "md:hidden xl:block"
+                      : ""
+                    : ""
+                }
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <ProductCard {...item} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div>Товары не найдены</div>
+        )}
       </div>
     </section>
   );

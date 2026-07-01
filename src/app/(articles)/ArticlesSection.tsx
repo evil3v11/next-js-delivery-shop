@@ -10,7 +10,7 @@ const ArticlesSection = ({
 }: ArticlesSectionProps) => {
   return (
     <section>
-      <div className="flex flex-col text-[#414141] px-[max(12px,calc((100%-1208px)/2))]">
+      <div className="flex flex-col text-[#414141] px-[max(12px,calc((100%-1208px)/2))] mb-10">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold">{title}</h2>
           {viewAllBtn && (
