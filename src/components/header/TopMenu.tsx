@@ -1,18 +1,29 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
+import Link from "next/link";
 import Image from "next/image";
 
 import iconHeart from "../../../public/icons-header/icon-heart.svg";
 import iconBox from "../../../public/icons-header/icon-box.svg";
 import iconCart from "../../../public/icons-header/icon-cart.svg";
-import iconMenuMobile from "../../../public/icons-header/icon-menu-mob.svg";
-import Link from "next/link";
+import IconMenuMob from "../svg/IconMenuMob";
 
 const TopMenu = () => {
+  const pathname = usePathname();
+  const isCatalogPage = pathname === "/catalog";
+
   return (
     <ul className="flex flex-row gap-x-6 items-end">
       <Link href="/catalog">
         <li className="flex flex-col items-center gap-2.5 md:hidden w-11 h-auto cursor-pointer">
-          <Image src={iconMenuMobile} alt="Меню" width={24} height={24} />
-          <span>Каталог</span>
+          <IconMenuMob isCatalogPage={isCatalogPage} />
+          <span
+            className={`${isCatalogPage ? "text-[#ff6633]" : "text-[#414141]"}`}
+          >
+            Каталог
+          </span>
         </li>
       </Link>
       <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">
