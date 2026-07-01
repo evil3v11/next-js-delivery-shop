@@ -19,6 +19,10 @@ export const GET = async (request: Request) => {
     );
 
     const filters = searchParams.getAll("filter");
+    const priceFrom = searchParams.get("priceFrom");
+    const priceTo = searchParams.get("priceTo");
+    const getPriceRangeOnly = searchParams.get("getPriceRangeOnly") === "true";
+    const inStock = searchParams.get("inStock") === "true";
 
     const query: Filter<ProductCardProps> = {};
 
@@ -29,8 +33,38 @@ export const GET = async (request: Request) => {
       );
     }
 
+    if (getPriceRangeOnly) {
+      const categoryOnlyQuery: Filter<ProductCardProps> = {};
+
+      categoryOnlyQuery.categories = { $in: [category] };
+      const priceRange = await db
+        .collection<ProductCardProps>("products")
+        .aggregate([
+          { $match: categoryOnlyQuery },
+          {
+            $group: {
+              _id: null,
+              min: { $min: "$basePrice" },
+              max: { $max: "$basePrice" },
+            },
+          },
+        ])
+        .toArray();
+
+      return NextResponse.json({
+        priceRange: {
+          min: priceRange[0]?.min || 0,
+          max: priceRange[0]?.max || CONFIG.FALLBACK_PRICE_RANGE.max,
+        },
+      });
+    }
+
     if (category) {
       query.categories = { $in: [category] };
+    }
+
+    if (inStock) {
+      query.quantity = { $gt: 0 };
     }
 
     if (filters.length > 0) {
@@ -47,6 +81,12 @@ export const GET = async (request: Request) => {
       }
     }
 
+    if (priceFrom || priceTo) {
+      query.basePrice = {};
+      if (priceFrom) query.basePrice.$gte = Number(priceFrom);
+      if (priceTo) query.basePrice.$lte = Number(priceTo);
+    }
+
     const [totalCount, products] = await Promise.all([
       db.collection<ProductCardProps>("products").countDocuments(query),
       db
@@ -58,7 +98,14 @@ export const GET = async (request: Request) => {
         .toArray(),
     ]);
 
-    return NextResponse.json({ products, totalCount });
+    return NextResponse.json({
+      products,
+      totalCount,
+      priceRange: {
+        min: 0,
+        max: 0,
+      },
+    });
   } catch (error) {
     console.error("Server error", error);
     return NextResponse.json(
