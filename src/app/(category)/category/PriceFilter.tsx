@@ -12,16 +12,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CONFIG } from "../../../../config/config";
 import { PriceFilterProps, PriceRange } from "@/types/priceTypes";
 
-import "rc-slider/assets/index.css";
-
-import Slider from "rc-slider";
-import Image from "next/image";
 import ErrorComponent from "@/components/ErrorComponent";
 import MiniLoader from "@/components/MiniLoader";
+import PriceFilterHeader from "./PriceFilterHeader";
+import PriceInputs from "./PriceInputs";
+import PriceRangeSlider from "./PriceRangeSlider";
+import InStockToggle from "./InStockToggle";
 
-import iconLine from "../../../../public/icons-products/icon-line.svg";
-
-const PriceFilter = ({ basePath, category }: PriceFilterProps) => {
+const PriceFilter = ({
+  basePath,
+  category,
+  setIsFilterOpenAction,
+}: PriceFilterProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -63,14 +65,15 @@ const PriceFilter = ({ basePath, category }: PriceFilterProps) => {
       const data = await response.json();
       const receivedRange = data.priceRange || CONFIG.FALLBACK_PRICE_RANGE;
 
-      setPriceRange({
+      const roundedRange = {
         min: Math.floor(Number(receivedRange.min)),
         max: Math.ceil(Number(receivedRange.max)),
-      });
+      };
 
+      setPriceRange(roundedRange);
       setInputValues({
-        from: urlPriceFrom || String(receivedRange.min),
-        to: urlPriceTo || String(receivedRange.max),
+        from: urlPriceFrom || String(roundedRange.min),
+        to: urlPriceTo || String(roundedRange.max),
       });
     } catch (e) {
       setError({
@@ -92,16 +95,11 @@ const PriceFilter = ({ basePath, category }: PriceFilterProps) => {
     fetchPriceData();
   }, [fetchPriceData]);
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setInputValues((prev) => {
-      return { ...prev, [name]: value };
-    });
-  }, []);
-
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     applyPriceFilter();
+
+    if (setIsFilterOpenAction) setIsFilterOpenAction(false);
   };
 
   const applyPriceFilter = useCallback(() => {
@@ -143,13 +141,11 @@ const PriceFilter = ({ basePath, category }: PriceFilterProps) => {
     Number(inputValues.to) || priceRange.max,
   ];
 
-  const handleSliderChange = useCallback((values: number | number[]) => {
-    if (Array.isArray(values)) {
-      setInputValues({
-        from: String(values[0]),
-        to: String(values[1]),
-      });
-    }
+  const handleSliderChange = useCallback((values: [number, number]) => {
+    setInputValues({
+      from: String(values[0]),
+      to: String(values[1]),
+    });
   }, []);
 
   const resetPriceFilter = useCallback(() => {
@@ -177,92 +173,26 @@ const PriceFilter = ({ basePath, category }: PriceFilterProps) => {
       onSubmit={handleSubmit}
       className="flex flex-col gap-y-10 text-[#414141] mt-10 xl:mt-0"
     >
-      <div className="flex justify-between items-center">
-        <p className="text-black text-base">Цена</p>
-        <button
-          type="button"
-          onClick={resetPriceFilter}
-          className="text-xs rounded bg-[#f3f2f1] h-8 p-2 cursor-pointer"
-        >
-          Очистить
-        </button>
-      </div>
-      <div className="flex items-center justify-between gap-2">
-        <input
-          type="number"
-          name="from"
-          value={inputValues.from}
-          onChange={handleInputChange}
-          placeholder={`${priceRange.min}`}
-          min={priceRange.min}
-          max={priceRange.max}
-          className="w-[124px] h-10 border border-[#bfbfbf] rounded bg-white py-2 px-4"
-        />
-        <Image src={iconLine} alt="до" width={24} height={24} sizes="24px" />
-        <input
-          type="number"
-          name="to"
-          value={inputValues.to}
-          onChange={handleInputChange}
-          placeholder={`${priceRange.max}`}
-          min={priceRange.min}
-          max={priceRange.max}
-          className="w-[124px] h-10 border border-[#bfbfbf] rounded bg-white py-2 px-4"
-        />
-      </div>
-      <div className="w-[320px] xl:w-[272px] px-2 mx-auto">
-        <Slider
-          range
-          min={priceRange.min}
-          max={priceRange.max}
-          value={sliderValues}
-          onChange={handleSliderChange}
-          styles={{
-            track: {
-              backgroundColor: "#70c05b",
-              height: 4,
-            },
-            handle: {
-              width: 20,
-              height: 20,
-              backgroundColor: "#70c05b",
-              border: "1px solid #fff",
-              borderRadius: "50%",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-              marginTop: -8,
-              cursor: "pointer",
-              opacity: 1,
-            },
-            rail: {
-              backgroundColor: "#f0f0f0",
-              height: 4,
-            },
-          }}
-        />
-      </div>
-      <div className="flex gap-x-2 justify-start items-center">
-        <div
-          className={`w-12 h-6 rounded-full transition-colors duration-300 px-0.5
-            ${!inStock ? "bg-gray-200" : "bg-primary"}`}
-        >
-          <label className="relative cursor-pointer">
-            <input
-              type="checkbox"
-              id="inStock"
-              checked={inStock}
-              onChange={handleInStockChange}
-              className="sr-only"
-            />
-            <div
-              className={`absolute top-0.5 left-0 w-5 h-5 border-[0.5px] border-[rgba(0,0,0,0.04)]
-            rounded-full shadow-[0px_1px_1px_rgba(0,0,0,0.08),0px_2px_6px_rgba(0,0,0,0.15)]
-            bg-white transition-transform duration-300
-            ${inStock ? "transform translate-x-6" : "transform translate-x-0"}`}
-            />
-          </label>
-        </div>
-        <span className="text-sm text-[#414141]">В наличии</span>
-      </div>
+      <PriceFilterHeader onResetAction={resetPriceFilter} />
+      <PriceInputs
+        inputValues={inputValues}
+        priceRange={priceRange}
+        onChangeFromAction={(value: string) =>
+          setInputValues((prev) => ({ ...prev, from: value }))
+        }
+        onChangeToAction={(value: string) =>
+          setInputValues((prev) => ({ ...prev, to: value }))
+        }
+      />
+      <PriceRangeSlider
+        priceRange={priceRange}
+        values={sliderValues}
+        onChangeSliderAction={handleSliderChange}
+      />
+      <InStockToggle
+        inStock={inStock}
+        handleInStockChange={handleInStockChange}
+      />
       <button
         type="submit"
         className="bg-[#ff6633] text-white hover:shadow-article active:shadow-button-active 

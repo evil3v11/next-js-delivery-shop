@@ -33,7 +33,7 @@ export const fetchProductsByCategory = async (
     if (inStock) {
       url.searchParams.append("inStock", String(inStock));
     }
-    console.log(String(url))
+
     const response = await fetch(String(url), { next: { revalidate: 3600 } });
     if (!response.ok)
       throw new Error(
