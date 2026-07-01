@@ -12,9 +12,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { CONFIG } from "../../../../config/config";
 import { PriceFilterProps, PriceRange } from "@/types/priceTypes";
 
-import Image from "next/image";
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+
+import Slider from "rc-slider";
+import Image from "next/image";
 import ErrorComponent from "@/components/ErrorComponent";
 import MiniLoader from "@/components/MiniLoader";
 
