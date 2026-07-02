@@ -21,7 +21,7 @@ const SearchInput = ({
       >
         <input
           placeholder="Найти товар"
-          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
+          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base caret-primary"
           onFocus={handleInputFocus}
           value={query}
           onChange={(e) => setQuery(e.target.value)}

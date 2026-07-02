@@ -12,7 +12,7 @@ const CatalogPage = () => {
   const [categories, setCategories] = useState<CatalogProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<{
-    error: unknown;
+    error: Error;
     userMessage: string;
   } | null>(null);
 
@@ -40,7 +40,7 @@ const CatalogPage = () => {
       setCategories(sortedCategories);
     } catch (e) {
       setError({
-        error: e instanceof Error ? e.message : new Error("Неизвестная ошибка"),
+        error: e instanceof Error ? e : new Error("Неизвестная ошибка"),
         userMessage: "Не удалось загрузить категории",
       });
     } finally {
@@ -74,8 +74,8 @@ const CatalogPage = () => {
       await response.json();
     } catch (e) {
       setError({
-        error: e instanceof Error ? e.message : new Error("Неизвестная ошибка"),
-        userMessage: "Не удалось изменит порядок категорий",
+        error: e instanceof Error ? e : new Error("Неизвестная ошибка"),
+        userMessage: "Не удалось изменить порядок категорий",
       });
     } finally {
       setIsLoading(false);
