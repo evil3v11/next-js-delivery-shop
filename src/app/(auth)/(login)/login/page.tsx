@@ -56,12 +56,14 @@ const LoginPage = () => {
         }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Ошибка авторизации");
+      if (!response.ok) throw new Error(data.message || "Ошибка авторизации");
       router.replace("/");
     } catch (error) {
       setError({
         error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
-        userMessage: "Ошибка авторизации, попробуйте снова",
+        userMessage:
+          (error instanceof Error && error.message) ||
+          "Ошибка авторизации, попробуйте снова",
       });
     } finally {
       setIsLoading(false);
