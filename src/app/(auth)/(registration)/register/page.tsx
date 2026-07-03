@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { validateRegisterFormData } from "@/utils/validation/form";
 
 import Image from "next/image";
-import PhoneInput from "../PhoneInput";
+import PhoneInput from "../../PhoneInput";
 import NameInput from "../NameInput";
-import PasswordInput from "../PasswordInput";
+import PasswordInput from "../../PasswordInput";
 import DateInput from "../DateInput";
 import SelectRegion from "../SelectRegion";
 import SelectCity from "../SelectCity";
@@ -93,24 +93,21 @@ const RegistrationPage = () => {
     try {
       const [day, month, year] = formData.birthdayDate.split(".");
       const formattedBirthdayDate = new Date(`${year}-${month}-${day}`);
-
       const userData = {
         ...formData,
         phone: formData.phone.replace(/\D/g, ""),
         birthdayDate: formattedBirthdayDate,
       };
-
-      const response = await fetch("api/register", {
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: { "content-type": "application-json" },
         body: JSON.stringify(userData),
       });
-
+      
+      const data = await response.json();
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.error || "Ошибка регистрации");
       }
-
       setIsSuccess(true);
     } catch (error) {
       setError({
