@@ -1,8 +1,8 @@
 "use client";
 
 import IconVision from "@/components/svg/IconVision";
-import { formStyles } from "../styles";
-import Tooltip from "./Tooltip";
+import { formStyles } from "./styles";
+import Tooltip from "./(registration)/Tooltip";
 
 interface PasswordInputProps {
   id: string;

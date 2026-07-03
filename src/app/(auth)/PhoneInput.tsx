@@ -1,6 +1,6 @@
 "use client";
 
-import { formStyles } from "../styles";
+import { formStyles } from "./styles";
 import { InputMask } from "@react-input/mask";
 
 interface PhoneInputProps {
