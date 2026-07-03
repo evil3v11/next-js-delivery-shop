@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
   try {
-    const { phone, password } = await request.json();
+    const { phoneNumber, password } = await request.json();
     const db = await getDB();
 
-    const user = await db.collection("users").findOne({ phone });
+    const user = await db.collection("users").findOne({ phoneNumber });
 
     if (!user)
       return NextResponse.json(
@@ -24,9 +24,9 @@ export const POST = async (request: Request) => {
       success: true,
       user: {
         _id: user._id,
-        phone: user.phone,
+        phoneNumber: user.phoneNumber,
         lastName: user.lastName,
-        firstName: user.firstName,
+        name: user.name,
         email: user.email,
       },
     };

@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 interface CheckboxCardProps {
-  checked: boolean;
+  checked?: boolean;
   onChangeAction: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

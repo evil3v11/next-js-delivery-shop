@@ -48,7 +48,7 @@ const ProductsSection = ({
             ))}
           </ul>
         ) : (
-          <div>Товары не найдены</div>
+          <div className='text-center xl:min-w-[896px] text-[#414141] text-2xl'>Товары не найдены</div>
         )}
       </div>
     </section>

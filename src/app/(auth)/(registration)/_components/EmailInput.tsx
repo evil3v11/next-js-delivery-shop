@@ -1,9 +1,9 @@
 "use client";
 
-import { formStyles } from "../styles";
+import { formStyles } from "../../styles";
 
 interface EmailInputProps {
-  value: string;
+  value?: string;
   onChangeAction: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

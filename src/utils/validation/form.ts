@@ -1,8 +1,8 @@
 import { validateBirthdayDate } from "./validateBirthdayDate";
 
 export const validateRegisterFormData = (formData: {
-  phone: string;
-  firstName: string;
+  phoneNumber: string;
+  name: string;
   lastName: string;
   password: string;
   confirmPassword: string;
@@ -14,7 +14,10 @@ export const validateRegisterFormData = (formData: {
   hasNoCard?: boolean;
   email?: string;
 }): { isValid: boolean; errorMessage?: string } => {
-  if (!formData.phone || formData.phone.replace(/\D/g, "").length !== 11) {
+  if (
+    !formData.phoneNumber ||
+    formData.phoneNumber.replace(/\D/g, "").length !== 11
+  ) {
     return {
       isValid: false,
       errorMessage: "Введите корректный номер телефона (11 цифр)",
@@ -31,10 +34,7 @@ export const validateRegisterFormData = (formData: {
     };
   }
 
-  if (
-    !formData.firstName ||
-    !/^[а-яА-ЯЁa-zA-Z-]{2,}$/.test(formData.firstName.trim())
-  ) {
+  if (!formData.name || !/^[а-яА-ЯЁa-zA-Z-]{2,}$/.test(formData.name.trim())) {
     return {
       isValid: false,
       errorMessage: "Имя должно содержать минимум 2 буквы",
@@ -90,7 +90,7 @@ export const validateRegisterFormData = (formData: {
     };
   }
 
-  if (formData.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+  if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
     return {
       isValid: false,
       errorMessage: "Неправильный e-mail",

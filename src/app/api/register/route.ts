@@ -5,8 +5,8 @@ import bcrypt from "bcrypt";
 export const POST = async (request: Request) => {
   try {
     const {
-      phone,
-      firstName,
+      phoneNumber,
+      name,
       lastName,
       password,
       birthdayDate,
@@ -20,7 +20,7 @@ export const POST = async (request: Request) => {
 
     const db = await getDB();
 
-    const existingUser = await db.collection("users").findOne({ phone });
+    const existingUser = await db.collection("users").findOne({ phoneNumber });
     if (existingUser) {
       return NextResponse.json(
         {
@@ -33,11 +33,11 @@ export const POST = async (request: Request) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await db.collection("users").insertOne({
-      phone,
-      firstName,
+      phoneNumber,
+      name,
       lastName,
       password: hashedPassword,
-      birthdayDate,
+      birthdayDate: new Date(birthdayDate),
       region,
       location,
       gender,
@@ -53,9 +53,9 @@ export const POST = async (request: Request) => {
         success: true,
         userId: result.insertedId,
         user: {
-          phone,
+          phoneNumber,
           lastName,
-          firstName,
+          name,
           email,
         },
       },

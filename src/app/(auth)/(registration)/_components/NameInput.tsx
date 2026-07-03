@@ -1,6 +1,6 @@
 "use client";
 
-import { formStyles } from "../styles";
+import { formStyles } from "../../styles";
 
 interface NameInputProps {
   id: string;
