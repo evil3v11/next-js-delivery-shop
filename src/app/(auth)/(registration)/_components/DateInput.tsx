@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { formStyles } from "../styles";
-import Tooltip from "./Tooltip";
+import { formStyles } from "../../styles";
+
 import { validateBirthdayDate } from "@/utils/validation/validateBirthdayDate";
+
+import Tooltip from "../../_components/Tooltip";
 import Image from "next/image";
 
 interface DateInputProps {
@@ -59,7 +61,7 @@ const DateInput = ({ value, onChangeAction }: DateInputProps) => {
   };
 
   return (
-    <div>
+    <div className="relative">
       <label htmlFor="birthdatyDate" className={formStyles.label}>
         Дата рождения
       </label>

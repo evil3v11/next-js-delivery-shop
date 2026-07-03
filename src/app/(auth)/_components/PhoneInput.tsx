@@ -1,6 +1,6 @@
 "use client";
 
-import { formStyles } from "./styles";
+import { formStyles } from "../styles";
 import { InputMask } from "@react-input/mask";
 
 interface PhoneInputProps {
@@ -11,13 +11,13 @@ interface PhoneInputProps {
 const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
   return (
     <div>
-      <label htmlFor="phone" className={formStyles.label}>
+      <label htmlFor="phoneNumber" className={formStyles.label}>
         Телефон
       </label>
       <InputMask
         mask="+7 (___) ___-__-__"
         replacement={{ _: /\d/ }}
-        id="phone"
+        id="phoneNumber"
         type="text"
         placeholder="+7 (___) ___-__-__"
         value={value}
