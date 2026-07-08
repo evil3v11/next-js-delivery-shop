@@ -10,7 +10,7 @@ import { PhoneOff } from "lucide-react";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 import LoadingContent from "../../_components/LoadingContent";
 import ErrorContent from "../../_components/ErrorContent";
-import EnterOTPCode from "@/app/(auth)/_components/EnterOTPCode";
+import EnterOTPCode from "@/app/(auth)/(registration)/_components/EnterOTPCode";
 
 const VerifyPhonePage = () => {
   const { regFormData } = useRegFormContext();
@@ -85,7 +85,7 @@ const VerifyPhonePage = () => {
   return (
     <AuthFormLayout>
       {isLoading ? (
-        <LoadingContent title="SMS" />
+        <LoadingContent title="Отправка SMS" />
       ) : error ? (
         <ErrorContent
           error={error}

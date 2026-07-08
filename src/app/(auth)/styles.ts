@@ -16,7 +16,12 @@ export const formStyles = {
 };
 
 export const verificationButtonStyles = `
-    w-60 md:w-80 group relative flex flex-col items-center justify-center p-3 
-    border-2 border-gray-200 rounded-xl hover:border-[#ff6633] 
-    hover:shadow-article active:shadow-button-active cursor-pointer duration-300
-  `;
+  w-60 md:w-80 group relative flex flex-col items-center justify-center p-3 
+  border-2 border-gray-200 rounded-xl hover:border-[#ff6633] 
+  hover:shadow-article active:shadow-button-active cursor-pointer duration-300
+`;
+
+export const iconContainerStyles = `
+  p-3 mb-4 rounded-full bg-[#FFF2ED] 
+  group-hover:bg-[#ff6633] duration-300
+`;

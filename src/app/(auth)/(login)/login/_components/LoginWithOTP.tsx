@@ -1,0 +1,172 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useTimer } from "@/hooks/useTimer";
+
+import { authClient } from "@/lib/auth-client";
+
+import { buttonStyles } from "@/app/(auth)/styles";
+
+import Image from "next/image";
+import Link from "next/link";
+import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
+import LoadingContent from "@/app/(auth)/(registration)/_components/LoadingContent";
+import OTPResendButton from "@/app/(auth)/_components/OTPResendButton";
+import { useAuthStore } from "@/store/authStore";
+
+const MAX_ATTEMPTS = 3;
+const TIMEOUT_PERIOD = 180;
+
+const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
+  const [code, setCode] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [attemptsLeft, setAttemptsLeft] = useState<number>(MAX_ATTEMPTS);
+  const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
+  const router = useRouter();
+  const { login } = useAuthStore();
+
+  useEffect(() => {
+    startTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault();
+    if (code.length !== 4) return;
+
+    try {
+      setIsLoading(true);
+      const { error: verifyError } = await authClient.phoneNumber.verify({
+        phoneNumber,
+        code,
+        disableSession: false,
+      });
+
+      if (verifyError) throw verifyError;
+
+      setAttemptsLeft(MAX_ATTEMPTS);
+
+      const response = await fetch("/api/auth/check-phone", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ phoneNumber }),
+      });
+
+      const { userName } = await response.json();
+      if (!response.ok) throw new Error("Данные не получены");
+
+      login(userName);
+
+      router.replace("/");
+    } catch (e) {
+      console.error("Ошибки верификации телефона: ", e);
+      setCode("");
+      setAttemptsLeft((prev) => prev - 1);
+
+      if (attemptsLeft <= 1) {
+        setError("Попытки исчерпаны. Пожалуйста, зарегистрируйтесь снова.");
+        setTimeout(() => router.replace("/register"), 3000);
+      } else {
+        setError(`Неверный код. Осталось ${attemptsLeft - 1} попыток.`);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (!canResend) return;
+    try {
+      await authClient.phoneNumber.sendOtp(
+        { phoneNumber },
+        {
+          onSuccess: () => {
+            startTimer();
+            setError("");
+            setAttemptsLeft(MAX_ATTEMPTS);
+          },
+          onError: (ctx) => {
+            setError(ctx.error?.message || "Ошибка при отправке SMS");
+          },
+        },
+      );
+    } catch (e) {
+      console.error("Ошибка отправки кода: ", e);
+      setError("Ошибка при отправке кода");
+    }
+  };
+
+  if (isLoading)
+    return (
+      <AuthFormLayout>
+        <LoadingContent title="Проверяем код" />
+      </AuthFormLayout>
+    );
+
+  return (
+    <AuthFormLayout>
+      <div className="flex flex-col gap-y-8 p-5">
+        <h1 className="text-2xl font-bold text-[#414141] text-center">Вход</h1>
+        <div>
+          <p className="text-center text-[#8f8f8f]">Код из SMS</p>
+          <form
+            onSubmit={handleSubmit}
+            className="w-65 mx-auto max-h-screen flex flex-col justify-center items-center"
+            autoComplete="off"
+          >
+            <input
+              type="password"
+              inputMode="numeric"
+              pattern="[0-9]{4}"
+              maxLength={4}
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value);
+                setError("");
+              }}
+              autoComplete="one-time-code"
+              required
+              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border 
+              border-[#bfbfbf] rounded focus:border-primary focus:shadow-button-default 
+              focus:bg-white focus:outline-none"
+            />
+            {error && (
+              <div className="text-red-500 text-center mt-2">{error}</div>
+            )}
+            <button
+              type="submit"
+              disabled={code.length !== 4 || attemptsLeft <= 0}
+              className={`${buttonStyles.base} 
+              ${code.length !== 4 ? buttonStyles.inactive : buttonStyles.active} [&&]:mt-8 mb-0`}
+            >
+              Подтвердить
+            </button>
+          </form>
+        </div>
+        <OTPResendButton
+          canResend={canResend}
+          onResendAction={handleResend}
+          timeLeft={timeLeft}
+        />
+        <Link
+          href="/register"
+          className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center 
+          justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+        >
+          <Image
+            src="/icons-auth/icon-arrow-left.svg"
+            alt="Вернуться"
+            width={24}
+            height={24}
+            sizes="24px"
+          />
+          Вернуться
+        </Link>
+      </div>
+    </AuthFormLayout>
+  );
+};
+
+export default LoginWithOTP;

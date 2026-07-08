@@ -5,19 +5,24 @@ import { useRouter } from "next/navigation";
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { useTimer } from "@/hooks/useTimer";
 
-import { buttonStyles } from "../styles";
 import { authClient } from "@/lib/auth-client";
+
+import { buttonStyles } from "../../styles";
 
 import Link from "next/link";
 import Image from "next/image";
+import AuthFormLayout from "../../_components/AuthFormLayout";
+import LoadingContent from "./LoadingContent";
+import OTPResendButton from "../../_components/OTPResendButton";
 
 const MAX_ATTEMPTS = 3;
 const TIMEOUT_PERIOD = 180;
 
 const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
+  const [attemptsLeft, setAttemptsLeft] = useState<number>(MAX_ATTEMPTS);
   const { regFormData } = useRegFormContext();
   const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
   const router = useRouter();
@@ -32,6 +37,7 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
     if (code.length !== 4) return;
 
     try {
+      setIsLoading(true);
       const { data: verifyData, error: verifyError } =
         await authClient.phoneNumber.verify({
           ...regFormData,
@@ -74,6 +80,8 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
       } else {
         setError(`Неверный код. Осталось ${attemptsLeft - 1} попыток.`);
       }
+    } finally {
+      setIsLoading(true);
     }
   };
 
@@ -98,6 +106,13 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
       setError("Ошибка при отправке кода");
     }
   };
+
+  if (isLoading)
+    return (
+      <AuthFormLayout>
+        <LoadingContent title="Проверяем код" />
+      </AuthFormLayout>
+    );
 
   return (
     <>
@@ -141,20 +156,11 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
             </button>
           </form>
         </div>
-        {!canResend ? (
-          <p className="text-[#414141 text-xs text-center">
-            Запросить код повторно можно через <span>{timeLeft} секунд</span>
-          </p>
-        ) : (
-          <button
-            onClick={handleResend}
-            disabled={!canResend}
-            className={`text-xs underline cursor-pointer text-center 
-              ${canResend ? "text-[#ff6633] cursor-pointer" : "text-gray-400 cursor-not-allowed"}`}
-          >
-            Отправить еще раз
-          </button>
-        )}
+        <OTPResendButton
+          canResend={canResend}
+          onResendAction={handleResend}
+          timeLeft={timeLeft}
+        />
         <Link
           href="/register"
           className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center 

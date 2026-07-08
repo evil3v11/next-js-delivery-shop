@@ -1,6 +1,6 @@
 import { RotateCw } from "lucide-react";
 
-const LoadingContent = ({ title }: { title: string }) => {
+const LoadingContent = ({ title }: { title: string | React.ReactNode }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-y-4 p-5">
       <div className="relative">
@@ -11,7 +11,7 @@ const LoadingContent = ({ title }: { title: string }) => {
         />
       </div>
       <div className="text-center text-[#414141] space-y-2">
-        <h3 className="text-xl font-semibold">Отправка {title}</h3>
+        <h3 className="text-xl font-semibold">{title}</h3>
         <p>Пожалуйста, подождите...</p>
       </div>
     </div>

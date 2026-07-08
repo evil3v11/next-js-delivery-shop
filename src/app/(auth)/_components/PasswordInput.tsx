@@ -14,6 +14,7 @@ interface PasswordInputProps {
   togglePasswordVisibilityAction: () => void;
   showRequirements?: boolean;
   compareWith?: string;
+  inputClass?: string;
 }
 
 const PasswordInput = ({
@@ -25,6 +26,7 @@ const PasswordInput = ({
   togglePasswordVisibilityAction,
   showRequirements,
   compareWith,
+  inputClass = "",
 }: PasswordInputProps) => {
   const isPasswordValid = () => {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(value);
@@ -59,7 +61,7 @@ const PasswordInput = ({
           id={id}
           value={value}
           onChange={onChangeAction}
-          className={formStyles.input}
+          className={`${formStyles.input} ${inputClass}`}
           autoComplete="off"
           readOnly
           onFocus={(e) => e.target.removeAttribute("readonly")}
