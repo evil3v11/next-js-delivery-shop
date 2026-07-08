@@ -73,7 +73,7 @@ const VerifyEmailPage = () => {
   return (
     <AuthFormLayout>
       {isLoading ? (
-        <LoadingContent title="письма" />
+        <LoadingContent title="Отправка письма" />
       ) : error ? (
         <ErrorContent
           error={error}

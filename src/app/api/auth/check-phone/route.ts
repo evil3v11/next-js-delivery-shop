@@ -9,7 +9,7 @@ export const POST = async (request: Request) => {
 
     if (!user) return NextResponse.json({ exists: false });
 
-    return NextResponse.json({ exists: true });
+    return NextResponse.json({ exists: true, userName: user.name });
   } catch (error) {
     console.error("Ошибка проверки телефона:", error);
     return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
