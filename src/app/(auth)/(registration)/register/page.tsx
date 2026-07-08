@@ -61,8 +61,6 @@ const RegistrationPage = () => {
     setRegisterForm((prev) => ({ ...prev, [id]: value }));
   };
 
-  const isFormValid = () => validateRegisterFormData(registerForm).isValid;
-
   const handleSubmit = async (
     e: React.SubmitEvent<HTMLFormElement>,
   ): Promise<void> => {
@@ -102,6 +100,8 @@ const RegistrationPage = () => {
       setIsLoading(false);
     }
   };
+
+  const isFormValid = () => validateRegisterFormData(registerForm).isValid;
 
   if (isLoading) return <Loader />;
   if (error)

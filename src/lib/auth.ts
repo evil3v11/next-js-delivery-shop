@@ -1,6 +1,7 @@
 import VerifyEmail from "@/app/(auth)/(registration)/_components/VerifyEmail";
-import { betterAuth, string } from "better-auth";
+import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
+import { phoneNumber } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 import { Resend } from "resend";
 
@@ -26,9 +27,47 @@ export const auth = betterAuth({
       });
     },
   },
+  plugins: [
+    phoneNumber({
+      sendOTP: ({ phoneNumber, code }) => {
+        console.log(`[DEBUG] Отправка OTP: ${code} для ${phoneNumber}`);
+      },
+      // sendOTP: async ({ phoneNumber, code }) => {
+      //   try {
+      //     const response = await fetch(
+      //       `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${phoneNumber}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`,
+      //     );
+
+      //     const result = await response.json();
+      //     if (result.status !== "OK")
+      //       throw new Error(result.status || "Ошибка отправки SMS");
+      //   } catch (error) {
+      //     console.error("Ошибка отправки SMS: ", error);
+      //     throw error;
+      //   }
+      // },
+      signUpOnVerification: {
+        getTempEmail: (phoneNumber) => {
+          return `${phoneNumber}@delivery-shop.ru`;
+        },
+        getTempName: (phoneNumber) => {
+          return phoneNumber;
+        },
+      },
+      allowedAttempts: 3,
+      otpLength: 4,
+      expiresIn: 300,
+      requireVerification: true,
+    }),
+  ],
   user: {
     additionalFields: {
       phoneNumber: {
+        type: "string",
+        input: true,
+        required: true,
+      },
+      lastName: {
         type: "string",
         input: true,
         required: true,
