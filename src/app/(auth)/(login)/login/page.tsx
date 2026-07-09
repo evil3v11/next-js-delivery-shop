@@ -20,8 +20,10 @@ const EnterLoginPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loginType, setLoginType] = useState<"email" | "phone">("email");
-  const [showUnverifiedEmail, setShowUnverifiedEmail] = useState<boolean>(false);
-  const [showAuthMethodChoice, setShowAuthMethodChoice] = useState<boolean>(false);
+  const [showUnverifiedEmail, setShowUnverifiedEmail] =
+    useState<boolean>(false);
+  const [showAuthMethodChoice, setShowAuthMethodChoice] =
+    useState<boolean>(false);
   const router = useRouter();
 
   const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +38,14 @@ const EnterLoginPage = () => {
   const switchToPhone = () => {
     setLogin("");
     setLoginType("phone");
+  };
+
+  const handleForgotPassword = () => {
+    if (loginType === "phone") {
+      router.replace("/phone-pass-reset");
+    } else {
+      router.replace("/forgot-password");
+    }
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
@@ -236,13 +246,13 @@ const EnterLoginPage = () => {
           >
             Регистрация
           </Link>
-          <Link
-            href="/forgot-password"
+          <button
+            onClick={handleForgotPassword}
             className="h-8 text-[#414141] hover:text-black w-30 flex items-center 
-            justify-center duration-300"
+            justify-center duration-300 cursor-pointer"
           >
             Забыли пароль?
-          </Link>
+          </button>
         </div>
       </form>
     </AuthFormLayout>

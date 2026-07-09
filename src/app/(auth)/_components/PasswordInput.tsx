@@ -4,6 +4,7 @@ import IconVision from "@/components/svg/IconVision";
 
 import { formStyles } from "../styles";
 import Tooltip from "./Tooltip";
+import { isPasswordValid } from "@/utils/validation/isPasswordValid";
 
 interface PasswordInputProps {
   id: string;
@@ -28,12 +29,9 @@ const PasswordInput = ({
   compareWith,
   inputClass = "",
 }: PasswordInputProps) => {
-  const isPasswordValid = () => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(value);
-  };
 
   const shouldShowTooltip = () => {
-    if (showRequirements) return value.length > 0 && !isPasswordValid();
+    if (showRequirements) return value.length > 0 && !isPasswordValid(value);
 
     if (compareWith)
       return (
@@ -45,7 +43,7 @@ const PasswordInput = ({
 
   const getTooltipText = () => {
     if (showRequirements) {
-      return "Пароль должен быть длиннее 5 буквы и цифр, и включать хотя бы одну заглавную букву";
+      return "Пароль должен быть иметь 5+ буквы и цифр, и включать хотя бы одну заглавную букву";
     }
     return "Пароли не совпадают";
   };
