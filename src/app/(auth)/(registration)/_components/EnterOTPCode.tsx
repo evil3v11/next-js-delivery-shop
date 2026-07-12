@@ -11,7 +11,6 @@ import { buttonStyles } from "../../styles";
 
 import Link from "next/link";
 import Image from "next/image";
-import AuthFormLayout from "../../_components/AuthFormLayout";
 import LoadingContent from "./LoadingContent";
 import OTPResendButton from "../../_components/OTPResendButton";
 
@@ -107,12 +106,7 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
     }
   };
 
-  if (isLoading)
-    return (
-      <AuthFormLayout>
-        <LoadingContent title="Проверяем код" />
-      </AuthFormLayout>
-    );
+  if (isLoading) return <LoadingContent title="Проверяем код" />;
 
   return (
     <>

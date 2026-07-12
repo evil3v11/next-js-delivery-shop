@@ -12,6 +12,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
+  session: {
+    expiresIn: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
