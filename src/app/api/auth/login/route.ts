@@ -1,4 +1,6 @@
 import { getDB } from "@/utils/api-routes";
+import { randomBytes } from "crypto";
+import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
@@ -11,7 +13,7 @@ export const POST = async (request: Request) => {
     if (!user)
       return NextResponse.json(
         { message: "Пользователь не найден" },
-        { status: 401 },
+        { status: 404 },
       );
 
     const bcrypt = await import("bcrypt");
@@ -20,18 +22,35 @@ export const POST = async (request: Request) => {
     if (!isPasswordValid)
       return NextResponse.json({ message: "Неверный пароль" }, { status: 401 });
 
+    const sessionId = randomBytes(16).toString("hex");
+    const expiresIn = 30 * 24 * 60 * 60;
+    const expiresAt = new Date(Date.now() + expiresIn * 1000);
+
+    await db.collection("session").insertOne({
+      token: sessionId,
+      userId: String(user._id),
+      expiresAt: expiresAt,
+      expiresIn: expiresIn,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      ipAddress: request.headers.get("x-forwarded-for") || "",
+      userAgent: request.headers.get("user-agent") || "",
+    });
+
     const responseData = {
       success: true,
-      user: {
-        _id: user._id,
-        phoneNumber: user.phoneNumber,
-        lastName: user.lastName,
-        name: user.name,
-        email: user.email,
-      },
+      message: "Авторизация успешна",
     };
 
-    return NextResponse.json(responseData);
+    const response = NextResponse.json(responseData);
+    response.cookies.set("session", sessionId, {
+      httpOnly: true,
+      sameSite: "lax",
+      expires: expiresAt,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Ошибка авторизации: ", error);
     return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });

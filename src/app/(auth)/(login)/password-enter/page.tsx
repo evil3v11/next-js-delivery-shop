@@ -79,8 +79,7 @@ const EnterPasswordContent = () => {
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || "Ошибка при входе");
-        const userName = data.user?.name;
-        login(userName);
+        login();
 
         router.replace("/");
       } else {
@@ -90,9 +89,8 @@ const EnterPasswordContent = () => {
             password,
           },
           {
-            onSuccess: (ctx) => {
-              const userName = ctx.data?.user.name || "Пользователь";
-              login(userName);
+            onSuccess: () => {
+              login();
               router.replace("/");
             },
             onError: (ctx) => setError(ctx.error.message || "Ошибка при входе"),
