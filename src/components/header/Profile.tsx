@@ -1,14 +1,15 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+
+import { getAvatarByGender } from "@/utils/getAvatarByGender";
+
+import iconArrow from "../../../public/icons-header/icon-arrow.svg";
 
 import Image from "next/image";
 import Link from "next/link";
-
-import iconArrow from "../../../public/icons-header/icon-arrow.svg";
-import { useEffect, useRef, useState } from "react";
-import { getAvatarByGender } from "@/utils/getAvatarByGender";
-import { useRouter } from "next/navigation";
 
 const Profile = () => {
   const { isAuth, user, logout, checkAuth, isLoading } = useAuthStore();
@@ -121,7 +122,7 @@ const Profile = () => {
         }`}
       >
         <Link
-          href="/profile"
+          href="/user-profile"
           className="hover:text-[#ff6633] duration-300 px-4 py-2"
           onClick={() => setIsMenuOpen(false)}
         >
