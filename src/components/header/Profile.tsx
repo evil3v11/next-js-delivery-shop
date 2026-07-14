@@ -16,8 +16,24 @@ const Profile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [isLogginOut, setIsLogginOut] = useState<boolean>(false);
+  const [avatarSrc, setAvatarSrc] = useState<string>("");
+  const [lastUpdate, setLastUpdate] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setLastUpdate(Date.now());
+  }, [user]);
+
+  useEffect(() => {
+    if (user?.id) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAvatarSrc(`/api/users/avatar/${user.id}?t=${lastUpdate}`);
+    } else if (user?.gender) {
+      getAvatarByGender(user.gender);
+    }
+  }, [user, lastUpdate]);
 
   useEffect(() => {
     checkAuth();
@@ -57,6 +73,10 @@ const Profile = () => {
     }
   };
 
+  const handleAvatarError = () => {
+    if (user?.gender) setAvatarSrc(getAvatarByGender(user.gender));
+  };
+
   if (isLoading)
     return (
       <div className="ml-6 w-10 h-10 rounded-full bg-gray-300 animate-pulse" />
@@ -91,11 +111,13 @@ const Profile = () => {
     >
       <div className="flex" onClick={toggleMenu}>
         <Image
-          src={getAvatarByGender(user?.gender)}
+          src={avatarSrc || getAvatarByGender(user?.gender)}
           alt="Ваш профиль"
           width={40}
           height={40}
-          className="min-w-10 min-h-10 cursor-pointer"
+          className="w-10 h-10 cursor-pointer object-cover rounded-full"
+          onError={handleAvatarError}
+          unoptimized
         />
         <p className="hidden xl:block cursor-pointer p-2.5">
           {isLoading ? "Загрузка..." : user?.name}
