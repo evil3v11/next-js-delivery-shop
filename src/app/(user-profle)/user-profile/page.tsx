@@ -10,6 +10,9 @@ import SecuritySection from "../_components/SecuritySection";
 import ErrorContent from "@/app/(auth)/(registration)/_components/ErrorContent";
 import Loader from "@/components/Loader";
 import UserProfileHeader from "../_components/UserProfileHeader";
+import ProfileAvatar from "../_components/ProfileAvatar";
+
+import "../styles.css";
 
 const UserProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -58,7 +61,7 @@ const UserProfilePage = () => {
 
   return (
     <div className="rounded-lg flex flex-col px-[max(12px,calc((100%-1208px)/2))] my-10">
-      <div className="shadow-xl translate-y-8 rounded-b-lg">
+      <div className="shadow-xl rounded-b-lg relative animate-slide-in opacity">
         <UserProfileHeader name={user.name} lastName={user.lastName} />
         <div className="w-full flex flex-col gap-y-10 p-10 bg-white items-center rounded-b-lg">
           <div className="flex gap-x-2 bg-primary text-white rounded-xl py-1 px-3 text-sm ">
@@ -74,6 +77,7 @@ const UserProfilePage = () => {
               </>
             )}
           </div>
+          <ProfileAvatar gender={user.gender} />
           <hr className="w-full" />
           <SecuritySection />
         </div>
