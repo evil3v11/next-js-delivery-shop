@@ -76,7 +76,7 @@ const SecuritySection = () => {
       <h1 className="text-start font-bold text-3xl text-[#414141]">
         Безопасность
       </h1>
-      <div className="flex flex-col gap-y-5 xl:flex-row xl:gap-x-5 justify-between">
+      <div className="flex flex-col gap-y-5 md:flex-row md:gap-x-5 justify-between">
         <button
           onClick={handleProfileLogout}
           className="py-3 w-full rounded cursor-pointer bg-[#ff6633] hover:bg-[#ff6633]/80 text-white duration-300"
