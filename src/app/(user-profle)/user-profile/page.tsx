@@ -13,6 +13,8 @@ import UserProfileHeader from "../_components/UserProfileHeader";
 import ProfileAvatar from "../_components/ProfileAvatar";
 
 import "../styles.css";
+import LocationSection from "../_components/LocationSection";
+import ProfileEmail from "../_components/ProfileEmail";
 
 const UserProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -78,6 +80,8 @@ const UserProfilePage = () => {
             )}
           </div>
           <ProfileAvatar gender={user.gender} />
+          <LocationSection />
+          <ProfileEmail />
           <hr className="w-full" />
           <SecuritySection />
         </div>
