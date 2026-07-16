@@ -128,7 +128,7 @@ const ProfileEmail = () => {
           placeholder="Введите ваш e-mail"
           onChange={handleEmailChange}
           disabled={!isEditing}
-          className={`${formStyles.input} w-full disabled:cursor-not-allowed disabled:bg-[#f3f2f1] mt-5`}
+          className={`${formStyles.input} w-full disabled:cursor-not-allowed disabled:bg-[#f3f2f1] mt-5 disabled:text-gray-400`}
         />
         <Mail className="absolute right-3 top-1/2 h-5 w-5 text-gray-400" />
       </div>

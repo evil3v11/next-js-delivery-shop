@@ -44,7 +44,7 @@ const ForgotPasswordPage = () => {
       <div className="flex flex-col gap-y-8 p-10">
         <div className="flex flex-col items-center">
           <KeyRound className="w-12 h-12 text-primary mb-4" />
-          <h1 className="text-2xl font-bold">Восстановление пароля</h1>
+          <h1 className="text-2xl font-bold">Восстановление / сброс пароля</h1>
         </div>
         <p>
           Введите email, по которому проходила регистрация, и мы вышлем Вам

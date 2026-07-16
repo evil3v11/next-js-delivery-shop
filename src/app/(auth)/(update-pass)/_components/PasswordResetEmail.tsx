@@ -24,7 +24,7 @@ const PasswordResetEmail = ({ username, resetUrl }: PasswordResetProps) => {
           <Container className="bg-white rounded-md p-6 max-w-145 mx-auto">
             <Section>
               <Text className="text-xl font-bold text-gray-900 mb-4 mt-0">
-                Восстановление пароля
+                Восстановлениею / сброс пароля
               </Text>
               <Text className="text-base text-gray-600 mb-4 mt-0 leading-5">
                 Здравствуйте, {username}! Мы получили запрос на сброс пароля для

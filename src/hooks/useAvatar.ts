@@ -4,6 +4,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { getAvatarByGender } from "@/utils/getAvatarByGender";
 
+import { checkAvatarExistence } from "@/utils/avatarUtils";
+
 interface UseAvatarProps {
   userId?: string;
   gender: string;
@@ -27,16 +29,22 @@ export const useAvatar = ({ userId, gender = "male" }: UseAvatarProps) => {
 
     try {
       setIsLoading(true);
-      const response = await fetch(
-        `/api/users/avatar/${userId}?t=${Date.now()}`,
-      );
-      if (!response.ok) setCurrentAvatar(getAvatarByGender(gender));
+      const exists = await checkAvatarExistence(userId);
 
-      const blob = await response.blob();
-      if (blob.size > 0) {
-        const avatarUrl = URL.createObjectURL(blob);
-        setCurrentAvatar(avatarUrl);
-        return;
+      if (exists) {
+        const response = await fetch(
+          `/api/users/avatar/${userId}?t=${Date.now()}`,
+        );
+        if (!response.ok) setCurrentAvatar(getAvatarByGender(gender));
+
+        const blob = await response.blob();
+        if (blob.size > 0) {
+          const avatarUrl = URL.createObjectURL(blob);
+          setCurrentAvatar(avatarUrl);
+          return;
+        }
+      } else {
+        setCurrentAvatar(getAvatarByGender(gender));
       }
     } catch (e) {
       console.error("Ошибка загрузки аватара: ", e);
