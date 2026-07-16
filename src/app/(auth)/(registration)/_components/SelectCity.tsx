@@ -31,7 +31,7 @@ const SelectCity = ({
           onChange={onChangeAction}
           disabled={disabled}
           className={`${formStyles.input} appearance-none pr-8 cursor-pointer ${className} 
-          disabled:cursor-not-allowed disabled:bg-[#f3f2f1]`}
+          disabled:cursor-not-allowed disabled:bg-[#f3f2f1] disabled:text-gray-400`}
         >
           {cities.map(({ value, label }) => (
             <option key={value} value={label}>{label}</option>

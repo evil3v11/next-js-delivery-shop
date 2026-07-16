@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 
+import { checkAvatarExistence } from "@/utils/avatarUtils";
 import { getAvatarByGender } from "@/utils/getAvatarByGender";
 
 import iconArrow from "../../../public/icons-header/icon-arrow.svg";
@@ -27,12 +28,24 @@ const Profile = () => {
   }, [user]);
 
   useEffect(() => {
-    if (user?.id) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setAvatarSrc(`/api/users/avatar/${user.id}?t=${lastUpdate}`);
-    } else if (user?.gender) {
-      getAvatarByGender(user.gender);
-    }
+    const checkAvatar = async () => {
+      if (user?.id) {
+        try {
+          const exists = await checkAvatarExistence(user.id);
+          if (exists) {
+            setAvatarSrc(`/api/users/avatar/${user.id}?t=${lastUpdate}`);
+          } else {
+            setAvatarSrc(getAvatarByGender(user.gender));
+          }
+        } catch {
+          setAvatarSrc(getAvatarByGender(user.gender));
+        }
+      } else if (user?.gender) {
+        setAvatarSrc(getAvatarByGender(user.gender));
+      }
+    };
+
+    checkAvatar();
   }, [user, lastUpdate]);
 
   useEffect(() => {

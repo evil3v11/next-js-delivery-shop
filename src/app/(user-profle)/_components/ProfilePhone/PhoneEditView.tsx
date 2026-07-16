@@ -16,7 +16,7 @@ const PhoneEditView = ({
   isVerificationMode,
 }: PhoneEditViewProps) => {
   return (
-    <div className="flex justify-center gap-x-5">
+    <div className="flex justify-center gap-x-5 w-full">
       {!isVerificationMode && onSaveAction && (
         <button
           onClick={onSaveAction}

@@ -16,6 +16,8 @@ import "../styles.css";
 import LocationSection from "../_components/LocationSection";
 import ProfileEmail from "../_components/ProfileEmail";
 import ProfilePhoneSettings from "../_components/ProfilePhone/ProfilePhoneSettings";
+import ProfilePassword from "../_components/ProfilePassword";
+import ProfileCard from "../_components/ProfileCard";
 
 const UserProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -85,6 +87,10 @@ const UserProfilePage = () => {
           <div className="flex flex-col gap-y-10 md:flex-row justify-between gap-x-5 w-full">
             <ProfileEmail />
             <ProfilePhoneSettings />
+          </div>
+          <div className="flex flex-col gap-y-10 md:flex-row justify-between gap-x-5 w-full">
+            <ProfilePassword />
+            <ProfileCard />
           </div>
           <hr className="w-full" />
           <SecuritySection />
