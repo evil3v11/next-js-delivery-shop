@@ -6,6 +6,7 @@ import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { useTimer } from "@/hooks/useTimer";
 
 import { authClient } from "@/lib/auth-client";
+import { CONFIG } from "../../../../../config/config";
 
 import { buttonStyles } from "../../styles";
 
@@ -14,16 +15,13 @@ import Image from "next/image";
 import LoadingContent from "./LoadingContent";
 import OTPResendButton from "../../_components/OTPResendButton";
 
-const MAX_ATTEMPTS = 3;
-const TIMEOUT_PERIOD = 180;
-
 const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [attemptsLeft, setAttemptsLeft] = useState<number>(MAX_ATTEMPTS);
+  const [attemptsLeft, setAttemptsLeft] = useState<number>(CONFIG.MAX_ATTEMPTS);
   const { regFormData } = useRegFormContext();
-  const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
+  const { timeLeft, canResend, startTimer } = useTimer(CONFIG.TIMEOUT_PERIOD);
   const router = useRouter();
 
   useEffect(() => {
@@ -47,7 +45,7 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
       if (verifyError) throw verifyError;
 
-      setAttemptsLeft(MAX_ATTEMPTS);
+      setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
 
       const passwordResponse = await fetch("/api/auth/set-password", {
         method: "POST",
@@ -93,7 +91,7 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
           onSuccess: () => {
             startTimer();
             setError("");
-            setAttemptsLeft(MAX_ATTEMPTS);
+            setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
           },
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");

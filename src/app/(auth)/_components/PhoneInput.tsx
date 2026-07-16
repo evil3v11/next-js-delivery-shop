@@ -10,7 +10,7 @@ interface PhoneInputProps {
 
 const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
   return (
-    <div>
+    <div className="w-full">
       <label htmlFor="phoneNumber" className={formStyles.label}>
         Телефон
       </label>
@@ -22,7 +22,7 @@ const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
         placeholder="+7 (___) ___-__-__"
         value={value}
         onChange={onChangeAction}
-        className={formStyles.input}
+        className={`${formStyles.input} w-full`}
         showMask={true}
         onFocus={(e) =>
           e.target.value === "+7" ? e.target.setSelectionRange(2, 2) : ""

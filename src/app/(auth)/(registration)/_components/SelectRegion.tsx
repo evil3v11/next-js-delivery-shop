@@ -38,7 +38,7 @@ const SelectRegion = ({
           ))}
         </select>
         <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-          {disabled && (
+          {!disabled && (
             <Image
               src="/icons-products/icon-arrow-right.svg"
               alt="Выберите регион"

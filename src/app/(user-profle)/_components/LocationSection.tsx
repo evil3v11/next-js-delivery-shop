@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 
-import { Edit } from "lucide-react";
 import SelectCity from "@/app/(auth)/(registration)/_components/SelectCity";
 import SelectRegion from "@/app/(auth)/(registration)/_components/SelectRegion";
+import EditButton from "./ProfilePhone/EditButton";
+import PhoneEditView from "./ProfilePhone/PhoneEditView";
 
 interface ProfileFormData {
   region: string;
@@ -84,33 +85,13 @@ const LocationSection = () => {
       </div>
       <div className="md:absolute right-0 top-0">
         {isEditing ? (
-          <div className="flex justify-center gap-x-5">
-            <button
-              onClick={handleSave}
-              className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded cursor-pointer 
-              duration-300 flex-1 shadow-button-default active:shadow-button-active"
-            >
-              {isLoading ? "Сохранение..." : "Сохранить"}
-            </button>
-            <button
-              onClick={handleCancel}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-600 px-4 py-2 rounded cursor-pointer 
-              duration-300 flex-1 shadow-button-default active:shadow-button-active"
-            >
-              Отмена
-            </button>
-          </div>
+          <PhoneEditView
+            isLoading={isLoading}
+            onSaveAction={handleSave}
+            onCancelAction={handleCancel}
+          />
         ) : (
-          <div className="flex justify-center">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="bg-[#ff6633] hover:bg-[#ff6633]/80 text-white px-4 py-2 rounded cursor-pointer 
-              duration-300 font-bold flex items-center shadow-button-default active:shadow-button-active"
-            >
-              <Edit className="h-4 w-4 inline mr-2" />
-              Редактировать
-            </button>
-          </div>
+          <EditButton setEditAction={() => setIsEditing(true)} />
         )}
       </div>
     </div>

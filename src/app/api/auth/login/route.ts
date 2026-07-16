@@ -1,6 +1,5 @@
 import { getDB } from "@/utils/api-routes";
 import { randomBytes } from "crypto";
-import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
