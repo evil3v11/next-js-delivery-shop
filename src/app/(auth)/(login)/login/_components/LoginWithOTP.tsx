@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTimer } from "@/hooks/useTimer";
+import { useAuthStore } from "@/store/authStore";
 
 import { authClient } from "@/lib/auth-client";
+import { CONFIG } from "../../../../../../config/config";
 
 import { buttonStyles } from "@/app/(auth)/styles";
 
@@ -13,17 +15,13 @@ import Link from "next/link";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 import LoadingContent from "@/app/(auth)/(registration)/_components/LoadingContent";
 import OTPResendButton from "@/app/(auth)/_components/OTPResendButton";
-import { useAuthStore } from "@/store/authStore";
-
-const MAX_ATTEMPTS = 3;
-const TIMEOUT_PERIOD = 180;
 
 const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [attemptsLeft, setAttemptsLeft] = useState<number>(MAX_ATTEMPTS);
-  const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
+  const [attemptsLeft, setAttemptsLeft] = useState<number>(CONFIG.MAX_ATTEMPTS);
+  const { timeLeft, canResend, startTimer } = useTimer(CONFIG.TIMEOUT_PERIOD);
   const router = useRouter();
   const { login } = useAuthStore();
 
@@ -46,7 +44,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
 
       if (verifyError) throw verifyError;
 
-      setAttemptsLeft(MAX_ATTEMPTS);
+      setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
 
       const response = await fetch("/api/auth/check-phone", {
         method: "POST",
@@ -85,7 +83,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
           onSuccess: () => {
             startTimer();
             setError("");
-            setAttemptsLeft(MAX_ATTEMPTS);
+            setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
           },
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");

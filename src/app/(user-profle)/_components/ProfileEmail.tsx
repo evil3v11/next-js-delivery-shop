@@ -8,19 +8,20 @@ import { CONFIG } from "../../../../config/config";
 
 import { formStyles } from "@/app/(auth)/styles";
 
-import { AlertCircle, Edit, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 import SuccessEmailChange from "./SuccessEmailChange";
-import { useRouter } from "next/navigation";
+import AlertMessage from "./AlertMessage";
+import EditButton from "./ProfilePhone/EditButton";
+import PhoneEditView from "./ProfilePhone/PhoneEditView";
 
 const ProfileEmail = () => {
-  const { user, fetchUserData, logout } = useAuthStore();
+  const { user, fetchUserData } = useAuthStore();
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
-  const router = useRouter();
 
   const isTempEmail = user?.email.endsWith(CONFIG.TEMP_EMAIL_DOMAIN);
   const hasNoEmail = !user?.email || user.email.trim() === "" || isTempEmail;
@@ -65,19 +66,7 @@ const ProfileEmail = () => {
       setError("");
 
       if (isPhoneRegistered) {
-        const response = await fetch("/api/users/update-email", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ userId: user.id, email }),
-        });
-
-        const data = await response.json();
-        if (data.error) {
-          setError(data.error);
-          return;
-        }
-
-        await fetchUserData();
+        await updateEmailDirectly();
       } else {
         const { error: changeEmailError } = await authClient.changeEmail({
           newEmail: email,
@@ -92,7 +81,7 @@ const ProfileEmail = () => {
               changeEmailError.message || "Ошибка при изменении email",
             );
         }
-        
+
         setShowSuccess(true);
       }
     } catch (e) {
@@ -102,6 +91,24 @@ const ProfileEmail = () => {
       setIsEditing(false);
     }
   };
+
+  async function updateEmailDirectly() {
+    if (user) {
+      const response = await fetch("/api/users/update-email", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ userId: user.id, email }),
+      });
+
+      const data = await response.json();
+      if (data.error) {
+        setError(data.error);
+        return;
+      }
+
+      await fetchUserData();
+    }
+  }
 
   if (showSuccess)
     return (
@@ -114,12 +121,6 @@ const ProfileEmail = () => {
     <div className="flex flex-col gap-y-5 w-full relative">
       <h2 className="text-xl font-bold text-[#414141]">E-mail</h2>
       <div className="relative">
-        {error && (
-          <div className="flex items-center bg-red-50 text-red-700 px-3 py-2 rounded-lg mb-3">
-            <AlertCircle className="h-4 w-4 mr-2" />
-            <span className="text-sm">{error}</span>
-          </div>
-        )}
         <input
           id="email"
           type="email"
@@ -127,67 +128,40 @@ const ProfileEmail = () => {
           placeholder="Введите ваш e-mail"
           onChange={handleEmailChange}
           disabled={!isEditing}
-          className={`${formStyles.input} w-full disabled:cursor-not-allowed mt-5`}
+          className={`${formStyles.input} w-full disabled:cursor-not-allowed disabled:bg-[#f3f2f1] mt-5`}
         />
         <Mail className="absolute right-3 top-1/2 h-5 w-5 text-gray-400" />
       </div>
       <div className="md:absolute right-0 top-0">
         {isEditing ? (
-          <div className="flex justify-center gap-x-5">
-            <button
-              onClick={handleSave}
-              className="bg-primary hover:bg-primary/80 text-white px-4 py-2 rounded cursor-pointer 
-              duration-300 flex-1"
-            >
-              {isLoading ? "Сохранение..." : "Сохранить"}
-            </button>
-            <button
-              onClick={handleCancel}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-600 px-4 py-2 rounded cursor-pointer 
-              duration-300 flex-1"
-            >
-              Отмена
-            </button>
-          </div>
+          <PhoneEditView
+            isLoading={isLoading}
+            onSaveAction={handleSave}
+            onCancelAction={handleCancel}
+          />
         ) : (
-          <div className="flex justify-center">
-            <button
-              onClick={() => setIsEditing(true)}
-              className="bg-[#ff6633] hover:bg-[#ff6633]/80 text-white px-4 py-2 rounded cursor-pointer 
-              duration-300 font-bold flex items-center"
-            >
-              <Edit className="h-4 w-4 mr-2" />
-              Редактировать
-            </button>
-          </div>
+          <EditButton setEditAction={() => setIsEditing(true)} />
         )}
       </div>
       {hasNoEmail && !isEditing && (
-        <div className="flex items-center bg-amber-50 text-amber-500 px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">
-            Рекомендуем добавить email для получения уведомлений о скидках.
-          </span>
-        </div>
+        <AlertMessage
+          type="warning"
+          message="Рекомендуем добавить email для полуения уведомлений."
+        />
       )}
       {isEditing && isPhoneRegistered && (
-        <div className="flex items-center bg-green-50 text-primary px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">
-            Вы можете изменить email без подтверждения, т.к. зарегестрированы по
-            телефону.
-          </span>
-        </div>
+        <AlertMessage
+          type="success"
+          message="Вы можете изменить email без подтверждения, т.к. были зарегестрированы по телефону."
+        />
       )}
       {isEditing && !isPhoneRegistered && (
-        <div className="flex items-center bg-orange-50 text-[#ff6633] px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">
-            Для смены email потребуется подтверждение на прежнем и новом
-            адресах.
-          </span>
-        </div>
+        <AlertMessage
+          type="warning"
+          message="Для смены email потребуется подтверждение на прежнем и новом адресах."
+        />
       )}
+      {error && <AlertMessage type="error" message={error} />}
     </div>
   );
 };

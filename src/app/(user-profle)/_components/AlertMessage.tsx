@@ -1,0 +1,22 @@
+import { AlertCircle } from "lucide-react";
+
+interface AlertMessageProps {
+  type: "success" | "warning" | "error";
+  message: React.ReactNode;
+}
+
+const AlertMessage = ({ type, message }: AlertMessageProps) => {
+  const styles = {
+    success: "bg-[#e5ffde] text-primary",
+    warning: "bg-amber-50 text-amber-700",
+    error: "bg-[#ffc7c7] text-[#d80000]",
+  };
+  return (
+    <div className={`flex items-center px-3 py-2 rounded mt-3 ${styles[type]}`}>
+      <AlertCircle className="w-4 h-4 mr-2 shrink-0" />
+      <span className="text-sm">{message}</span>
+    </div>
+  );
+};
+
+export default AlertMessage;

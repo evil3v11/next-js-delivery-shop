@@ -15,6 +15,7 @@ import ProfileAvatar from "../_components/ProfileAvatar";
 import "../styles.css";
 import LocationSection from "../_components/LocationSection";
 import ProfileEmail from "../_components/ProfileEmail";
+import ProfilePhoneSettings from "../_components/ProfilePhone/ProfilePhoneSettings";
 
 const UserProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -81,7 +82,10 @@ const UserProfilePage = () => {
           </div>
           <ProfileAvatar gender={user.gender} />
           <LocationSection />
-          <ProfileEmail />
+          <div className="flex flex-col gap-y-10 md:flex-row justify-between gap-x-5 w-full">
+            <ProfileEmail />
+            <ProfilePhoneSettings />
+          </div>
           <hr className="w-full" />
           <SecuritySection />
         </div>

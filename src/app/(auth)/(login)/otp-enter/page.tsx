@@ -6,7 +6,6 @@ import { useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 import { PhoneOff } from "lucide-react";
-
 import AuthFormLayout from "../../_components/AuthFormLayout";
 import LoadingContent from "../../(registration)/_components/LoadingContent";
 import ErrorContent from "../../(registration)/_components/ErrorContent";
@@ -37,7 +36,7 @@ const EnterOTPContent = () => {
         await authClient.phoneNumber.sendOtp(
           { phoneNumber },
           {
-            onSuccess: (ctx) => {
+            onSuccess: () => {
               setStatus("sent");
             },
             onError: (ctx) => {
