@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useAuthStore } from "@/store/authStore";
 
 import { CatalogProps } from "@/types/catalog";
 
@@ -9,6 +10,7 @@ import CatalogAdminControls from "../CatalogAdminControls";
 import CatalogGrid from "../CatalogGrid";
 
 const CatalogPage = () => {
+  const { user } = useAuthStore();
   const [categories, setCategories] = useState<CatalogProps[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<{
@@ -17,10 +19,14 @@ const CatalogPage = () => {
   } | null>(null);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [draggingCategory, setDraggingCategory] = useState<CatalogProps | null>(null);
-  const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null);
+  const [draggingCategory, setDraggingCategory] = useState<CatalogProps | null>(
+    null,
+  );
+  const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(
+    null,
+  );
   // TODO: Make admin panel
-  const isAdmin = true;
+  const isAdmin = user?.role === "admin";
 
   const fetchCategories = useCallback(async () => {
     try {
