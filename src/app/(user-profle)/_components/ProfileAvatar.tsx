@@ -25,11 +25,21 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const { displayAvatar, isUploading, uploadAvatar } = useAvatar({
     userId: user?.id,
     gender,
   });
+
+  useEffect(() => {
+    if (modalRef.current && showConfirmModal) {
+      modalRef.current.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+      });
+    }
+  }, [showConfirmModal]);
 
   useEffect(() => {
     if (videoRef.current && cameraStream) {
@@ -213,7 +223,6 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
               ref={fileInputRef}
               className="hidden"
               accept="image/jpeg, image/png, image/webp, image/gif, image/avif"
-
               onChange={handleFileInputChange}
             />
           </label>
@@ -240,6 +249,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
         isUploading={isUploading}
         confirmAvatarAction={handleAvatarConfirm}
         cancelUploadAction={handleCancelUpload}
+        ref={modalRef}
       />
       <CameraModal
         showCameraModal={showCameraModal}

@@ -26,7 +26,7 @@ const CameraModal = ({
   if (!showCameraModal) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex flex-col justify-center items-center backdrop-blur-xl">
+    <div className="fixed inset-0 bg-black/70 flex flex-col justify-center items-center backdrop-blur-xl z-50">
       <div className="bg-white rounded max-w-sm p-5">
         <h3 className="text-lg font-semibold text-center">
           Сделайте фото

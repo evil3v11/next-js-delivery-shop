@@ -1,19 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 
 import ErrorContent from "@/app/(auth)/(registration)/_components/ErrorContent";
-import LoadingContent from "@/app/(auth)/(registration)/_components/LoadingContent";
 import DeleteAccountModal from "./DeleteAccountModal";
 
 const SecuritySection = () => {
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const { user, logout } = useAuthStore();
+  const [error, setError] = useState<string | null>(null);
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (modalRef.current && showDeleteConfirmModal) {
+      modalRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [showDeleteConfirmModal]);
 
   const handleOpenConfirmDeleteModal = () => {
     setError(null);
@@ -37,39 +45,18 @@ const SecuritySection = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     if (!user) return;
 
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await fetch("/api/auth/delete-account", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ userId: user.id }),
-      });
-
-      const data = await response.json();
-      if (!response.ok)
-        throw new Error(data.error || "Ошибка при удалении пользователя");
-
-      if (data.success) {
-        logout();
-        router.replace("/goodbye");
-      }
-    } catch (e) {
-      console.error("Не удалось удалить пользователя: ", e);
-      setError("Не удалось удалить пользователя");
-    } finally {
-      setIsLoading(false);
-      setShowDeleteConfirmModal(false);
+    if (user.phoneNumberVerified) {
+      router.push("/verify-delete-phone");
+    } else {
+      router.push("/verify-delete-email");
     }
   };
 
   if (error)
     return <ErrorContent error={error} title="Упс! Произошла ошибка." />;
-
-  if (isLoading) <LoadingContent title="Аккаунт удаляется" />;
 
   return (
     <div className="flex flex-col gap-y-10 w-full">
@@ -98,6 +85,7 @@ const SecuritySection = () => {
       </div>
       {showDeleteConfirmModal && (
         <DeleteAccountModal
+          modalRef={modalRef}
           closeModal={handleCloseConfirmDeleteModal}
           deleteAccountAction={handleDeleteAccount}
         />

@@ -1,12 +1,15 @@
-import VerifyEmail from "@/app/(auth)/(registration)/_components/VerifyEmail";
-import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordResetEmail";
-import { betterAuth } from "better-auth";
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { phoneNumber } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 import { Resend } from "resend";
+import { betterAuth } from "better-auth";
+import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { CONFIG } from "../../config/config";
+import { phoneNumber } from "better-auth/plugins";
+import { deleteUserAvatarFromGridFS } from "@/utils/deleteUserAvatar";
+
+import VerifyEmail from "@/app/(auth)/(registration)/_components/VerifyEmail";
+import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordResetEmail";
 import EmailChangeVerification from "@/app/(user-profle)/_components/EmailChangeVerification";
+import DeleteVerify from "@/app/(auth)/(registration)/_components/DeleteVerify";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
@@ -77,6 +80,18 @@ export const auth = betterAuth({
     }),
   ],
   user: {
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({ user, url }) => {
+        await resend.emails.send({
+          from: "Северяночка <onboard@resend.dev>",
+          to: user.email,
+          subject: "Удаление аккаунта в Северяночке",
+          react: DeleteVerify({ username: user.name, verifyUrl: url }),
+        });
+      },
+      afterDelete: async (user) => await deleteUserAvatarFromGridFS(user.id),
+    },
     changeEmail: {
       enabled: true,
       sendChangeEmailConfirmation: async ({ user, newEmail, url }) => {
