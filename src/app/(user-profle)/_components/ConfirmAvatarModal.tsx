@@ -8,6 +8,7 @@ interface ConfirmAvatarModalProps {
   isUploading: boolean;
   confirmAvatarAction: () => void;
   cancelUploadAction: () => void;
+  ref: React.RefObject<HTMLDivElement | null>;
 }
 
 const ConfirmAvatarModal = ({
@@ -16,15 +17,19 @@ const ConfirmAvatarModal = ({
   isUploading,
   confirmAvatarAction,
   cancelUploadAction,
+  ref,
 }: ConfirmAvatarModalProps) => {
   if (!showConfirmModal) return null;
 
   return (
     <div
-      className="absolute inset-0 bg-black/60 p-5 flex flex-col justify-center items-center 
-          backdrop-blur-lg rounded-lg"
+      className="absolute inset-0 bg-black/60 p-5 flex flex-col justify-center items-center backdrop-blur-lg 
+      rounded-lg z-50 shadow-catalog-menu"
     >
-      <div className="flex flex-col gap-y-10 text-black items-center p-5 text-center bg-white rounded">
+      <div
+        ref={ref}
+        className="flex flex-col gap-y-10 text-black items-center p-5 text-center bg-white rounded"
+      >
         <h3 className="text-2xl font-bold ">Подтверждение смены аватара</h3>
         <div className="mx-auto">
           <Image

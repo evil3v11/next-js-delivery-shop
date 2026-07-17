@@ -1,21 +1,25 @@
 "use client";
 
 const DeleteAccountModal = ({
+  modalRef,
   closeModal,
   deleteAccountAction,
 }: {
+  modalRef: React.RefObject<HTMLDivElement | null>;
   closeModal: () => void;
   deleteAccountAction: () => void;
 }) => {
   return (
     <div
-      className="absolute inset-0 flex flex-col justify-center items-center rounded-lg 
-        bg-[#fcd5bacc] backdrop-blur-sm "
+      ref={modalRef}
+      className="absolute inset-0 flex flex-col justify-center items-center rounded-lg bg-[#fcd5bacc] 
+      backdrop-blur-sm p-5"
     >
-      <div className=" bg-white p-10 rounded space-y-5">
-        <h2 className="text-xl font-bold">Подтверждение удаления</h2>
-        <p>
+      <div className="bg-white p-10 rounded space-y-5">
+        <h2 className="text-xl font-bold text-center">Подтверждение удаления</h2>
+        <p className="text-center">
           Вы уверены, что хотите удалить свой аккаунт?
+          <br />
           <br />
           Это действие нельзя отменить.
         </p>
