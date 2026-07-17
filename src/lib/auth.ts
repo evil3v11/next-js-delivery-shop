@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { CONFIG } from "../../config/config";
-import { phoneNumber } from "better-auth/plugins";
+import { admin, phoneNumber } from "better-auth/plugins";
 import { deleteUserAvatarFromGridFS } from "@/utils/deleteUserAvatar";
 
 import VerifyEmail from "@/app/(auth)/(registration)/_components/VerifyEmail";
@@ -78,6 +78,7 @@ export const auth = betterAuth({
       expiresIn: 300,
       requireVerification: true,
     }),
+    admin(),
   ],
   user: {
     deleteUser: {
@@ -148,6 +149,12 @@ export const auth = betterAuth({
         type: "boolean",
         input: true,
         required: false,
+      },
+      role: {
+        type: "string",
+        input: false,
+        required: false,
+        default: "user",
       },
     },
   },

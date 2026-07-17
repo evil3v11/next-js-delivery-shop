@@ -20,4 +20,5 @@ export const TRANSLATIONS: Record<string, string> = {
   category: "Категория",
   search: "Поиск",
   "user-profile": "Личный кабинет",
+  admin: "Панель администратора",
 };

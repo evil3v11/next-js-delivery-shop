@@ -11,6 +11,7 @@ import iconArrow from "../../../public/icons-header/icon-arrow.svg";
 
 import Image from "next/image";
 import Link from "next/link";
+import MiniLoader from "../MiniLoader";
 
 const Profile = () => {
   const { isAuth, user, logout, checkAuth, isLoading } = useAuthStore();
@@ -90,6 +91,21 @@ const Profile = () => {
     if (user?.gender) setAvatarSrc(getAvatarByGender(user.gender));
   };
 
+  const getDisplayName = () => {
+    if (!user?.name) return <MiniLoader />;
+
+    switch (user?.role) {
+      case "admin":
+        return "Администратор";
+      case "manager":
+        return "Менеджер";
+      default:
+        return user?.name;
+    }
+  };
+
+  const isManagerOrAdmin = user?.role === "admin" || user?.role === "manager";
+
   if (isLoading)
     return (
       <div className="ml-6 w-10 h-10 rounded-full bg-gray-300 animate-pulse" />
@@ -133,7 +149,7 @@ const Profile = () => {
           unoptimized
         />
         <p className="hidden xl:block cursor-pointer p-2.5">
-          {isLoading ? "Загрузка..." : user?.name}
+          {getDisplayName()}
         </p>
         <div className="hidden xl:block cursor-pointer p-2">
           <Image
@@ -170,6 +186,15 @@ const Profile = () => {
         >
           Главная
         </Link>
+        {isManagerOrAdmin && (
+          <Link
+            href="/admin"
+            className="hover:text-[#ff6633] duration-300 px-4 py-2"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Панель управления
+          </Link>
+        )}
         <button
           onClick={handleLogout}
           disabled={isLogginOut}
