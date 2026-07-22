@@ -36,16 +36,16 @@ const SuccessSentEmail = ({ email }: { email: string }) => {
             <li>Письмо может приходить с задержкой до 5-10 минут</li>
           </ul>
         </div>
-        <div className="mt-4 p-4 bg-white rounded border border-[#ff6633]">
-          <h3 className="font-semibold text-[#ff6633] mb-2">
+        <div className="mt-4 p-4 bg-white rounded border border-secondary">
+          <h3 className="font-semibold text-secondary mb-2">
             Регистрировались по телефону?
           </h3>
-          <p className="text-[#ff6633] text-sm">
+          <p className="text-secondary text-sm">
             Если вы не поняли, как регистрировались, попробуйте
             <button
               type="button"
               onClick={() => router.replace("/login")}
-              className="text-[#ff6633] font-medium underline hover:no-underline ml-1 cursor-pointer duration-300"
+              className="text-secondary font-medium underline hover:no-underline ml-1 cursor-pointer duration-300"
             >
               войти с помощью телефона
             </button>

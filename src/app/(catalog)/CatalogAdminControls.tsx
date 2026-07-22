@@ -10,7 +10,7 @@ const CatalogAdminControls = ({
       <button
         onClick={onToggleEditingAction}
         className="text-sm md:text-base border border-primary text-primary hover:text-white 
-            hover:bg-[#ff6633] hover:border-transparent active:shadow-button-active w-2/3 
+            hover:bg-secondary hover:border-transparent active:shadow-button-active w-2/3 
               h-10 rounded p-2 justify-center items-center transition-all duration-300 
               cursor-pointer select-none"
       >

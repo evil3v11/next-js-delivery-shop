@@ -120,7 +120,7 @@ const EnterPasswordContent = () => {
 
   return (
     <AuthFormLayout>
-      <h1 className="text-2xl font-bold text-[#414141] text-center mt-8">
+      <h1 className="text-2xl font-bold text-main-text text-center mt-8">
         Вход
       </h1>
       <form
@@ -155,7 +155,7 @@ const EnterPasswordContent = () => {
         <div className="flex flex-wrap mx-auto justify-center text-xs gap-4">
           <button
             onClick={() => router.replace("/login")}
-            className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center 
+            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center 
             gap-x-2 duration-300 cursor-pointer"
           >
             <Image
@@ -169,7 +169,7 @@ const EnterPasswordContent = () => {
           </button>
           <button
             onClick={handleForgotPassword}
-            className="h-8 text-[#414141] hover:text-black w-30 flex items-center 
+            className="h-8 text-main-text hover:text-black w-30 flex items-center 
             justify-center duration-300"
           >
             Забыли пароль?

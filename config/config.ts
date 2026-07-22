@@ -9,4 +9,6 @@ export const CONFIG = {
   TEMP_EMAIL_DOMAIN: "@delivery-shop.ru",
   MAX_ATTEMPTS: 3,
   TIMEOUT_PERIOD: 180,
+  DEFAULT_PAGE_SIZE: 5,
+  PAGE_SIZE_OPTIONS: [1, 5, 10, 20, 50, 100],
 };

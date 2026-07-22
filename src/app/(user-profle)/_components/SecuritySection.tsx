@@ -60,19 +60,19 @@ const SecuritySection = () => {
 
   return (
     <div className="flex flex-col gap-y-10 w-full">
-      <h1 className="text-start font-bold text-3xl text-[#414141]">
+      <h1 className="text-start font-bold text-3xl text-main-text">
         Безопасность
       </h1>
       <div className="flex flex-col gap-y-5 md:flex-row md:gap-x-5 justify-between">
         <button
           onClick={handleProfileLogout}
-          className="py-3 w-full rounded cursor-pointer bg-[#ff6633] hover:bg-[#ff6633]/80 text-white duration-300"
+          className="py-3 w-full rounded cursor-pointer bg-secondary hover:bg-secondary/80 text-white duration-300"
         >
           Выйти из личного кабинета
         </button>
         <button
           onClick={handleAppLogout}
-          className="py-3 w-full rounded cursor-pointer bg-gray-300 hover:bg-gray-200 text-[#414141] duration-300"
+          className="py-3 w-full rounded cursor-pointer bg-gray-300 hover:bg-gray-200 text-main-text duration-300"
         >
           Выйти из приложения
         </button>

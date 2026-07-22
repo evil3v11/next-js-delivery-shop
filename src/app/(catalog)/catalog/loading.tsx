@@ -6,7 +6,7 @@ const Loading = () => {
           <div
             key={i}
             className="absolute top-0 left-0 w-full h-full border-4 border-t-transparent 
-            border-[#ff6633] rounded-full animate-spin"
+            border-secondary rounded-full animate-spin"
             style={{
               animationDuration: `${1 + i * 0.5}s`,
               opacity: 1 - i * 0.3,
@@ -15,7 +15,7 @@ const Loading = () => {
         ))}
       </div>
       <div className="text-center space-y-2">
-        <p className="text-xl font-medium text-[#414141] animate-pulse ">
+        <p className="text-xl font-medium text-main-text animate-pulse ">
           Загружаем каталог
         </p>
         <p className="text-sm text-gray-500">
@@ -24,7 +24,7 @@ const Loading = () => {
       </div>
       <div className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden mt-4">
         <div
-          className="h-full bg-[#ff6633] rounded-full animate-progress"
+          className="h-full bg-secondary rounded-full animate-progress"
           style={{
             width: "0%",
             animation: "progress 2s ease-in-out infinite",

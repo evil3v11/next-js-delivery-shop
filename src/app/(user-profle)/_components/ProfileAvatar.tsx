@@ -227,7 +227,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
             />
           </label>
           <button
-            className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer 
+            className="absolute -bottom-1 left-0 bg-secondary text-white p-2 rounded-full cursor-pointer 
             shadow-article hover:bg-[#e5410a] durartion-300 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isUploading}
             title="Сделать фото"
@@ -261,7 +261,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
         onVideoLoaded={handleVideoLoaded}
         onTakePhoto={takePhoto}
       />
-      <div className="flex flex-col gap-y-3 items-center mt-10 text-[#414141] text-center">
+      <div className="flex flex-col gap-y-3 items-center mt-10 text-main-text text-center">
         <span>Нажмите на иконки для смены&nbsp;аватара</span>
         <span className="text-sm">Загрузите файл или сделать фото</span>
       </div>

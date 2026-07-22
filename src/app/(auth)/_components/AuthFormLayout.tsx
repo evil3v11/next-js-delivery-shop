@@ -14,7 +14,7 @@ const AuthFormLayout = ({
   return (
     <div
       className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] 
-    min-h-screen text-[#414141] py-1 px-3 backdrop-blur-sm"
+    min-h-screen text-main-text py-1 px-3 backdrop-blur-sm"
     >
       <div
         className={`bg-white rounded shadow-auth-form w-full max-h-[calc(100vh-80px)] flex

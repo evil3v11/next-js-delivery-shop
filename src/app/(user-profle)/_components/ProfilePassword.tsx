@@ -57,7 +57,7 @@ const ProfilePassword = () => {
   return (
     <>
       <div className="flex flex-col gap-y-5 items-c w-full relative">
-        <h2 className="text-xl font-bold text-[#414141]">Пароль</h2>
+        <h2 className="text-xl font-bold text-main-text">Пароль</h2>
         <div className="relative">
           <input
             type="password"
@@ -70,7 +70,7 @@ const ProfilePassword = () => {
         </div>
         <div className="md:absolute right-0 top-0 flex justify-center">
           <button
-            className="bg-[#ff6633] hover:bg-[#ff6633]/80 text-white px-4 py-2 rounded cursor-pointer 
+            className="bg-secondary hover:bg-secondary/80 text-white px-4 py-2 rounded cursor-pointer 
           duration-300 font-bold flex items-center group"
             onClick={handleModalOpen}
           >
@@ -81,14 +81,14 @@ const ProfilePassword = () => {
       </div>
       {isModalOpen && (
         <div
-          className="absolute inset-0 bg-[#ff6633]/50 shadow-banner-orange backdrop-blur-lg rounded-lg 
+          className="absolute inset-0 bg-secondary/50 shadow-banner-orange backdrop-blur-lg rounded-lg 
         flex justify-center items-center p-5 z-50"
         >
           <div
             ref={modalRef}
             className="bg-[#f3f2f1] rounded p-10 flex flex-col gap-y-5"
           >
-            <div className="text-[#414141] flex flex-col gap-y-5">
+            <div className="text-main-text flex flex-col gap-y-5">
               <h2 className="text-2xl font-bold ">Подверждение смены пароля</h2>
               <p>{getModalText()}</p>
             </div>

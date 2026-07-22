@@ -116,7 +116,7 @@ const Profile = () => {
       <Link
         href="/login"
         className="ml-6 w-10 xl:w-[157px] flex justify-between items-center gap-x-2 p-2 rounded
-        text-white text-base bg-[#ff6633] hover:shadow-article active:shadow-button-active
+        text-white text-base bg-secondary hover:shadow-article active:shadow-button-active
         duration-300"
       >
         <div className="w-[109px] justify-center hidden xl:flex">
@@ -164,7 +164,7 @@ const Profile = () => {
       </div>
       <div
         className={`absolute min-w-[200px] shadow-button-secondary z-50 flex flex-col items-start 
-        justify-center bg-white text-[#414141] text-[15px] rounded transition-all duration-300
+        justify-center bg-white text-main-text text-[15px] rounded transition-all duration-300
         ${isMobile ? "bottom-full mb-1" : "top-full mt-5"}
         ${
           isMenuOpen
@@ -174,14 +174,14 @@ const Profile = () => {
       >
         <Link
           href="/user-profile"
-          className="hover:text-[#ff6633] duration-300 px-4 py-2"
+          className="hover:text-secondary duration-300 px-4 py-2"
           onClick={() => setIsMenuOpen(false)}
         >
           Профиль
         </Link>
         <Link
           href="/"
-          className="hover:text-[#ff6633] duration-300 px-4 py-2"
+          className="hover:text-secondary duration-300 px-4 py-2"
           onClick={() => setIsMenuOpen(false)}
         >
           Главная
@@ -189,7 +189,7 @@ const Profile = () => {
         {isManagerOrAdmin && (
           <Link
             href="/admin"
-            className="hover:text-[#ff6633] duration-300 px-4 py-2"
+            className="hover:text-secondary duration-300 px-4 py-2"
             onClick={() => setIsMenuOpen(false)}
           >
             Панель управления
@@ -198,7 +198,7 @@ const Profile = () => {
         <button
           onClick={handleLogout}
           disabled={isLogginOut}
-          className="cursor-pointer hover:text-[#ff6633] duration-300 px-4 py-2 w-full text-left border-t border-t-gray-200"
+          className="cursor-pointer hover:text-secondary duration-300 px-4 py-2 w-full text-left border-t border-t-gray-200"
         >
           {isLogginOut ? "Выход..." : "Выйти"}
         </button>

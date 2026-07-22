@@ -49,7 +49,7 @@ const CatalogMenu = ({
                   <Link
                     key={slug}
                     href={`/category/${slug}`}
-                    className="block px-4 py-2 text-[#414141] hover:text-[#ff6633] 
+                    className="block px-4 py-2 text-main-text hover:text-secondary 
                 font-bold duration-300"
                     onClick={() => setIsCatalogOpen(false)}
                   >

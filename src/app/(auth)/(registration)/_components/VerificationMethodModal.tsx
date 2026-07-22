@@ -11,7 +11,7 @@ import Link from "next/link";
 const VerificationMethodModal = () => {
   const { regFormData } = useRegFormContext();
   const { phoneNumber, email } = regFormData;
-  const iconContainerStyles = `p-3 mb-4 rounded-full bg-[#fff2ed] group-hover:bg-[#ff6633] duration-300`;
+  const iconContainerStyles = `p-3 mb-4 rounded-full bg-[#fff2ed] group-hover:bg-secondary duration-300`;
 
   return (
     <AuthFormLayout>
@@ -30,7 +30,7 @@ const VerificationMethodModal = () => {
               className={verificationButtonStyles}
             >
               <div className={iconContainerStyles}>
-                <Smartphone className="h-6 w-6 text-[#ff6633] group-hover:text-white" />
+                <Smartphone className="h-6 w-6 text-secondary group-hover:text-white" />
               </div>
               <span className="font-medium text-gray-900">
                 По SMS на телефон
@@ -39,7 +39,7 @@ const VerificationMethodModal = () => {
               <div className="absolute top-0 right-0 -mt-2 -mr-2">
                 <span className="flex h-4 w-4">
                   <span className="animate-ping absolute inline-flex h-full w-full"></span>
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-[#ff6633] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary opacity-75"></span>
                 </span>
               </div>
             </Link>

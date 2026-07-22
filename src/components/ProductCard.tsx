@@ -69,7 +69,7 @@ const ProductCard = ({
             sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 272px"
           />
           {discountPercent > 0 && (
-            <div className="absolute bg-[#FF6633] px-3 py-1 rounded text-white bottom-2.5 left-2.5">
+            <div className="absolute bg-secondary px-3 py-1 rounded text-white bottom-2.5 left-2.5">
               -{discountPercent}%
             </div>
           )}
@@ -78,7 +78,7 @@ const ProductCard = ({
         <div className="flex flex-col p-2 h-[189px]">
           <div className="flex flex-row justify-between items-cen h-[49px]">
             <div className="flex flex-col gap-x-1">
-              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-[#414141]">
+              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
                 <span>{formatPrice(priceByCard)}</span>
                 <span>₽</span>
               </div>
@@ -101,7 +101,7 @@ const ProductCard = ({
           </div>
 
           <div
-            className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3
+            className="h-13.5 text-xs md:text-base text-main-text line-clamp-3
         md:line-clamp-2"
           >
             {description}
@@ -110,7 +110,7 @@ const ProductCard = ({
         </div>
       </Link>
       <button
-        className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-[#ff6633]
+        className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-secondary
         hover:border-transparent active:shadow-button-active h-10 rounded p-2
         justify-center items-center text-primary transition-all duration-300 cursor-pointer
         select-none"

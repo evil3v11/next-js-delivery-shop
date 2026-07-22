@@ -173,7 +173,7 @@ const ProfilePhoneSettings = () => {
 
   return (
     <div className="flex flex-col gap-y-5 w-full relative">
-      <h2 className="text-xl font-bold text-[#414141]">Телефон</h2>
+      <h2 className="text-xl font-bold text-main-text">Телефон</h2>
       <UserProfilePhoneInput
         value={newPhoneNumber}
         onChangeAction={handleNewPhoneNumberChange}

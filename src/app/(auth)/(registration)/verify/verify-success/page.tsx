@@ -34,7 +34,7 @@ const VerifySuccessPage = () => {
         <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-primary mb-6">
           <CheckCircle className="h-10 w-10 text-white" />
         </div>
-        <h1 className="text-2xl font-bold text-[#414141] mb-2">
+        <h1 className="text-2xl font-bold text-main-text mb-2">
           E-mail успешно подтвержден!
         </h1>
         <p className="text-gray-600 mb-6">
@@ -63,7 +63,7 @@ const VerifySuccessPage = () => {
       <div className="bg-gray-50 px-8 py-4 border-t border-gray-200">
         <p className="text-xs text-gray-500 text-center">
           Нужна помощь?{" "}
-          <Link href="/contacts" className="text-[#ff6633] hover:underline">
+          <Link href="/contacts" className="text-secondary hover:underline">
             Свяжитесь с нашей поддержкой
           </Link>
         </p>

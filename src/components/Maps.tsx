@@ -22,7 +22,7 @@ const Maps = () => {
         <div className="flex flex-col justify-center xl:max-w-302 px-[max(12px,calc((100%-1208px)/2))] w-full">
           <h2
             className="mb-4 md:mb-8 xl:mb-10 text-2xl xl:text-4xl text-left font-bold 
-          text-[#414141]"
+          text-main-text"
           >
             Наши магазины
           </h2>
@@ -36,7 +36,7 @@ const Maps = () => {
                   onClick={() => setCurrentLocation(key)}
                   className={`px-4 py-2 text-xs justify-center items-center 
                   active:shadow-button-active border-none rounded cursor-pointer 
-                  transition-colors duration-300 text-[#414141] 
+                  transition-colors duration-300 text-main-text 
                   ${
                     isActive
                       ? "bg-primary text-white hover:shadow-button-default"

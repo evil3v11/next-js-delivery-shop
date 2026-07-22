@@ -50,10 +50,10 @@ const Pagination = ({
   const params = new URLSearchParams(searchQuery);
   const visiblePages = getVisiblePages(totalPages, currentPage);
 
-  const buttonBase ="w-5.5 h-5.5 md:w-10 md:h-10 flex items-center justify-center rounded duration-300 text-[#ff6633]";
-  const buttonActive = "bg-[#ff6633] text-white hover:bg-primary";
+  const buttonBase ="w-5.5 h-5.5 md:w-10 md:h-10 flex items-center justify-center rounded duration-300 text-secondary";
+  const buttonActive = "bg-secondary text-white hover:bg-primary";
   const buttonDisabled = "opacity-50 cursor-not-allowed";
-  const pageButtonClass = `border border-[#ff6633] ${buttonBase}`;
+  const pageButtonClass = `border border-secondary ${buttonBase}`;
 
   return (
     <div className="flex justify-center mt-10 text-white text-sm md:text-base">
@@ -87,7 +87,7 @@ const Pagination = ({
             <Link
               key={page}
               href={createPageUrl(basePath, params, Number(page))}
-              className={`${pageButtonClass} ${page === currentPage ? buttonActive : "hover:bg-[#ff6633]/25"}`}
+              className={`${pageButtonClass} ${page === currentPage ? buttonActive : "hover:bg-secondary/25"}`}
             >
               {page}
             </Link>
