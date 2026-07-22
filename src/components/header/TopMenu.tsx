@@ -24,7 +24,7 @@ const TopMenu = () => {
         <li className="flex flex-col items-center gap-2.5 md:hidden w-11 h-auto cursor-pointer">
           <IconMenuMob isCatalogPage={isCatalogPage} />
           <span
-            className={`${isCatalogPage ? "text-[#ff6633]" : "text-[#414141]"}`}
+            className={`${isCatalogPage ? "text-secondary" : "text-main-text"}`}
           >
             Каталог
           </span>
@@ -38,7 +38,7 @@ const TopMenu = () => {
       )}
       <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">
         <IconBox isManagerOrAdmin={isManagerOrAdmin} />
-        <span className={isManagerOrAdmin ? "text-[#ff6633]" : ""}>Заказы</span>
+        <span className={isManagerOrAdmin ? "text-secondary" : ""}>Заказы</span>
       </li>
       {!isManagerOrAdmin && (
         <li className="flex flex-col items-center gap-2.5 w-11 h-auto cursor-pointer">

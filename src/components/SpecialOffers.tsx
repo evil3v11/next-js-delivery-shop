@@ -7,7 +7,7 @@ const SpecialOffers = () => {
   return (
     <section>
       <div className="flex flex-col gap-y-4 md:gap-y-8 lg:gap-y-10 px-[max(12px,calc((100%-1208px)/2))]">
-        <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
+        <h2 className="text-2xl xl:text-4xl text-left font-bold text-main-text">
           Специальные предложения
         </h2>
 
@@ -23,11 +23,11 @@ const SpecialOffers = () => {
             <div className="flex flex-col w-[174px] gap-y-1.5">
               <h3
                 className="text-[20px] md:text-[18px] xl:text-[24px] xl:text-4xl 
-            font-bold text-[#414141] leading-[150%]"
+            font-bold text-main-text leading-[150%]"
               >
                 Оформите карту <br /> «Северяночка»
               </h3>
-              <p className="text-[12px] xl:text-[16px] text-[#414141]">
+              <p className="text-[12px] xl:text-[16px] text-main-text">
                 И получайте бонусы при покупке в магазинах и на сайте
               </p>
             </div>
@@ -55,11 +55,11 @@ const SpecialOffers = () => {
             <div className="flex flex-col w-[174px] gap-y-1.5">
               <h3
                 className="text-[20px] md:text-[18px] xl:text-[24px] xl:text-4xl 
-            font-bold text-[#414141] leading-[150%]"
+            font-bold text-main-text leading-[150%]"
               >
                 Покупайте акционные товары
               </h3>
-              <p className="text-[12px] xl:text-[16px] text-[#414141]">
+              <p className="text-[12px] xl:text-[16px] text-main-text">
                 И полуйчайте вдвое <br /> больше бонусов
               </p>
             </div>

@@ -171,7 +171,7 @@ const PriceFilter = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-y-10 text-[#414141] mt-10 xl:mt-0"
+      className="flex flex-col gap-y-10 text-main-text mt-10 xl:mt-0"
     >
       <PriceFilterHeader onResetAction={resetPriceFilter} />
       <PriceInputs
@@ -195,7 +195,7 @@ const PriceFilter = ({
       />
       <button
         type="submit"
-        className="bg-[#ff6633] text-white hover:shadow-article active:shadow-button-active 
+        className="bg-secondary text-white hover:shadow-article active:shadow-button-active 
           h-10 rounded justify-center items-center duration-300 cursor-pointer"
       >
         Применить

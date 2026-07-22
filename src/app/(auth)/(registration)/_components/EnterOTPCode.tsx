@@ -62,8 +62,15 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
         throw new Error(errorData.error || "Ошибка установки пароля");
       }
 
-      // const { error: updateError } = await authClient.updateUser(regFormData);
-      // if (updateError) throw updateError;
+      let userDataToUpdate = { ...regFormData };
+
+      if (verifyData.user.phoneNumberVerified) {
+        const { email, phoneNumber, ...rest } = userDataToUpdate;
+        userDataToUpdate = rest as typeof regFormData;
+      }
+
+      const { error: updateError } = await authClient.updateUser(userDataToUpdate);
+      if (updateError) throw updateError;
 
       router.replace("/login");
     } catch (e) {
@@ -109,7 +116,7 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
   return (
     <>
       <div className="flex flex-col gap-y-8 p-5">
-        <h1 className="text-2xl font-bold text-[#414141] text-center">
+        <h1 className="text-2xl font-bold text-main-text text-center">
           Регистрация
         </h1>
         <div>
@@ -155,7 +162,7 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
         />
         <Link
           href="/register"
-          className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center 
+          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center 
           justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
         >
           <Image

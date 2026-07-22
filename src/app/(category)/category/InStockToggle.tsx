@@ -33,7 +33,7 @@ const InStockToggle = ({
           />
         </label>
       </div>
-      <span className="text-sm text-[#414141]">В наличии</span>
+      <span className="text-sm text-main-text">В наличии</span>
     </div>
   );
 };

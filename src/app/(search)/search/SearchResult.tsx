@@ -51,12 +51,12 @@ const SearchResult = () => {
     );
 
   return (
-    <div className="px-[max(12px,calc((100%-1208px)/2))] text-[#414141] my-20">
+    <div className="px-[max(12px,calc((100%-1208px)/2))] text-main-text my-20">
       <h1 className="text-2xl xl:text-4xl text-left font-bold mb-6">
         Результат поиска
       </h1>
       <p className="text-sm md:text-base xl:text-2xl">
-        по запросу <span className="text-[#ff6633]">{query}</span>
+        по запросу <span className="text-secondary">{query}</span>
       </p>
       {!products.length ? (
         <p className="text-2xl mt-5">По вашему запросу ничего не найдено</p>

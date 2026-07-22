@@ -21,7 +21,7 @@ const SuccessSent = () => {
           </h2>
           <p className="text-gray-600 max-w-md">
             Мы отправили e-mail с подверждением на{" "}
-            <span className="font-semibold text-[#ff6633]">
+            <span className="font-semibold text-secondary">
               {regFormData.email}
             </span>
             . Пожалуйста, проверьте и следуйте инструкциям.

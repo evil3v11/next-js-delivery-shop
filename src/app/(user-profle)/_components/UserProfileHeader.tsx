@@ -6,7 +6,7 @@ const UserProfileHeader = ({
   lastName: string;
 }) => {
   return (
-    <div className="bg-linear-to-r from-[#ff6633] to-primary rounded-t-lg text-white px-5 py-7 flex flex-col gap-y-3">
+    <div className="bg-linear-to-r from-secondary to-primary rounded-t-lg text-white px-5 py-7 flex flex-col gap-y-3">
       <h1 className="text-4xl font-bold">
         Профиль пользователя: {name} {lastName}
       </h1>

@@ -8,6 +8,7 @@ export const GET = async () => {
   try {
     const db = await getDB();
     const catalog = await db.collection("catalog").find().toArray();
+    
     return NextResponse.json(catalog);
   } catch (error) {
     console.error("Ошибка при получении категории:", error);

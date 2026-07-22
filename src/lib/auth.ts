@@ -67,7 +67,7 @@ export const auth = betterAuth({
       // },
       signUpOnVerification: {
         getTempEmail: (phoneNumber) => {
-          return `${phoneNumber}@${CONFIG.TEMP_EMAIL_DOMAIN}`;
+          return `${phoneNumber}${CONFIG.TEMP_EMAIL_DOMAIN}`;
         },
         getTempName: (phoneNumber) => {
           return phoneNumber;

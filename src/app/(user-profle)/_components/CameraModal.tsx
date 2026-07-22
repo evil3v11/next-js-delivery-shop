@@ -72,7 +72,7 @@ const CameraModal = ({
           </button>
         </div>
         {!isCameraReady && (
-          <p className="text-xs text-[#414141] text-center mt-2">
+          <p className="text-xs text-main-text text-center mt-2">
             Камера запускается{" "}
           </p>
         )}

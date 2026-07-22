@@ -119,7 +119,7 @@ const PhonePasswordResetVerify = ({
         <p className="text-center">
           Мы отправили 4-значный код на номер:
           <br />
-          <span className="text-[#ff6633] font-medium">{phone}</span>
+          <span className="text-secondary font-medium">{phone}</span>
         </p>
         {error && (
           <div className="p-3 bg-red-100 text-red-500 rounded text-sm text-center">

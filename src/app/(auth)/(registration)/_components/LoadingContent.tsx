@@ -4,13 +4,13 @@ const LoadingContent = ({ title }: { title: string | React.ReactNode }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-y-4 p-5">
       <div className="relative">
-        <RotateCw className="h-10 w-10 text-[#ff6633] animate-spin" />
+        <RotateCw className="h-10 w-10 text-secondary animate-spin" />
         <div
-          className="absolute inset-0 rounded-full border-2 border-[#ff6633] border-opacity-20
+          className="absolute inset-0 rounded-full border-2 border-secondary border-opacity-20
           animate-ping"
         />
       </div>
-      <div className="text-center text-[#414141] space-y-2">
+      <div className="text-center text-main-text space-y-2">
         <h3 className="text-xl font-semibold">{title}</h3>
         <p>Пожалуйста, подождите...</p>
       </div>

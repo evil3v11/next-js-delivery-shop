@@ -68,7 +68,7 @@ const LocationSection = () => {
 
   return (
     <div className="flex flex-col justify-center items-between gap-y-10 md:gap-y-5 w-full relative">
-      <h2 className="text-xl font-bold text-[#414141]">Местоположение</h2>
+      <h2 className="text-xl font-bold text-main-text">Местоположение</h2>
       <div className="flex w-full flex-col gap-y-5 md:flex-row md:gap-x-5">
         <SelectRegion
           value={formData.region}

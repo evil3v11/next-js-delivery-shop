@@ -33,7 +33,7 @@ const AuthMethodSelector = ({
               onClick={() => onMethodSelectAction("password")}
             >
               <div className={iconContainerStyles}>
-                <Key className="h-6 w-6 text-[#ff6633] group-hover:text-white" />
+                <Key className="h-6 w-6 text-secondary group-hover:text-white" />
               </div>
               <span className="font-medium text-gray-900">Войти с паролем</span>
             </button>
@@ -42,7 +42,7 @@ const AuthMethodSelector = ({
               onClick={() => onMethodSelectAction("otp")}
             >
               <div className={iconContainerStyles}>
-                <Smartphone className="h-6 w-6 text-[#ff6633] group-hover:text-white" />
+                <Smartphone className="h-6 w-6 text-secondary group-hover:text-white" />
               </div>
               <span className="font-medium text-gray-900">
                 Войти по SMS-коду
@@ -50,7 +50,7 @@ const AuthMethodSelector = ({
             </button>
             <button
               onClick={onBackAction}
-              className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center 
+              className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center 
               justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
             >
               <ArrowLeft className="h-4 w-4" />

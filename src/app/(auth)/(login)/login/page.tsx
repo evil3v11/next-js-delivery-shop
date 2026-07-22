@@ -164,7 +164,7 @@ const EnterLoginPage = () => {
 
   return (
     <AuthFormLayout>
-      <h1 className="text-2xl font-bold text-[#414141] text-center mt-8">
+      <h1 className="text-2xl font-bold text-main-text text-center mt-8">
         Вход
       </h1>
       <form
@@ -205,7 +205,7 @@ const EnterLoginPage = () => {
                 type="button"
                 onClick={switchToEmail}
                 className={`px-2 py-1 rounded cursor-pointer duration-300
-                  ${loginType === "email" ? "bg-[#ff6633] text-white" : "bg-gray-100"}`}
+                  ${loginType === "email" ? "bg-secondary text-white" : "bg-gray-100"}`}
               >
                 По e-mail
               </button>
@@ -213,7 +213,7 @@ const EnterLoginPage = () => {
                 type="button"
                 onClick={switchToPhone}
                 className={`px-2 py-1 rounded cursor-pointer duration-300
-                  ${loginType === "phone" ? "bg-[#ff6633] text-white" : "bg-gray-100"}`}
+                  ${loginType === "phone" ? "bg-secondary text-white" : "bg-gray-100"}`}
               >
                 По телефону
               </button>
@@ -233,8 +233,8 @@ const EnterLoginPage = () => {
               (!login.includes("@") || !login.includes("."))) ||
             (loginType === "phone" && login.replace(/\D/g, "").length < 11) ||
             isLoading
-              ? "cursor-not-allowed bg-[#fcd5ba] text-[#ff6633]"
-              : "bg-[#ff6633] text-white hover:shadow-article"
+              ? "cursor-not-allowed bg-[#fcd5ba] text-secondary"
+              : "bg-secondary text-white hover:shadow-article"
           }`}
         >
           Вход
@@ -248,7 +248,7 @@ const EnterLoginPage = () => {
           </Link>
           <button
             onClick={handleForgotPassword}
-            className="h-8 text-[#414141] hover:text-black w-30 flex items-center 
+            className="h-8 text-main-text hover:text-black w-30 flex items-center 
             justify-center duration-300 cursor-pointer"
           >
             Забыли пароль?

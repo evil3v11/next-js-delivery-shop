@@ -162,7 +162,7 @@ const CatalogPage = () => {
       )}
       <h1
         className="flex flex-row mb-4 md:mb-8 xl:mb-10 text-4xl mb:text-5xl xl:text-[64px] 
-      text-[#414141] font-bold"
+      text-main-text font-bold"
       >
         Каталог
       </h1>

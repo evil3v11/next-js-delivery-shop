@@ -22,7 +22,7 @@ const ProductsSection = ({
     <section>
       <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
-          <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
+          <h2 className="text-2xl xl:text-4xl text-left font-bold text-main-text">
             {title}
           </h2>
           {viewAllBtn && (
@@ -48,7 +48,7 @@ const ProductsSection = ({
             ))}
           </ul>
         ) : (
-          <div className='text-center xl:min-w-[896px] text-[#414141] text-2xl'>Товары не найдены</div>
+          <div className='text-center xl:min-w-[896px] text-main-text text-2xl'>Товары не найдены</div>
         )}
       </div>
     </section>

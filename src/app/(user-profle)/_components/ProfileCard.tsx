@@ -80,7 +80,7 @@ const ProfileCard = () => {
 
   return (
     <div className="flex flex-col gap-y-5 md:gap-y-5 items-c w-full relative">
-      <h2 className="text-xl font-bold text-[#414141]">Карта Северяночки</h2>
+      <h2 className="text-xl font-bold text-main-text">Карта Северяночки</h2>
       <div className="relative">
         <InputMask
           mask="____-____-____-____"
@@ -103,7 +103,7 @@ const ProfileCard = () => {
           />
         ) : (
           <button
-            className="bg-[#ff6633] hover:bg-[#ff6633]/80 text-white px-4 py-2 rounded cursor-pointer 
+            className="bg-secondary hover:bg-secondary/80 text-white px-4 py-2 rounded cursor-pointer 
           duration-300 font-bold flex items-center group"
             onClick={() => setIsEditing(true)}
           >

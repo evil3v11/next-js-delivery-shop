@@ -27,7 +27,7 @@ const SuccessChangeEmail = ({
           </h2>
           <p className="text-gray-600 max-w-md">
             Мы отправили email с подтверждением на прежннюю{" "}
-            <span className="font-semibold text-[#ff6633]">({email})</span> и
+            <span className="font-semibold text-secondary">({email})</span> и
             новую{" "}
             <span className="font-semibold text-primary">({newEmail})</span>{" "}
             почту. Пожалуйста, проверьте и следуйте инструкциям.
