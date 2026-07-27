@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 
 import ErrorContent from "@/app/(auth)/(registration)/_components/ErrorContent";
 import DeleteAccountModal from "./DeleteAccountModal";
+import { useScrollModalToCenter } from "@/hooks/useScrollModalToCenter";
 
 const SecuritySection = () => {
   const { user, logout } = useAuthStore();
@@ -14,14 +15,7 @@ const SecuritySection = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (modalRef.current && showDeleteConfirmModal) {
-      modalRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }, [showDeleteConfirmModal]);
+  useScrollModalToCenter(modalRef, showDeleteConfirmModal);
 
   const handleOpenConfirmDeleteModal = () => {
     setError(null);

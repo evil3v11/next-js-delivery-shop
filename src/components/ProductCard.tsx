@@ -8,15 +8,16 @@ import iconHeart from "../../public/icons-header/icon-heart.svg";
 import StarRating from "./StarRating";
 
 const ProductCard = ({
-  _id,
+  id,
   img,
   description,
   basePrice,
   discountPercent = 0,
   rating,
   tags,
+  categories,
 }: ProductCardProps) => {
-  const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT
+  const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount ? price * (1 - discount / 100) : price;
   };
@@ -38,12 +39,16 @@ const ProductCard = ({
   const formatPrice = (price: number): string =>
     price.toFixed(2).replace(".", ",");
 
-  const ratingValue = rating?.rate || 5;
+  const ratingValue = rating?.average ?? 5.0;
+
+  const productUrl = `
+    /catalog/${encodeURIComponent(categories?.[0])}/${id}?desc=${encodeURIComponent(description.substring(0, 50))}
+  `;
 
   return (
     <div
       className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white
-        md:w-56 xl:w-68 р-[349px] align-top p-1 hover:shadow-article duration-300 
+        md:w-56 xl:w-68 h-87.25 align-top p-1 hover:shadow-article duration-300 
         hover:scale-105 relative"
     >
       <button
@@ -58,7 +63,7 @@ const ProductCard = ({
           sizes="24px"
         />
       </button>
-      <Link href={`/product/${_id}`}>
+      <Link href={productUrl}>
         <div className="relative w-40 h-40 md:w-56 xl:w-68">
           <Image
             src={img}
@@ -74,9 +79,8 @@ const ProductCard = ({
             </div>
           )}
         </div>
-
-        <div className="flex flex-col p-2 h-[189px]">
-          <div className="flex flex-row justify-between items-cen h-[49px]">
+        <div className="flex flex-col p-2 h-47.25">
+          <div className="flex flex-row justify-between items-cen h-12.25">
             <div className="flex flex-col gap-x-1">
               <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
                 <span>{formatPrice(priceByCard)}</span>
@@ -86,7 +90,6 @@ const ProductCard = ({
                 <p className="text-[#bfbfbf] text-[8px] md:text-xs">С картой</p>
               )}
             </div>
-
             {finalPrice !== basePrice && (
               <div className="flex flex-col gap-x-1">
                 <div className="flex flex-row gap-x-1 text-sm md:text-base text-[#606060]">
@@ -99,14 +102,13 @@ const ProductCard = ({
               </div>
             )}
           </div>
-
           <div
             className="h-13.5 text-xs md:text-base text-main-text line-clamp-3
         md:line-clamp-2"
           >
             {description}
           </div>
-          {ratingValue > 0 && <StarRating rating={ratingValue} />}
+          <StarRating rating={ratingValue} />
         </div>
       </Link>
       <button

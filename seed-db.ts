@@ -22,7 +22,6 @@ async function seedDatabase() {
         filter: { _id: product._id },
         update: {
           $set: {
-            isOurProduction: faker.datatype.boolean({ probability: 0.7 }),
             isHealthyFood: faker.datatype.boolean({ probability: 0.6 }),
             isNonGMO: faker.datatype.boolean({ probability: 0.8 })
           }

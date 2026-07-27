@@ -1,5 +1,7 @@
 export type UserRole = "user" | "manager" | "admin";
 
+export type UserDataOrNull = UserData | null;
+
 export type UserData = {
   id: string;
   name: string;

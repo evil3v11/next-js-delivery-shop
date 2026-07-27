@@ -71,7 +71,7 @@ export const GET = async (request: Request) => {
       query.$and = query.$and || [];
 
       if (filters.includes("our-production")) {
-        query.$and.push({ isOurProduction: true });
+        query.$and.push({ manufacturer: "Россия" });
       }
       if (filters.includes("healthy-food")) {
         query.$and.push({ isHealthyFood: true });

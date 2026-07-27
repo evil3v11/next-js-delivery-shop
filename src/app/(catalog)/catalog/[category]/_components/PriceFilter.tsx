@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { CONFIG } from "../../../../config/config";
+import { CONFIG } from "../../../../../../config/config";
 import { PriceFilterProps, PriceRange } from "@/types/priceTypes";
 
 import ErrorComponent from "@/components/ErrorComponent";
