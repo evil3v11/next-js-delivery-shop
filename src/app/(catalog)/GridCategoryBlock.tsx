@@ -11,8 +11,8 @@ const GridCategoryBlock = ({
 }: CatalogProps & { priority: boolean }) => {
   return (
     <Link
-      href={`/category/${slug}`}
-      className="block relative h-full overflow-hidden group min-w-40 md:min-w-[224px] xl:min-w-[274px]"
+      href={`/catalog/${slug}`}
+      className="block relative h-full overflow-hidden group min-w-40 md:min-w-56 xl:min-w-68.5"
     >
       <Image
         src={img}
@@ -25,7 +25,7 @@ const GridCategoryBlock = ({
         loading={priority ? "eager" : "lazy"}
       />
       <div
-        className="absolute inset-0 top-auto h-[117px] group-hover:h-[177px]
+        className="absolute inset-0 top-auto h-29.25 group-hover:h-44.25
                   bg-[linear-gradient(180deg,rgba(112,192,92,0)_0%,rgba(112,192,92,1)_82.812%)]
                   group-hover:bg-[linear-gradient(180deg,rgba(255,102,51,0)_0%,rgba(255,102,51,1)_100%)]
                   transition-all duration-300"

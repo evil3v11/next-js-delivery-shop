@@ -23,7 +23,7 @@ const SearchResults = ({
         {groupedProducts.map(({ category, products }) => (
           <div key={category} className="flex flex-col gap-2 ">
             <Link
-              href={`/category/${encodeURIComponent(category)}`}
+              href={`/catalog/${encodeURIComponent(category)}`}
               className="flex justify-between gap-x-4 hover:bg-gray-100 px-2 rounded 
                   cursor-pointer"
               onClick={resetSearch}
@@ -46,7 +46,7 @@ const SearchResults = ({
               {products.map(({ title, id }) => (
                 <li key={id} className="p-1 pl-5 hover:bg-gray-100">
                   <Link
-                    href={`/product/${id}`}
+                    href={`/catalog/${encodeURIComponent(category)}/${id}?desc=${encodeURIComponent(title)}`}
                     className="cursor-pointer"
                     onClick={resetSearch}
                   >

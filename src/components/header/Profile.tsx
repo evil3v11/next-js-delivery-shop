@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
 import { checkAvatarExistence } from "@/utils/avatarUtils";
 import { getAvatarByGender } from "@/utils/getAvatarByGender";
@@ -20,7 +21,9 @@ const Profile = () => {
   const [isLogginOut, setIsLogginOut] = useState<boolean>(false);
   const [avatarSrc, setAvatarSrc] = useState<string>("");
   const [lastUpdate, setLastUpdate] = useState<number | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useClickOutsideModal<HTMLDivElement>(() =>
+    setIsMenuOpen(false),
+  );
   const router = useRouter();
 
   useEffect(() => {
@@ -59,17 +62,6 @@ const Profile = () => {
 
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

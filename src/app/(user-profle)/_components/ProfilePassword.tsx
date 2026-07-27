@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useAuthStore } from "@/store/authStore";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
+import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
+import { useScrollModalToCenter } from "@/hooks/useScrollModalToCenter";
 
 import { formStyles } from "@/app/(auth)/styles";
 
@@ -11,30 +13,12 @@ import { Key, LucideArrowRight } from "lucide-react";
 const ProfilePassword = () => {
   const { user, logout } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useClickOutsideModal<HTMLDivElement>(() => setIsModalOpen(false))
   const router = useRouter();
+  useScrollModalToCenter(modalRef, isModalOpen)
 
   const isPhoneRegistered = user?.phoneNumberVerified;
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        setIsModalOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (modalRef.current && isModalOpen) {
-      modalRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
-  }, [isModalOpen]);
 
   const handleModalOpen = () => setIsModalOpen(true);
 

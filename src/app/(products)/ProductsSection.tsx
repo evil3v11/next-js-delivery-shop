@@ -9,6 +9,7 @@ const ProductsSection = ({
   viewAllBtn,
   applyIndexStyle = true,
   contentType,
+  mobileItemsLimit = 4,
 }: ProductsSectionProps & {
   applyIndexStyle?: boolean;
   contentType?: string;
@@ -30,25 +31,26 @@ const ProductsSection = ({
           )}
         </div>
         {products && products.length > 0 ? (
-          <ul className={`grid ${gridClasses} gap-4 md:gap-6 xl:gap-8`}>
+          <ul
+            className={`grid ${gridClasses} gap-4 md:gap-6 xl:gap-10 justify-items-center`}
+          >
             {products.map((item, index) => (
               <li
                 key={item._id}
                 className={
                   applyIndexStyle
-                    ? index >= 3
-                      ? "md:hidden xl:block"
-                      : ""
+                    ? `${index >= mobileItemsLimit ? "hidden md:block" : ""}
+                    ${index >= 3 ? "md:hidden xl:block" : ""}
+                    ${index >= 4 ? "xl:hidden" : ""}`
                     : ""
                 }
-                style={{ display: "flex", justifyContent: "center" }}
               >
                 <ProductCard {...item} />
               </li>
             ))}
           </ul>
         ) : (
-          <div className='text-center xl:min-w-[896px] text-main-text text-2xl'>Товары не найдены</div>
+          <div>Товары не найдены</div>
         )}
       </div>
     </section>

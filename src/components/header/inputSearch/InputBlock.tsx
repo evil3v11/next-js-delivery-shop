@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
 import { SearchProduct } from "@/types/searchProducts";
 
@@ -14,7 +15,7 @@ const InputBlock = ({
   onFocusChangeAction: (isFocused: boolean) => void;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const searchbarRef = useRef<HTMLDivElement>(null);
+  const searchbarRef = useClickOutsideModal<HTMLDivElement>(() => setIsOpen(false));
 
   const [query, setQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,19 +54,6 @@ const InputBlock = ({
     setIsOpen(true);
     onFocusChangeAction(true);
   };
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent): void => {
-      if (
-        searchbarRef.current &&
-        !searchbarRef.current?.contains(e.target as Node)
-      )
-        setIsOpen(false);
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const resetSearch = (): void => {
     setQuery("");
