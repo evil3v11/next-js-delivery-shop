@@ -10,16 +10,13 @@ interface Product {
   title: string;
   description: string;
   categories: string[];
-  isHealthyFood?: boolean;
-  isNonGMO?: boolean;
+  isHealthyFood: boolean;
+  isNonGMO: boolean;
   price: number;
   rating: {
     rate: number;
     count: number;
-    distribution: Record<string, number>;
   };
-  manufacturer: string;
-  brand: string;
   // добавьте другие необходимые поля
 }
 
@@ -88,7 +85,7 @@ async function seedDatabase() {
         rate: faker.number.float({ min: 1, max: 5, fractionDigits: 1 }),
         count: faker.number.int({ min: 0, max: 500 }),
       },
-      createdAt: new Date(), // Добавляем дату создания
+      createdAt: new Date(),
     }));
 
     // Вставка данных (создаст коллекцию автоматически, если её нет)

@@ -1,3 +1,5 @@
+'use client'
+
 import { CONFIG } from "../../../../../../config/config";
 
 import { tableStyles } from "../../styles";

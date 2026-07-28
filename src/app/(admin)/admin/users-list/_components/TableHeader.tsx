@@ -1,3 +1,5 @@
+'use client'
+
 import { SortUsersBy } from "@/types/AdminPanelUsersListSortBy";
 import { columns } from "@/data/columnsUserslist";
 
