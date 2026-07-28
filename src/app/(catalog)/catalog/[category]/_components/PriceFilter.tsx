@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  SubmitEvent,
-  ChangeEvent,
-  useCallback,
-  useState,
-  useEffect,
-} from "react";
+import { useCallback, useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { CONFIG } from "../../../../../../config/config";
@@ -19,7 +13,7 @@ import PriceInputs from "./PriceInputs";
 import PriceRangeSlider from "./PriceRangeSlider";
 import InStockToggle from "./InStockToggle";
 
-const PriceFilter = ({
+const PriceFilterContent = ({
   basePath,
   category,
   setIsFilterOpenAction,
@@ -95,7 +89,7 @@ const PriceFilter = ({
     fetchPriceData();
   }, [fetchPriceData]);
 
-  const handleSubmit = (e: SubmitEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     applyPriceFilter();
 
@@ -130,7 +124,7 @@ const PriceFilter = ({
   ]);
 
   const handleInStockChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       setInStock(e.target.checked);
     },
     [],
@@ -201,6 +195,22 @@ const PriceFilter = ({
         Применить
       </button>
     </form>
+  );
+};
+
+const PriceFilter = ({
+  basePath,
+  category,
+  setIsFilterOpenAction,
+}: PriceFilterProps) => {
+  return (
+    <Suspense fallback={<MiniLoader />}>
+      <PriceFilterContent
+        basePath={basePath}
+        category={category}
+        setIsFilterOpenAction={setIsFilterOpenAction}
+      />
+    </Suspense>
   );
 };
 

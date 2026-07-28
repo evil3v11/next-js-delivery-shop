@@ -6,8 +6,9 @@ import { FilterControlsProps } from "@/types/filterControlsProps";
 
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense } from "react";
 
-const FilterControls = ({ basePath }: FilterControlsProps) => {
+const FilterControlsContent = ({ basePath }: FilterControlsProps) => {
   const searchParams = useSearchParams();
   const minPrice = searchParams.get("priceFrom");
   const maxPrice = searchParams.get("priceTo");
@@ -111,6 +112,22 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
         </div>
       )}
     </div>
+  );
+};
+
+const FilterControls = ({ basePath }: FilterControlsProps) => {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-wrap flex-row gap-4">
+          <div className="h-8 p-2 rounded text-xs bg-[#f3f2f1] text-[#606060] animate-pulse">
+            Фильтры
+          </div>
+        </div>
+      }
+    >
+      <FilterControlsContent basePath={basePath} />
+    </Suspense>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { CONFIG } from "../../config/config";
@@ -26,7 +26,7 @@ const getItemsPerPageByWidth = (contentType?: string): number => {
   return 4;
 };
 
-const PaginationWrapper = ({
+const PaginationWrapperContent = ({
   totalItems,
   currentPage,
   basePath,
@@ -79,6 +79,31 @@ const PaginationWrapper = ({
       itemsPerPage={itemsPerPage}
       searchQuery={String(searchParams)}
     />
+  );
+};
+
+const PaginationWrapper = ({
+  totalItems,
+  currentPage,
+  basePath,
+  contentType,
+}: {
+  totalItems: number;
+  currentPage: number;
+  basePath: string;
+  contentType?: string;
+}) => {
+  return (
+    <Suspense
+      fallback={<div className="h-8 bg-gray-200 animate-pulse rounded" />}
+    >
+      <PaginationWrapperContent
+        totalItems={totalItems}
+        currentPage={currentPage}
+        basePath={basePath}
+        contentType={contentType}
+      />
+    </Suspense>
   );
 };
 

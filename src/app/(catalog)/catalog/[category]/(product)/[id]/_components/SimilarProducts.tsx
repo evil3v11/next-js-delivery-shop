@@ -43,7 +43,7 @@ const SimilarProducts = async ({
         {similarProducts.map((product) => (
           <Link
             key={product.id}
-            href={`/catalog/product/${product.id}`}
+            href={`/catalog/${product.categories[0]}/${product.id}?desc=${product.description}`}
             className="text-main-text text-sm md:text-lg flex flex-col items-center md:items-start justify-center pt-2 
             w-19.5 h-15.5 md:w-43 md:h-39.5 xl:w-42 xl:h-26 rounded bg-white shadow-image-block duration-300 
             hover:shadow-lg"

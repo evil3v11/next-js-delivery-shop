@@ -8,8 +8,9 @@ import Image from "next/image";
 import { TRANSLATIONS } from "@/utils/translations";
 
 import iconToRight from "../../public/icons-products/icon-arrow-right.svg";
+import { Suspense } from "react";
 
-const Breadcrumbs = () => {
+const BreadcrumbsContent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -78,6 +79,22 @@ const Breadcrumbs = () => {
         ))}
       </ol>
     </nav>
+  );
+};
+
+const Breadcrumbs = () => {
+  return (
+    <Suspense
+      fallback={
+        <nav className="px-[max(12px,calc((100%-1208px)/2))] my-6">
+          <div className="flex items-center gap-4 text-[8px] md:text-xs">
+            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse" />
+          </div>
+        </nav>
+      }
+    >
+      <BreadcrumbsContent />
+    </Suspense>
   );
 };
 

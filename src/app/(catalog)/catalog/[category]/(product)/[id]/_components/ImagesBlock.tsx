@@ -31,9 +31,11 @@ const ImagesBlock = ({ product }: { product: ProductCardProps }) => {
           sizes="(max-width: 768px) 248px, (max-width: 1032px) 272px, 504px"
           className="object-contain"
         />
-        <div className="absolute top-5 right-5 bg-secondary text-white rounded py-1 px-2 text-sm">
-          -{product.discountPercent}%
-        </div>
+        {product.discountPercent > 0 && (
+          <div className="absolute top-5 right-5 bg-secondary text-white rounded py-1 px-2 text-sm">
+            -{product.discountPercent}%
+          </div>
+        )}
       </div>
     </div>
   );
