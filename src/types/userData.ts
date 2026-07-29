@@ -20,4 +20,5 @@ export type UserData = {
   role: UserRole;
   createdAt: string;
   updatedAt: string;
+  favorites?: string[]
 };

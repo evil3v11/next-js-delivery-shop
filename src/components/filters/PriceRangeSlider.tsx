@@ -11,7 +11,7 @@ const PriceRangeSlider = ({
   onChangeSliderAction,
 }: PriceRangeSliderProps) => {
   return (
-    <div className="w-[320px] xl:w-[272px] px-2 mx-auto">
+    <div className="w-[320px] xl:w-68 px-2 mx-auto">
       <Slider
         range
         min={priceRange.min}

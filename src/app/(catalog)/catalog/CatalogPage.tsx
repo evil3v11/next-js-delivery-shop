@@ -25,7 +25,6 @@ const CatalogPage = () => {
   const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(
     null,
   );
-  // TODO: Make admin panel
   const isAdmin = user?.role === "admin";
 
   const fetchCategories = useCallback(async () => {

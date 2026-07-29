@@ -1,14 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
-const FILTERS = [
-  { key: "our-production", label: "Товары нашего производства" },
-  { key: "healthy-food", label: "Здоровое питание" },
-  { key: "non-gmo", label: "Без ГМО" },
-];
+import { FILTERS } from "@/constants/filters";
+
+import Link from "next/link";
 
 const FilterButtonsContent = ({ basePath }: { basePath: string }) => {
   const searchParams = useSearchParams();

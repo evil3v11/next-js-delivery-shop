@@ -3,7 +3,7 @@
 import { useCallback, useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { CONFIG } from "../../../../../../config/config";
+import { CONFIG } from "../../../config/config";
 import { PriceFilterProps, PriceRange } from "@/types/priceTypes";
 
 import ErrorComponent from "@/components/ErrorComponent";
@@ -17,6 +17,8 @@ const PriceFilterContent = ({
   basePath,
   category,
   setIsFilterOpenAction,
+  userId,
+  apiEndpoint = "category",
 }: PriceFilterProps) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -53,7 +55,9 @@ const PriceFilterContent = ({
       params.set("category", currentCategory);
       params.set("getPriceRangeOnly", "true");
 
-      const response = await fetch(`/api/category?${String(params)}`);
+      if (userId) params.set('userId', userId)
+        
+      const response = await fetch(`/api/${apiEndpoint}?${String(params)}`);
       if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
 
       const data = await response.json();
@@ -82,7 +86,7 @@ const PriceFilterContent = ({
     } finally {
       setIsLoading(false);
     }
-  }, [category, searchParams, urlPriceFrom, urlPriceTo]);
+  }, [category, searchParams, urlPriceFrom, urlPriceTo, apiEndpoint, userId]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -198,18 +202,10 @@ const PriceFilterContent = ({
   );
 };
 
-const PriceFilter = ({
-  basePath,
-  category,
-  setIsFilterOpenAction,
-}: PriceFilterProps) => {
+const PriceFilter = (props: PriceFilterProps) => {
   return (
     <Suspense fallback={<MiniLoader />}>
-      <PriceFilterContent
-        basePath={basePath}
-        category={category}
-        setIsFilterOpenAction={setIsFilterOpenAction}
-      />
+      <PriceFilterContent {...props} />
     </Suspense>
   );
 };

@@ -1,17 +1,22 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import FilterButtons from "./FilterButtons";
-import FilterControls from "./FilterControls";
-import PriceFilter from "./PriceFilter";
+
+import Image from "next/image";
+import FilterButtons from "@/components/filters/FilterButtons";
+import FilterControls from "@/components/filters/FilterControls";
+import PriceFilter from "@/components/filters/PriceFilter";
 
 const DropFilter = ({
   basePath,
   category,
+  userId,
+  apiEndpoint = "category",
 }: {
   basePath: string;
   category: string;
+  userId?: string;
+  apiEndpoint?: string;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
 
@@ -56,6 +61,8 @@ const DropFilter = ({
           basePath={basePath}
           category={category}
           setIsFilterOpenAction={setIsFilterOpen}
+          userId={userId}
+          apiEndpoint={apiEndpoint}
         />
       </div>
     </>

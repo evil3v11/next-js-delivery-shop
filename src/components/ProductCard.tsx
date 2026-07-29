@@ -1,11 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import { ProductCardProps } from "@/types/product";
 import { CONFIG } from "../../config/config";
 
-import iconHeart from "../../public/icons-header/icon-heart.svg";
+import Image from "next/image";
+import Link from "next/link";
 import StarRating from "./StarRating";
+import AddToFavoritesButton from "./AddToFavoritesButton";
 
 const ProductCard = ({
   id,
@@ -51,23 +50,12 @@ const ProductCard = ({
         md:w-56 xl:w-68 h-87.25 align-top p-1 hover:shadow-article duration-300 
         hover:scale-105 relative"
     >
-      <button
-        className="w-8 h-8 p-2 bg-[#f3f2f1] hover:bg-[#fcd5ba] absolute top-2
-        right-2 opacity-50 rounded cursor-pointer duration-300 z-10"
-      >
-        <Image
-          src={iconHeart}
-          alt="В избранное"
-          width={24}
-          height={24}
-          sizes="24px"
-        />
-      </button>
+      <AddToFavoritesButton productId={String(id)} />
       <Link href={productUrl}>
         <div className="relative w-40 h-40 md:w-56 xl:w-68">
           <Image
             src={img}
-            alt="Акция"
+            alt="Товар"
             fill
             priority={false}
             className="object-contain cursor-pointer hover:scale-110 duration-300"

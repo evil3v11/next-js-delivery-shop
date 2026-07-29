@@ -1,12 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { FilterControlsProps } from "@/types/filterControlsProps";
 
 import Link from "next/link";
 import Image from "next/image";
-import { Suspense } from "react";
 
 const FilterControlsContent = ({ basePath }: FilterControlsProps) => {
   const searchParams = useSearchParams();

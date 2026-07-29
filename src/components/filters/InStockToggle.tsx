@@ -1,10 +1,8 @@
 "use client";
 
-import { ChangeEvent } from "react";
-
 interface InStockToggleProps {
   inStock: boolean;
-  handleInStockChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleInStockChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InStockToggle = ({
