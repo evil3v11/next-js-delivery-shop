@@ -1,7 +1,9 @@
 export interface PriceFilterProps {
   basePath: string;
   category: string;
-  setIsFilterOpenAction?: (isOpen: boolean) => void
+  setIsFilterOpenAction?: (isOpen: boolean) => void;
+  userId?: string;
+  apiEndpoint?: string;
 }
 
 export type PriceRange = {

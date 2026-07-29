@@ -17,6 +17,7 @@ import SameBrandProducts from "./SameBrandProducts";
 import RatingDistribution from "./RatingDistribution";
 import ReviewWrapper from "./ReviewWrapper";
 import Promotions from "@/app/(products)/Promotions";
+import Link from "next/link";
 
 const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
   const discountedPrice = product.discountPercent
@@ -45,7 +46,10 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
               </p>
             </div>
             <ShareButton title={product.title} className="" />
-            <button className="flex gap-2 items-center cursor-pointer">
+            <Link
+              href="/favorites"
+              className="flex gap-2 items-center cursor-pointer"
+            >
               <Image
                 src="/icons-header/icon-heart.svg"
                 alt="Добавить в избранное"
@@ -55,10 +59,9 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
                 className="select-none"
               />
               <p className="text-sm">В избранное</p>
-            </button>
+            </Link>
           </div>
         </div>
-
         <div className="flex flex-col md:flex-row md:flex-wrap gap-10 w-full justify-center">
           <ImagesBlock product={product} />
           <div className="md:w-86 flex flex-col gap-y-5">

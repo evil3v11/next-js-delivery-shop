@@ -27,7 +27,6 @@ export const POST = async (request: Request) => {
     );
 
     if (result.matchedCount === 0) {
-      console.log(phoneNumber)
       return NextResponse.json(
         { error: "Пользователь с таким номером не найден" },
         { status: 404 },

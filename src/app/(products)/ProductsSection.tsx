@@ -50,7 +50,7 @@ const ProductsSection = ({
             ))}
           </ul>
         ) : (
-          <div>Товары не найдены</div>
+          <div className="w-full flex justify-center items-center">Товары не найдены</div>
         )}
       </div>
     </section>
