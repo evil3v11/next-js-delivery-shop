@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 import { InputMask } from "@react-input/mask";
 import { Phone } from "lucide-react";

@@ -8,7 +8,7 @@ import { useTimer } from "@/hooks/useTimer";
 import { authClient } from "@/lib/auth-client";
 import { CONFIG } from "../../../../../config/config";
 
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 
 import Link from "next/link";
 import Image from "next/image";

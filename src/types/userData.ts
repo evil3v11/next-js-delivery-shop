@@ -1,3 +1,5 @@
+import { CartItem } from "@/types/cart";
+
 export type UserRole = "user" | "manager" | "admin";
 
 export type UserDataOrNull = UserData | null;
@@ -16,9 +18,11 @@ export type UserData = {
   location?: string;
   region: string;
   card?: string;
-  hasCard?: boolean;
+  hasNoCard?: boolean;
   role: UserRole;
   createdAt: string;
   updatedAt: string;
-  favorites?: string[]
+  favorites?: string[];
+  cart: CartItem[];
+  bonusesAmount?: number;
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import { InputMask } from "@react-input/mask";
-import { formStyles } from "../../styles";
+import { formStyles } from "../../../styles";
 
 interface CardInputProps {
   value?: string;

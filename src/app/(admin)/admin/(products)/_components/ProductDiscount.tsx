@@ -1,6 +1,6 @@
 'use client'
 
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 interface ProductDiscountProps {
   discount: string;

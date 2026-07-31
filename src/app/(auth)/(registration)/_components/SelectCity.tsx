@@ -1,7 +1,7 @@
 "use client";
 
 import { cities } from "@/data/cities";
-import { formStyles } from "../../styles";
+import { formStyles } from "../../../styles";
 
 import Image from "next/image";
 

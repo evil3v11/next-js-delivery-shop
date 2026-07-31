@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 import { MailCheck } from "lucide-react";
 

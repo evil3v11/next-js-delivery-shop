@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 import MiniLoader from "@/components/MiniLoader";
 

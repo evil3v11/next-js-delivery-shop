@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { CheckCircle } from "lucide-react";
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 import Link from "next/link";

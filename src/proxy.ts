@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export const proxy = async (request: NextRequest) => {
-  const protectedPaths = ["/profile", "/admin"];
+  const protectedPaths = ["/profile", "/admin", "/favorites", "/cart"];
   const isPathProtected = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path),
   );

@@ -1,4 +1,5 @@
-import { headers } from "next/headers";
+import { fetchFavorites } from "./fetchFavorites";
+import { getServerUserId } from "@/utils/getServerUserId";
 
 import { Suspense } from "react";
 import Loader from "@/components/Loader";
@@ -7,35 +8,6 @@ import FilterButtons from "@/components/filters/FilterButtons";
 import FilterControls from "@/components/filters/FilterControls";
 import PriceFilter from "@/components/filters/PriceFilter";
 import DropFilter from "@/components/filters/DropFilter";
-import {
-  getBetterAuthSession,
-  getCustomSessionToken,
-  getValidCustomSession,
-} from "@/utils/auth-helpers";
-import { fetchFavorites } from "./fetchFavorites";
-
-const getServerUserId = async () => {
-  try {
-    const headersList = await headers();
-    const cookies = headersList.get("cookie");
-
-    const customSessionToken = getCustomSessionToken(cookies);
-    const betterAuthSessionToken = (await getBetterAuthSession(headersList))
-      ?.session.token;
-
-    if (!customSessionToken || !customSessionToken) return null;
-
-    let session;
-    if (betterAuthSessionToken)
-      session = await getValidCustomSession(betterAuthSessionToken);
-    if (customSessionToken)
-      session = await getValidCustomSession(customSessionToken);
-
-    return session?.userId || null;
-  } catch {
-    return null;
-  }
-};
 
 const FavoritesPage = async ({
   searchParams,
@@ -61,7 +33,7 @@ const FavoritesPage = async ({
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] flex flex-col mx-auto mb-10 w-full">
       <h1
-        className="ml-3 xl:ml-0 text-4xl md:text-5xl text-left font-bold text-main-text 
+        className="ml-3 xl:ml-0 text-4xl md:text-5xl xl:text-[64px] text-left font-bold text-main-text 
           mb-8 md:mb-10 xl:mb-15 max-w-84 md:max-w-max leading-[150%]"
       >
         Избранное

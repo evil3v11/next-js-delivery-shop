@@ -4,7 +4,7 @@ import { ProductCardProps } from "@/types/product";
 
 import { TRANSLATIONS } from "@/utils/translations";
 
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 import { Edit, Trash2 } from "lucide-react";
 import Link from "next/link";

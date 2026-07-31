@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 
-import { buttonStyles } from "../styles";
+import { buttonStyles } from "../../styles";
 
 import { Loader2, Mail, Trash2 } from "lucide-react";
 import AuthFormLayout from "../_components/AuthFormLayout";

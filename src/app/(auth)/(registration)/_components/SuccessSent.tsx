@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 import { MailCheck } from "lucide-react";
 
 const SuccessSent = () => {

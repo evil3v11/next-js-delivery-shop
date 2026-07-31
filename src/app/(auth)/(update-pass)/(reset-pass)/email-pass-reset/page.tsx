@@ -9,7 +9,7 @@ import { isPasswordValid } from "@/utils/validation/isPasswordValid";
 import { MailWarning } from "lucide-react";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 import PasswordInput from "@/app/(auth)/_components/PasswordInput";
-import Tooltip from "@/app/(auth)/_components/Tooltip";
+import Tooltip from "@/components/Tooltip";
 import ErrorContent from "@/app/(auth)/(registration)/_components/ErrorContent";
 import SuccessUpdatePass from "../../_components/SuccessUpdatePass";
 
