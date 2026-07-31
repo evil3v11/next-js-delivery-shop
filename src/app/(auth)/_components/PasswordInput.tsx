@@ -2,8 +2,8 @@
 
 import IconVision from "@/components/svg/IconVision";
 
-import { formStyles } from "../styles";
-import Tooltip from "./Tooltip";
+import { formStyles } from "../../styles";
+import Tooltip from "../../../components/Tooltip";
 import { isPasswordValid } from "@/utils/validation/isPasswordValid";
 
 interface PasswordInputProps {

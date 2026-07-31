@@ -8,7 +8,7 @@ import { useAuthStore } from "@/store/authStore";
 import { authClient } from "@/lib/auth-client";
 import { CONFIG } from "../../../../../../config/config";
 
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 import Image from "next/image";
 import Link from "next/link";

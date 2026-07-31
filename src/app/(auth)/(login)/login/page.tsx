@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { buttonStyles, formStyles } from "../../styles";
+import { buttonStyles, formStyles } from "../../../styles";
 
 import { InputMask } from "@react-input/mask";
 import { MailWarning, PhoneOff } from "lucide-react";

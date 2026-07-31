@@ -5,12 +5,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { useAuthStore } from "@/store/authStore";
 
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 
 import AuthFormLayout from "../../_components/AuthFormLayout";
 import LoadingContent from "../../(registration)/_components/LoadingContent";
 import PasswordInput from "../../_components/PasswordInput";
-import Tooltip from "../../_components/Tooltip";
+import Tooltip from "../../../../components/Tooltip";
 import Image from "next/image";
 
 const EnterPasswordPage = () => {

@@ -2,25 +2,27 @@
 
 interface InStockToggleProps {
   inStock: boolean;
-  handleInStockChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInStockChange: (isInStock: boolean) => void;
+  labelText?: string;
 }
 
 const InStockToggle = ({
   inStock,
   handleInStockChange,
+  labelText
 }: InStockToggleProps) => {
   return (
     <div className="flex gap-x-2 justify-start items-center">
       <div
         className={`w-12 h-6 rounded-full transition-colors duration-300 px-0.5
-            ${!inStock ? "bg-gray-200" : "bg-primary"}`}
+        ${!inStock ? "bg-gray-200" : "bg-primary"}`}
       >
         <label className="relative cursor-pointer">
           <input
             type="checkbox"
             id="inStock"
             checked={inStock}
-            onChange={handleInStockChange}
+            onChange={(e) => handleInStockChange(e.target.checked)}
             className="sr-only"
           />
           <div
@@ -31,7 +33,7 @@ const InStockToggle = ({
           />
         </label>
       </div>
-      <span className="text-sm text-main-text">В наличии</span>
+      <span className="text-sm text-main-text">{labelText}</span>
     </div>
   );
 };

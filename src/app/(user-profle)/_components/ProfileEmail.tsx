@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { authClient } from "@/lib/auth-client";
 import { CONFIG } from "../../../../config/config";
 
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 import { Mail } from "lucide-react";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";

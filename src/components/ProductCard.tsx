@@ -1,10 +1,14 @@
 import { ProductCardProps } from "@/types/product";
+
 import { CONFIG } from "../../config/config";
+import { calculatePriceByCard } from "@/utils/calculateProductPrice";
+import { formatPrice } from "@/utils/formatPrice";
 
 import Image from "next/image";
 import Link from "next/link";
 import StarRating from "./StarRating";
 import AddToFavoritesButton from "./AddToFavoritesButton";
+import AddToCartButton from "./AddToCartButton";
 
 const ProductCard = ({
   id,
@@ -17,13 +21,6 @@ const ProductCard = ({
   categories,
 }: ProductCardProps) => {
   const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
-  const calculateFinalPrice = (price: number, discount: number): number => {
-    return discount ? price * (1 - discount / 100) : price;
-  };
-
-  const calculatePriceByCard = (price: number, discount: number): number => {
-    return calculateFinalPrice(price, discount);
-  };
 
   const isNewProduct = tags?.includes("new");
 
@@ -34,9 +31,6 @@ const ProductCard = ({
   const priceByCard = isNewProduct
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
-
-  const formatPrice = (price: number): string =>
-    price.toFixed(2).replace(".", ",");
 
   const ratingValue = rating?.average ?? 5.0;
 
@@ -99,14 +93,7 @@ const ProductCard = ({
           <StarRating rating={ratingValue} />
         </div>
       </Link>
-      <button
-        className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-secondary
-        hover:border-transparent active:shadow-button-active h-10 rounded p-2
-        justify-center items-center text-primary transition-all duration-300 cursor-pointer
-        select-none"
-      >
-        В корзину
-      </button>
+      <AddToCartButton productId={String(id)} variant="onProductCard" />
     </div>
   );
 };

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { isPasswordValid } from "@/utils/validation/isPasswordValid";
 
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 import { Loader2, MessageCircle } from "lucide-react";
 
 import AuthFormLayout from "../../_components/AuthFormLayout";

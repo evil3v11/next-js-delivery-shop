@@ -1,6 +1,6 @@
 "use client";
 
-import { iconContainerStyles } from "@/app/(auth)/styles";
+import { iconContainerStyles } from "@/app/styles";
 import { ArrowLeft, Key, Smartphone } from "lucide-react";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 

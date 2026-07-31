@@ -1,4 +1,4 @@
-import { buttonStyles } from "../(auth)/styles";
+import { buttonStyles } from "../styles";
 
 export const profileStyles = {
   editButton: `${buttonStyles.active} [&&]:w-full [&&]:md:w-auto px-4 py-2 rounded items-center justify-center font-medium duration-300 cursor-pointer flex flex-row gap-x-3`,

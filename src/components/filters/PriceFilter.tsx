@@ -11,7 +11,7 @@ import MiniLoader from "@/components/MiniLoader";
 import PriceFilterHeader from "./PriceFilterHeader";
 import PriceInputs from "./PriceInputs";
 import PriceRangeSlider from "./PriceRangeSlider";
-import InStockToggle from "./InStockToggle";
+import InStockToggle from "../InStockToggle";
 
 const PriceFilterContent = ({
   basePath,
@@ -127,12 +127,7 @@ const PriceFilterContent = ({
     inStock,
   ]);
 
-  const handleInStockChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInStock(e.target.checked);
-    },
-    [],
-  );
+  const handleInStockChange = useCallback((isInStock: boolean) => setInStock(isInStock), []);
 
   const sliderValues = [
     Number(inputValues.from) || priceRange.min,
@@ -190,6 +185,7 @@ const PriceFilterContent = ({
       <InStockToggle
         inStock={inStock}
         handleInStockChange={handleInStockChange}
+        labelText="В наличии"
       />
       <button
         type="submit"

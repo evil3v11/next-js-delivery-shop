@@ -160,7 +160,7 @@ const CatalogPage = () => {
         />
       )}
       <h1
-        className="flex flex-row mb-4 md:mb-8 xl:mb-10 text-4xl mb:text-5xl xl:text-[64px] 
+        className="flex flex-row mb-4 md:mb-8 xl:mb-10 text-4xl md:text-5xl xl:text-[64px] 
       text-main-text font-bold"
       >
         Каталог

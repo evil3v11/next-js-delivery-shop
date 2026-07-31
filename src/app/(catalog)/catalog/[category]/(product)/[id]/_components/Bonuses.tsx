@@ -1,4 +1,4 @@
-import { getBonusWord } from "@/utils/getBonusWord";
+import { getWordEnding } from "@/utils/getWordEnding";
 
 import Image from "next/image";
 
@@ -15,7 +15,7 @@ const Bonuses = ({ bonus }: { bonus: number }) => {
       <p className="text-xs">
         Вы получате{" "}
         <strong>
-          {roundedBonus} {getBonusWord(roundedBonus)}
+          {roundedBonus} бонус{getWordEnding(roundedBonus)}
         </strong>
       </p>
     </div>

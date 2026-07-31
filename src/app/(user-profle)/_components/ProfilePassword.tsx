@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 import { useScrollModalToCenter } from "@/hooks/useScrollModalToCenter";
 
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 import { Key, LucideArrowRight } from "lucide-react";
 

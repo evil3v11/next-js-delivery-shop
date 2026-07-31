@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-import { buttonStyles, formStyles } from "@/app/(auth)/styles";
+import { buttonStyles, formStyles } from "@/app/styles";
 import { HelpCircle, MailWarning, PlusCircle, Search } from "lucide-react";
 import AuthFormLayout from "@/app/(auth)/_components/AuthFormLayout";
 

@@ -1,14 +1,16 @@
 import { ProductCardProps } from "@/types/product";
 
 import { CONFIG } from "../../../../../../../../config/config";
-import { getReviewsWord } from "@/utils/getReviewsWord";
+import { getWordEnding } from "@/utils/getWordEnding";
+import {
+  calculateFinalPrice,
+  calculatePriceByCard,
+} from "@/utils/calculateProductPrice";
 
-import Image from "next/image";
 import StarRating from "@/components/StarRating";
 import ShareButton from "./ShareButton";
 import ImagesBlock from "./ImagesBlock";
 import ProductOffer from "./ProductOffer";
-import CartButton from "./CartButton";
 import Bonuses from "./Bonuses";
 import DiscountMessage from "./DiscountMessage";
 import AdditionalProductInfo from "./AdditionalProductInfo";
@@ -17,24 +19,33 @@ import SameBrandProducts from "./SameBrandProducts";
 import RatingDistribution from "./RatingDistribution";
 import ReviewWrapper from "./ReviewWrapper";
 import Promotions from "@/app/(products)/Promotions";
-import Link from "next/link";
+import AddToFavoritesButton from "@/components/AddToFavoritesButton";
+import AddToCartButton from "@/components/AddToCartButton";
 
 const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
-  const discountedPrice = product.discountPercent
-    ? product.basePrice * (1 - product.discountPercent / 100)
-    : product.basePrice;
+  const discountedPrice = calculateFinalPrice(
+    product.basePrice,
+    product.discountPercent,
+  );
 
-  const priceUsingCard =
-    discountedPrice * (1 - CONFIG.CARD_DISCOUNT_PERCENT / 100);
-  const bonuses = priceUsingCard & 0.05;
+  const priceUsingCard = calculatePriceByCard(
+    discountedPrice,
+    CONFIG.PRODUCT_BONUSES_PERCENT,
+  );
+
+  const bonuses = Math.round(
+    (discountedPrice * CONFIG.PRODUCT_BONUSES_PERCENT) / 100,
+  );
 
   return (
     <div
-      className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] 
-    text-main-text flex flex-col gap-y-20 pb-10"
+      className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text 
+      flex flex-col gap-y-20 pb-10"
     >
       <div>
-        <h1 className="text-2xl font-bold mb-4">{product.description}</h1>
+        <h1 className="text-xl md:text-2xl font-bold mb-4">
+          {product.description}
+        </h1>
         <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
           <div className="flex flex-wrap items-center gap-6 mb-4 md:mb-6">
             <div className="text-xs">арт. {product.article}</div>
@@ -42,24 +53,14 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
               <StarRating rating={product.rating.average || 5} />
               <p className="text-sm underline">
                 {product.rating.count || 0}{" "}
-                {getReviewsWord(product.rating.count || 0)}
+                отзыв{getWordEnding(product.rating.count || 0)}
               </p>
             </div>
             <ShareButton title={product.title} className="" />
-            <Link
-              href="/favorites"
-              className="flex gap-2 items-center cursor-pointer"
-            >
-              <Image
-                src="/icons-header/icon-heart.svg"
-                alt="Добавить в избранное"
-                width={24}
-                height={24}
-                sizes="24px"
-                className="select-none"
-              />
-              <p className="text-sm">В избранное</p>
-            </Link>
+            <AddToFavoritesButton
+              productId={String(product.id)}
+              variant="onProductPage"
+            />
           </div>
         </div>
         <div className="flex flex-col md:flex-row md:flex-wrap gap-10 w-full justify-center">
@@ -69,12 +70,12 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
               discountedPrice={discountedPrice}
               priceUsingCard={priceUsingCard}
             />
-            <CartButton />
+            <AddToCartButton productId={String(product.id)} variant="onProductPage" />
             <Bonuses bonus={bonuses} />
             <DiscountMessage
               productId={String(product.id)}
               productTitle={product.title}
-              currentPrice={String(product.basePrice)}
+              currentPrice={String(discountedPrice)}
             />
             <AdditionalProductInfo
               brand={product.brand}
