@@ -6,7 +6,7 @@ interface QuantitySelectorProps {
   isOutOfStock: boolean;
   onDecrement: () => void;
   onIncrement: () => void;
-  variant: string;
+  variant: "onProductCard" | "onProductPage" | React.ReactNode;
 }
 
 const QuantitySelector = memo(function QuantitySelector({

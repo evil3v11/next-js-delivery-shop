@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "eslint",
-    "price-check": "curl -X GET http://localhost:3000/api/cron/price-check?secret=06e7886c6632e830a8b89c7e3984f9653c52a223518f79f4ec53bdd73c63b26a"
+    "price-check": "curl -X GET http://localhost:3000/api/cron/price-check?secret=06e7886c6632e830a8b89c7e3984f9653c52a223518f79f4ec53bdd73c63b26a",
+    "update-delivery-schedule": "curl -X GET http://localhost:3000/api/cron/update-delivery-schedule?secret=06e7886c6632e830a8b89c7e3984f9653c52a223518f79f4ec53bdd73c63b26a"
   },
   "dependencies": {
     "@faker-js/faker": "^10.5.0",

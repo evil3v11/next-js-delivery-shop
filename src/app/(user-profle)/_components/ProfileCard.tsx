@@ -107,12 +107,12 @@ const ProfileCard = () => {
           duration-300 font-bold flex items-center group"
             onClick={() => setIsEditing(true)}
           >
-            {user?.hasCard ? "Изменить карту" : "Добавить карту"}
+            {user?.hasNoCard ? "Изменить карту" : "Добавить карту"}
             <CreditCard className="w-5 h-5 ml-2 rotate-0 group-hover:rotate-20 duration-300" />
           </button>
         )}
       </div>
-      {!user?.hasCard && !isEditing && (
+      {!user?.hasNoCard && !isEditing && (
         <span className="text-sm text-gray-500">
           Добавьте номер карты лояльности для получения бонусов
         </span>

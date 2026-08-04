@@ -25,6 +25,12 @@ const AdminPage = () => {
         >
           Список товаров
         </Link>
+        <Link
+          href="/admin/delivery-schedule"
+          className={`${buttonStyles.active} px-4 py-3 rounded w-full`}
+        >
+          График доставки
+        </Link>
       </div>
     </div>
   );

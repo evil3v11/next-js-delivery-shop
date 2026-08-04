@@ -34,8 +34,7 @@ export const addToCartAction = async (productId: string): Promise<AddToCartRespo
     if (existingItemInCart) {
       return {
         success: false,
-        message:
-          "",
+        message: "",
       };
     }
 

@@ -9,7 +9,7 @@ import Maps from "@/components/Maps";
 import Articles from "./(articles)/Articles";
 import Loader from "@/components/Loader";
 
-const Home = () => {
+const Home = (): React.JSX.Element => {
   return (
     <main className="w-full mx-auto">
       <Suspense fallback={<Loader text="слайдера" />}>
