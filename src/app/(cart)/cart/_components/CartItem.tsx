@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, memo } from "react";
+import { useCartStore } from "@/store/cartStore";
 
 import { CartItemProps } from "@/types/cart";
 
@@ -22,12 +23,12 @@ const CartItem = memo(function CartItem({
   productData,
   isSelected,
   onSelectionChange,
-  onQuantityUpdate,
-  hasLoyaltyCard,
+  onQuantityUpdate
 }: CartItemProps) {
   const [quantity, setQuantity] = useState<number>(item.quantity);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
+  const { hasLoyaltyCard } = useCartStore()
 
   const handleQuantityChange = async (newQuantity: number): Promise<void> => {
     if (newQuantity <= 0) return;
@@ -53,7 +54,7 @@ const CartItem = memo(function CartItem({
     }
   };
 
-  const discountedPrice = calculateFinalPrice(productData.basePrice || 0, productData.discountPercent || 0);
+  const discountedPrice = calculateFinalPrice(productData.basePrice, productData.discountPercent);
   const finalPrice = hasLoyaltyCard
     ? calculatePriceByCard(discountedPrice, CONFIG.CARD_DISCOUNT_PERCENT)
     : discountedPrice;

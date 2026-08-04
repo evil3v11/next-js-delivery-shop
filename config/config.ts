@@ -5,7 +5,7 @@ export const CONFIG = {
   ITEMS_PER_PAGE_CATEGORY: 6,
   CARD_DISCOUNT_PERCENT: 6,
   PRODUCT_BONUSES_PERCENT: 5,
-  MAX_BONUSES_PERCENTAGE: 30,
+  MAX_BONUSES_PERCENTAGE: 10,
   FALLBACK_PRICE_RANGE: { min: 0, max: 3000 },
   SITE_URL: "https:/delivery-shop.ru",
   TEMP_EMAIL_DOMAIN: "@delivery-shop.ru",

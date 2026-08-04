@@ -9,7 +9,7 @@ interface InStockToggleProps {
 const InStockToggle = ({
   inStock,
   handleInStockChange,
-  labelText
+  labelText,
 }: InStockToggleProps) => {
   return (
     <div className="flex gap-x-2 justify-start items-center">
