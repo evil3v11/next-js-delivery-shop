@@ -8,7 +8,6 @@ export const getServerUserId = async () => {
 
     const customSessionToken = getCustomSessionToken(cookies);
     const betterAuthSessionToken = (await getBetterAuthSession(headersList))?.session.token;
-    if (!customSessionToken || !customSessionToken) return null;
 
     let session;
     if (betterAuthSessionToken) session = await getValidCustomSession(betterAuthSessionToken);

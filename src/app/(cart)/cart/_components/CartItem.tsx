@@ -109,6 +109,7 @@ const CartItem = memo(function CartItem({
               isOutOfStock={isOutOfStock}
               onDecrement={() => handleQuantityChange(quantity - 1)}
               onIncrement={() => handleQuantityChange(quantity + 1)}
+              variant='onProductCard'
             />
           )}
           <div
