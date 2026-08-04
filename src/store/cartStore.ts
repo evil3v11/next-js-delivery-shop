@@ -1,20 +1,25 @@
 import { create } from "zustand";
 
+import { CartState, PricingState } from "@/types/storeState";
 import { CartItem } from "@/types/cart";
-
-interface CartState {
-  cart: CartItem[];
-  totalItems: number;
-  isLoading: boolean;
-  fetchCart: () => Promise<void>;
-  updateCart: (items: CartItem[]) => void;
-  clearCart: () => void;
-}
 
 export const useCartStore = create<CartState>((set) => ({
   cart: [],
   totalItems: 0,
   isLoading: false,
+  pricing: {
+    totalPrice: 0,
+    totalMaxPrice: 0,
+    totalDiscount: 0,
+    finalPrice: 0,
+    maxBonusUse: 0,
+    totalBonuses: 0,
+    isMinimumReached: false,
+  },
+  isCheckout: false,
+  isOrdered: false,
+  hasLoyaltyCard: false,
+  doesUseBonuses: false,
   fetchCart: async (): Promise<void> => {
     try {
       set({ isLoading: true });
@@ -33,4 +38,9 @@ export const useCartStore = create<CartState>((set) => ({
     set({ cart: items, totalItems: quantity });
   },
   clearCart: (): void => set({ cart: [], totalItems: 0 }),
+  updatePricing: (pricing: PricingState): void => set({ pricing }),
+  setIsCheckout: (isCheckout: boolean): void => set({ isCheckout }),
+  setIsOrdered: (isOrdered: boolean): void => set({ isOrdered }),
+  setHasLoyaltyCard: (hasLoyaltyCard: boolean): void => set({ hasLoyaltyCard }),
+  setDoesUseBonuses: (doesUseBonuses: boolean): void => set({ doesUseBonuses }),
 }));

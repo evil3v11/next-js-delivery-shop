@@ -1,10 +1,15 @@
+'use client'
+
+import { useEffect, useMemo } from "react";
+import { useCartStore } from "@/store/cartStore";
+
+import { CONFIG } from "../../config/config";
 import {
   calculateFinalPrice,
   calculatePriceByCard,
 } from "@/utils/calculateProductPrice";
-import { CONFIG } from "../../config/config";
 
-import { CartItem } from "@/types/cart";
+import { CalculatedItem, CartItem } from "@/types/cart";
 import { ProductCardProps } from "@/types/product";
 
 export const useCartPrices = (
@@ -13,67 +18,85 @@ export const useCartPrices = (
   hasLoyaltyCard: boolean,
   doesUseBonuses: boolean,
   bonusesAmount: number,
-): Record<string, number> => {
-  // total price of all items with card discount
-  const totalPrice = items.reduce((acc, curr) => {
-    const product = productData[curr.productId];
-    if (!product) return acc;
+): Record<string, number | boolean> => {
+  const { updatePricing } = useCartStore();
 
-    const discountedPrice = calculateFinalPrice(product.basePrice, product.discountPercent || 0);
-    const finalPrice = hasLoyaltyCard
-      ? calculatePriceByCard(discountedPrice, CONFIG.CARD_DISCOUNT_PERCENT)
-      : discountedPrice;
+  const calculatedItems = useMemo(() => {
+    return items
+      .map((item) => {
+        const product = productData[item.productId];
+        if (!product) return null;
 
-    return acc + finalPrice * curr.quantity;
-  }, 0);
+        const discountedPrice = calculateFinalPrice(product.basePrice, product.discountPercent || 0);
+        const finalPrice = hasLoyaltyCard
+          ? calculatePriceByCard(discountedPrice, CONFIG.CARD_DISCOUNT_PERCENT)
+          : discountedPrice;
 
-  // total price of all items without card discount
-  const totalMaxPrice = items.reduce((acc, curr) => {
-    const product = productData[curr.productId];
-    if (!product) return acc;
+        const discountAmount = discountedPrice - finalPrice;
+        const bonuses = (discountedPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100;
+        
+        return {
+          basePrice: product.basePrice,
+          discountedPrice,
+          finalPrice,
+          discountAmount,
+          bonuses,
+          quantity: item.quantity,
+        };
+      })
+      .filter(Boolean) as CalculatedItem[];
+  }, [items, hasLoyaltyCard, productData]);
 
-    const discountedPrice = calculateFinalPrice(product.basePrice, product.discountPercent || 0);
+  const { totalPrice, totalMaxPrice, totalDiscount, totalBonuses } = useMemo(() => {
+    return calculatedItems.reduce((acc, curr) => {
+        return {
+          totalPrice: acc.totalPrice + curr.finalPrice * curr.quantity,
+          totalMaxPrice: acc.totalMaxPrice + curr.discountedPrice * curr.quantity,
+          totalDiscount: acc.totalDiscount + curr.discountAmount * curr.quantity,
+          totalBonuses: acc.totalBonuses + Math.round(curr.bonuses) * curr.quantity,
+        };
+      },
+      {
+        totalPrice: 0,
+        totalMaxPrice: 0,
+        totalDiscount: 0,
+        totalBonuses: 0,
+      },
+    );
+  }, [calculatedItems]);
 
-    return acc + discountedPrice * curr.quantity;
-  }, 0);
+  const maxBonusUse = Math.min(bonusesAmount, Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100));
+  const finalPrice = doesUseBonuses ? Math.max(0, totalPrice - maxBonusUse) : totalPrice;
+  const isMinimumReached = finalPrice >= 1000;
 
-  // total amount of discount for all items
-  const totalDiscount = items.reduce((acc, curr) => {
-    const product = productData[curr.productId];
-    if (!product) return acc;
+  useEffect(() => {
+    updatePricing({
+      totalPrice,
+      totalMaxPrice,
+      totalDiscount,
+      finalPrice,
+      maxBonusUse,
+      totalBonuses,
+      isMinimumReached,
+    });
+  }, [
+    totalPrice,
+    totalMaxPrice,
+    totalDiscount,
+    finalPrice,
+    maxBonusUse,
+    totalBonuses,
+    isMinimumReached,
+    updatePricing,
+  ]);
 
-    const discountedPrice = calculateFinalPrice(product.basePrice, product.discountPercent || 0);
-
-    const finalPrice = hasLoyaltyCard
-      ? calculatePriceByCard(discountedPrice, CONFIG.CARD_DISCOUNT_PERCENT)
-      : discountedPrice;
-
-    const itemDiscount = (discountedPrice - finalPrice) * curr.quantity;
-
-    return acc + itemDiscount;
-  }, 0);
-
-  // maximum amount of bonuses that can be used up is 30% of total price of all items
-  const maxBonusAmount = Math.min(
-    bonusesAmount,
-    Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100),
-  );
-
-  const finalPrice = doesUseBonuses
-    ? Math.max(0, totalPrice - maxBonusAmount)
-    : totalPrice;
-
-  // amount of bonus points that customer receives after purchase
-  const totalBonuses = items.reduce((acc, curr) => {
-    const product = productData[curr.productId];
-    if (!product) return acc;
-
-    const discountedPrice = calculateFinalPrice(product.basePrice, product.discountPercent || 0);
-
-    const bonusesAmount = Math.round((discountedPrice * CONFIG.PRODUCT_BONUSES_PERCENT) / 100);
-
-    return acc + bonusesAmount * curr.quantity;
-  }, 0);
-
-  return { totalPrice, totalMaxPrice, totalDiscount, finalPrice, totalBonuses };
+  return {
+    totalPrice,
+    totalMaxPrice,
+    totalDiscount,
+    finalPrice,
+    maxBonusUse,
+    totalBonuses,
+    isMinimumReached,
+  };
 };

@@ -26,7 +26,7 @@ const CartControls = ({
         />
         <div className="w-6 h-6 bg-primary border border-[#f3f2f1] rounded flex items-center justify-center duration-300">
           {areAllItemsSelected ? (
-            <div className="w-3.75 h-px bg-white"></div>
+            <div className="w-3.75 h-px bg-white" />
           ) : (
             <div className="relative w-3.75 h-3.75">
               <div className="absolute top-1/2 left-0 w-full h-px bg-white transform -translate-y-1/2" />

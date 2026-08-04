@@ -18,6 +18,6 @@ export const getDates = (): string[] => {
     const dateString = `${year}-${month}-${day}`;
     dates.push(dateString);
   }
-  console.log(dates)
+
   return dates;
 };

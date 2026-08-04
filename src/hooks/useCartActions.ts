@@ -12,14 +12,12 @@ import { ProductCardProps } from "@/types/product";
 import { CartItem } from "@/types/cart";
 
 export const useCartActions = () => {
-  const [productData, setProductData] = useState<Record<string, ProductCardProps>>({});
+  const [productsData, setProductData] = useState<Record<string, ProductCardProps>>({});
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [removedItems, setRemovedItems] = useState<string[]>([]);
-  const [isCartLoading, setIsCartLoading] = useState<boolean>(true);
-  
-  const [hasLoyaltyCard, setHasLoyaltyCard] = useState<boolean>(false);
+  const [isCartLoading, setIsCartLoading] = useState<boolean>(true);  
   const [bonusesAmount, setBonusesAmount] = useState<number>(0);
-  const { cart, updateCart } = useCartStore();
+  const { cart, updateCart, setHasLoyaltyCard } = useCartStore();
 
   const fetchCartAndProducts = async (): Promise<void> => {
     try {
@@ -88,6 +86,7 @@ export const useCartActions = () => {
     }
   };
 
+  const areAllItemsSelected = cart.every(item => selectedItems.includes(item.productId))
   const selectAllItems = (visibleItems: CartItem[]) => setSelectedItems(visibleItems.map((i) => i.productId));
   const unselectAllItems = () => setSelectedItems([]);
 
@@ -99,10 +98,10 @@ export const useCartActions = () => {
   return {
     isCartLoading,
     bonusesAmount,
-    hasLoyaltyCard,
-    productData,
+    productsData,
     removedItems,
     selectedItems,
+    areAllItemsSelected,
     fetchCartAndProducts,
     handleQuantityUpdate,
     handleRemoveSelected,
