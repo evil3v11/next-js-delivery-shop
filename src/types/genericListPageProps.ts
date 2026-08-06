@@ -4,7 +4,7 @@ import { ProductCardProps } from "./product";
 type ContentItem = ProductCardProps | ArticleCardProps;
 
 interface PaginatedResponse {
-  items: ContentItem[];
+  products: ContentItem[];
   totalCount: number;
 }
 

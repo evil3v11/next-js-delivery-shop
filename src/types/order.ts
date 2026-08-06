@@ -107,7 +107,6 @@ interface UpdateUserDataAfterPaymentSuccess {
     bonusesAdded: number;
     newBonusesAmount: number;
     productsAdded: number;
-    totalPurchases: number;
     cartCleared: boolean;
   };
 }

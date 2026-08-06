@@ -25,10 +25,11 @@ const Purchases = () => {
         setShowPurchases(hasAccess);
 
         if (hasAccess) {
-          const { items } = await fetchPurchases({
+          const { products } = await fetchPurchases({
             userPurchasesLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
+            userId: user.id
           });
-          setItems(items);
+          setItems(products);
         }
       } catch (e) {
         setError(

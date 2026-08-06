@@ -11,7 +11,6 @@ export const GET = async (request: Request) => {
     const url = new URL(request.url);
 
     const tag = url.searchParams.get("tag");
-    const randomLimit = url.searchParams.get("randomLimit");
     const startIndex = Number(url.searchParams.get("startIndex") || "0");
     const perPage = Number(url.searchParams.get("perPage") || CONFIG.ITEMS_PER_PAGE);
 
@@ -26,20 +25,6 @@ export const GET = async (request: Request) => {
       tags: tag,
       quantity: { $gt: 0 },
     };
-
-    if (randomLimit) {
-      const pipeline = [
-        { $match: query },
-        { $sample: { size: Number(randomLimit) } },
-      ];
-
-      const products = await db
-        .collection("products")
-        .aggregate(pipeline)
-        .toArray();
-
-      return NextResponse.json(products);
-    }
 
     const totalCount = await db.collection("products").countDocuments(query);
 
