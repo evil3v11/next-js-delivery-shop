@@ -33,7 +33,7 @@ export const useCartPrices = (
           : discountedPrice;
 
         const discountAmount = discountedPrice - finalPrice;
-        const bonuses = (discountedPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100;
+        const bonuses = discountedPrice * (CONFIG.MAX_BONUSES_PERCENTAGE) / 100;
         
         return {
           basePrice: product.basePrice,

@@ -18,6 +18,7 @@ export interface CartState {
   setIsOrdered: (isOrdered: boolean) => void;
   setHasLoyaltyCard: (hasLoyaltyCard: boolean) => void;
   setDoesUseBonuses: (doesUseBonuses: boolean) => void;
+  resetAfterOrder: () => void;
 }
 
 export interface PricingState {
@@ -38,4 +39,4 @@ export interface AuthState {
   logout: () => Promise<void>;
   checkAuth: () => Promise<boolean>;
   fetchUserData: () => Promise<void>;
-};
+}
