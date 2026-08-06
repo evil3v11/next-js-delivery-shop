@@ -1,9 +1,14 @@
+import { FetchPurchasesResponse } from "@/types/purchases";
+
 const fetchPurchases = async (options?: {
   userPurchasesLimit?: number;
   pagination?: { startIdx: number; perPage: number };
-}) => {
+  userId: string;
+}): Promise<FetchPurchasesResponse> => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/purchases`);
+    const url = new URL(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/purchases`,
+    );
 
     if (options?.userPurchasesLimit) {
       url.searchParams.append("userPurchasesLimit", String(options.userPurchasesLimit));
@@ -12,12 +17,14 @@ const fetchPurchases = async (options?: {
       url.searchParams.append("perPage", String(options.pagination.perPage));
     }
 
+    if (options?.userId) url.searchParams.append("userId", options.userId)
+
     const response = await fetch(String(url), { next: { revalidate: 3600 } });
     if (!response.ok) throw new Error("Ошибка получения покупок");
 
     const data = await response.json();
     return {
-      items: data.products || data,
+      products: data.products || data,
       totalCount: data.totalCount || data.length,
     };
   } catch (e) {

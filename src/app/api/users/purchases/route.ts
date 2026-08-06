@@ -1,46 +1,50 @@
 import { getDB } from "@/utils/api-routes";
 import { NextResponse } from "next/server";
 import { CONFIG } from "../../../../../config/config";
+import { ObjectId } from "mongodb";
+import { FetchPurchasesError, FetchPurchasesResponse } from "@/types/purchases";
+import { ProductCardProps } from "@/types/product";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async (request: Request) => {
+export const GET = async (request: Request): Promise<NextResponse<FetchPurchasesResponse | FetchPurchasesError>> => {
   try {
     const db = await getDB();
 
     const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
+
+    if (!userId) return NextResponse.json({ products: [], totalCount: 0 });
+
     const userPurchasesLimit = url.searchParams.get("userPurchasesLimit");
     const startIndex = Number(url.searchParams.get("startIndex") || "0");
     const perPage = Number(url.searchParams.get("perPage") || String(CONFIG.ITEMS_PER_PAGE));
 
-    const user = await db.collection("users").findOne({});
+    const user = await db.collection("user").findOne({ _id: new ObjectId(userId) });
 
     if (!user?.purchases?.length) return NextResponse.json({ products: [], totalCount: 0 });
 
-    const productIds = user.purchases.map((p: { id: number }) => p.id);
+    const productIds = user.purchases
 
     if (userPurchasesLimit) {
       const limit = Number(userPurchasesLimit);
 
-      const purchases = await db
-        .collection("products")
+      const purchasedProducts = await db
+        .collection<ProductCardProps>("products")
         .find({ id: { $in: productIds } })
         .limit(limit)
         .toArray();
-        
-      return NextResponse.json(
-        purchases.map((product) => {
-          const { discountPercent, ...rest } = product;
-          void discountPercent;
-          return rest;
-        }),
-      );
+
+      return NextResponse.json({
+        products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as ProductCardProps),
+        totalCount: purchasedProducts.length
+      });
     }
 
     const totalCount = productIds.length;
 
-    const purchases = await db
-      .collection("products")
+    const purchasedProducts = await db
+      .collection<ProductCardProps>("products")
       .find({ id: { $in: productIds } })
       .sort({ _id: -1 })
       .skip(startIndex)
@@ -48,15 +52,11 @@ export const GET = async (request: Request) => {
       .toArray();
 
     return NextResponse.json({
-      products: purchases.map((product) => {
-        const { discountPercent, ...rest } = product;
-        void discountPercent;
-        return rest;
-      }),
+      products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as ProductCardProps),
       totalCount,
     });
-  } catch (error) {
-    console.error("Server error", error);
+  } catch (e) {
+    console.error("Server error", e);
     return NextResponse.json(
       { message: "Error fetching purchased products: " },
       { status: 500 },

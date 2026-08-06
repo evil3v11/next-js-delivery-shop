@@ -1,3 +1,4 @@
+import Purchases from "@/app/(user)/Purchases";
 import { UpdateUserDataAfterPaymentResponse } from "@/types/order";
 import { getDB } from "@/utils/api-routes";
 import { getServerUserId } from "@/utils/getServerUserId";
@@ -40,8 +41,11 @@ export const POST = async (request: NextRequest): Promise<NextResponse<UpdateUse
 
     const newBonusesAmount = currentBonuses - usedBonusesNumber + earnedBonusesNumber;
     const numPurchasedIds = purchasedProductIds.map(Number);
+    const uniqueNewIds = numPurchasedIds.filter((id: number, i: number, array: number[]) => array.indexOf(id) === i)
+
     const currentPurchases = Array.isArray(user.purchases) ? user.purchases : [];
-    const updatedPurchases = [...currentPurchases, ...numPurchasedIds];
+    const allPurchases = [...currentPurchases, ...uniqueNewIds];
+    const updatedPurchases = allPurchases.filter((id: number, i: number, array: number[]) => array.indexOf(id) === i)
 
     const updateResult = await db.collection("user").updateOne(
       { _id: userIdObject },
@@ -64,7 +68,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse<UpdateUse
         bonusesDeducted: usedBonusesNumber,
         bonusesAdded: earnedBonusesNumber,
         newBonusesAmount,
-        productsAdded: numPurchasedIds.length,
+        productsAdded: uniqueNewIds.length,
         totalPurchases: updatedPurchases.length,
         cartCleared: true,
       },

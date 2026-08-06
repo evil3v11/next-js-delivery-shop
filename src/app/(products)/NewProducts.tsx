@@ -5,7 +5,7 @@ import ProductsSection from "./ProductsSection";
 
 const NewProducts = async () => {
   const { items } = await fetchProductsByTag("actions", {
-    randomLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
+    pagination: { startIdx: 0, perPage: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS },
   });
 
   return (

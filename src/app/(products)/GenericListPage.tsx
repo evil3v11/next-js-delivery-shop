@@ -27,7 +27,7 @@ const GenericListPage = async ({
   const perPage = Number(itemsPerPage);
   const startIdx = (currentPage - 1) * perPage;
 
-  const { items, totalCount } = await props.fetchData({
+  const { products, totalCount } = await props.fetchData({
     pagination: { startIdx, perPage },
   });
 
@@ -37,14 +37,14 @@ const GenericListPage = async ({
       {!props.contentType || props.contentType === "category" ? (
         <ProductsSection
           title={props.pageTitle}
-          products={items as ProductCardProps[]}
+          products={products as ProductCardProps[]}
           applyIndexStyle={props.contentType === "category" ? false : true}
           contentType={props.contentType}
         />
       ) : (
         <ArticlesSection
           title={props.pageTitle || ""}
-          articles={items as ArticleCardProps[]}
+          articles={products as ArticleCardProps[]}
         />
       )}
 
