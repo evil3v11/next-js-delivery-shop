@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { getServerUserId } from "@/utils/getServerUserId";
 import { ObjectId } from "mongodb";
+import { CreateOrderResponse, OrderInCreation } from "@/types/order";
 
-export const POST = async (request: NextRequest): Promise<NextResponse> => {
+export const POST = async (request: NextRequest): Promise<NextResponse<CreateOrderResponse>> => {
   try {
     const {
       paymentMethod,
@@ -12,11 +13,11 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
       maxBonusAmountToUse,
       totalBonuses,
       deliveryAddress,
-      deliveryDate,
-      deliveryTimeSlot,
+      deliveryTime,
       cartItems,
     } = await request.json();
 
+    console.log(deliveryTime)
     const userId = await getServerUserId();
     if (!userId) {
       return NextResponse.json(
@@ -55,24 +56,23 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
       }),
     );
 
-    const order = {
+    const order: OrderInCreation = {
       userId: user._id,
       orderNumber: `${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`,
       status: "pending",
       paymentMethod,
-      paymentStatus: paymentMethod === "cash_on_delivery" ? "pending" : "waiting",
+      paymentStatus: paymentMethod === "cash" ? "pending" : "waiting",
       totalAmount: roundedTotalAmount,
       discountAmount: roundedDiscountAmount,
       bonusesUsed: roundedMaxBonusAmountToUse,
       bonusesEarned: roundedBonusesEarned,
       deliveryAddress,
-      deliveryDate,
-      deliveryTimeSlot,
+      deliveryTime,
       lastName: user.lastName,
       name: user.name,
       phone: user.phoneNumber,
       gender: user.gender,
-      birthday: user.birthdayDate,
+      birthday: user.birthdayDate.toISOString().split('T')[0],
       items: orderItems,
       createdAt: new Date(),
       updatedAt: new Date(),

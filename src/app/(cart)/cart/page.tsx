@@ -27,11 +27,12 @@ const CartPage = () => {
     isOrdered,
     hasLoyaltyCard,
     doesUseBonuses,
-    pricing,
   } = useCartStore();
+
   const {
     isCartLoading,
     productsData,
+    bonusesAmount,
     removedItems,
     selectedItems,
     areAllItemsSelected,
@@ -64,7 +65,7 @@ const CartPage = () => {
     productsData,
     hasLoyaltyCard,
     doesUseBonuses,
-    pricing.totalBonuses,
+    bonusesAmount,
   );
 
   const handleFormDataChange = useCallback(
