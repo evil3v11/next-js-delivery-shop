@@ -1,7 +1,6 @@
-export interface ProductRatings {
+export type ProductRatings = {
   rate: number;
   count: number;
-  average: number;
   distribution: Record<string, number>;
 }
 

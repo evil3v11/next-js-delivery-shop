@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { getServerUserId } from "@/utils/getServerUserId";
 import { ObjectId } from "mongodb";
-import { CreateOrderResponse, OrderInCreation } from "@/types/order";
+import { CreateOrderError, CreateOrderSuccess, OrderInCreation } from "@/types/order";
 
-export const POST = async (request: NextRequest): Promise<NextResponse<CreateOrderResponse>> => {
+export const POST = async (request: NextRequest): Promise<NextResponse<CreateOrderSuccess | CreateOrderError>> => {
   try {
     const {
       paymentMethod,

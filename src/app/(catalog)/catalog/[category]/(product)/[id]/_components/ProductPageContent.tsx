@@ -50,10 +50,10 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
           <div className="flex flex-wrap items-center gap-6 mb-4 md:mb-6">
             <div className="text-xs">арт. {product.article}</div>
             <div className="flex flex-wrap gap-2 items-center">
-              <StarRating rating={product.rating.average || 5} />
+              <StarRating rating={product.rating.rate || 5} />
               <p className="text-sm underline">
-                {product.rating.count || 0}{" "}
-                отзыв{getWordEnding(product.rating.count || 0)}
+                {product.rating.count || 0} отзыв
+                {getWordEnding(product.rating.count || 0)}
               </p>
             </div>
             <ShareButton title={product.title} className="" />
@@ -70,7 +70,11 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
               discountedPrice={discountedPrice}
               priceUsingCard={priceUsingCard}
             />
-            <AddToCartButton productId={String(product.id)} variant="onProductPage" />
+            <AddToCartButton
+              productId={String(product.id)}
+              availableQuantity={product.quantity}
+              variant="onProductPage"
+            />
             <Bonuses bonus={bonuses} />
             <DiscountMessage
               productId={String(product.id)}
@@ -99,7 +103,7 @@ const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
           <ReviewWrapper productId={product.id} />
         </div>
       </div>
-      <Promotions randomLimit={6} mobileItemsLimit={6} />
+      <Promotions mobileItemsLimit={6} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo } from "react";
+import { useState, memo, useEffect } from "react";
 import { useCartStore } from "@/store/cartStore";
 
 import { CartItemProps } from "@/types/cart";
@@ -29,6 +29,16 @@ const CartItem = memo(function CartItem({
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const { hasLoyaltyCard } = useCartStore()
+
+  useEffect(() => {
+    if (!productData) return
+    const maxQuantity = productData.quantity
+    if (quantity > maxQuantity) {
+      console.log(`Корректируем количество: ${quantity} -> ${maxQuantity}`)
+      setQuantity(maxQuantity)
+      onQuantityUpdate(item.productId, maxQuantity)
+    }
+  }, [productData, quantity, onQuantityUpdate, item.productId])
 
   const handleQuantityChange = async (newQuantity: number): Promise<void> => {
     if (newQuantity <= 0) return;

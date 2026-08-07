@@ -16,11 +16,7 @@ const fetchArticles = async (options?: {
 
     if (!response.ok) throw new Error("Ошибка получения статей");
 
-    const data = await response.json();
-    return {
-      items: data.articles || data,
-      totalCount: data.totalCount || data.length,
-    };
+    return await response.json();
   } catch (e) {
     console.error("Error fetching articles data: ", e);
     throw e;

@@ -10,8 +10,6 @@ import {
   ImageUploadResponse,
 } from "@/types/addProductTypes";
 
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import ProductTitle from "../_components/ProductTitle";
 import ProductArticle from "../_components/ProductArticle";
 import ProductDescription from "../_components/ProductDescription";

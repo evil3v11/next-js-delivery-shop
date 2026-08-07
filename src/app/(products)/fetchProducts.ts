@@ -18,7 +18,7 @@ const fetchProductsByTag = async (
     const data = await response.json();
 
     return {
-      items: data.products || data,
+      products: data.products || data,
       totalCount: data.totalCount || data.length,
     };
   } catch (e) {

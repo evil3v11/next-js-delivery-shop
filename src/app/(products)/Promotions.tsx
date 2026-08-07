@@ -9,7 +9,7 @@ const Promotions = async ({
 }: {
   mobileItemsLimit?: number;
 }) => {
-  const { items } = await fetchProductsByTag("actions", {
+  const { products } = await fetchProductsByTag("actions", {
     pagination: { startIdx: 0, perPage: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS },
   });
 
@@ -17,7 +17,7 @@ const Promotions = async ({
     <ProductsSection
       title="Акции"
       viewAllBtn={{ text: "Все акции", href: "/actions" }}
-      products={items}
+      products={products}
       mobileItemsLimit={mobileItemsLimit}
     />
   );

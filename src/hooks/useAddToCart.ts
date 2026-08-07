@@ -5,40 +5,60 @@ import { CONFIG } from "../../config/config";
 import { addToCartAction } from "@/actions/addToCartAction";
 import { removeMultipleItemsAction, updateItemQuantityAction } from "@/actions/cartActions";
 
-export const useAddToCart = (productId: string) => {
+export const useAddToCart = (productId: string, availableQuantity: number) => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
-  const [message, setMessage] = useState<{success: boolean; message: string; } | null>(null);
+  const [tooltipMessage, setTooltipMessage] = useState<string>("");
+  const [showTooltip, setShowTooltip] = useState<boolean>(false)
   const { cart, updateCart, fetchCart } = useCartStore()
   
   useEffect(() => {
-    const messageTimeout = setTimeout(() => setMessage(null), CONFIG.MESSAGE_TIMEOUT_DELAY)
+    const messageTimeout = setTimeout(() => setTooltipMessage(""), CONFIG.MESSAGE_TIMEOUT_DELAY)
     return () => clearTimeout(messageTimeout)
-  }, [message])
+  }, [tooltipMessage])
 
   const cartItem = cart.find(i => i.productId === productId) 
   const currentQuantity = cartItem?.quantity || 0
   const isInCart = currentQuantity > 0
+  const isOutOfStock = availableQuantity === 0;
+  const displayQuantity = Math.min(currentQuantity, availableQuantity);
+  const hasReachedMaxQuantity = displayQuantity > availableQuantity;
+
+  const showMessage = (message: string): void => {
+    setTooltipMessage(message)
+    setShowTooltip(true)
+    setTimeout(() => setShowTooltip(false), 3000)
+  }
 
   const addToCart = async () => {
+    if (hasReachedMaxQuantity) {
+      showMessage(`Осталось ${availableQuantity} шт. этого продукта`)
+      return
+    }
+
     try {
       setIsAdding(true);
-      setMessage(null);
+      setTooltipMessage("");
 
       const addToCartResult = await addToCartAction(productId);
-      if (addToCartResult.success && addToCartResult.message) setMessage(addToCartResult);
+      if (addToCartResult.success && addToCartResult.message) setTooltipMessage(addToCartResult.message);
       if (addToCartResult.success) await fetchCart()
     } catch {
-      setMessage({ success: false, message: "Ошибка при добавлении товара в корзину" });
+      showMessage("Ошибка при добавлении товара в корзину");
     } finally {
       setIsAdding(false);
     }
   };
 
   const updateQuantity = async (newQuantity: number): Promise<void> => {
-    if (newQuantity < 0) return 
+    if (newQuantity < 0) return
+    if (newQuantity > availableQuantity) {
+      showMessage(`Осталось ${availableQuantity} шт. этого продукта`)
+      return
+    }
 
     try {
       setIsAdding(true)
+      setShowTooltip(false)
 
       let updatedCartItems;
       if (newQuantity === 0) {
@@ -66,16 +86,19 @@ export const useAddToCart = (productId: string) => {
   const incrementQuantity = (): Promise<void> => updateQuantity(currentQuantity + 1)
   const decrementQuantity = (): Promise<void> => updateQuantity(Math.max(0, currentQuantity - 1))
 
-  const closeMessage = (): void => setMessage(null)
+  // const closeMessage = (): void => setTooltipMessage('')
 
   return { 
-    message, 
+    tooltipMessage, 
     isAdding, 
-    currentQuantity, 
-    isInCart, 
+    displayQuantity,
+    isInCart,
+    hasReachedMaxQuantity,
+    isOutOfStock,
+    showTooltip,
     addToCart, 
     incrementQuantity, 
     decrementQuantity, 
-    closeMessage
+    showMessage,
   };
 };

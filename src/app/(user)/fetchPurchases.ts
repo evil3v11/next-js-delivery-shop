@@ -22,11 +22,7 @@ const fetchPurchases = async (options?: {
     const response = await fetch(String(url), { next: { revalidate: 3600 } });
     if (!response.ok) throw new Error("Ошибка получения покупок");
 
-    const data = await response.json();
-    return {
-      products: data.products || data,
-      totalCount: data.totalCount || data.length,
-    };
+    return await response.json();
   } catch (e) {
     throw e;
   }

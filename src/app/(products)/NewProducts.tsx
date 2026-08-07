@@ -4,7 +4,7 @@ import fetchProductsByTag from "./fetchProducts";
 import ProductsSection from "./ProductsSection";
 
 const NewProducts = async () => {
-  const { items } = await fetchProductsByTag("actions", {
+  const { products } = await fetchProductsByTag("actions", {
     pagination: { startIdx: 0, perPage: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS },
   });
 
@@ -12,7 +12,7 @@ const NewProducts = async () => {
     <ProductsSection
       title="Новинки"
       viewAllBtn={{ text: "Все новинки", href: "/new" }}
-      products={items}
+      products={products}
     />
   );
 };

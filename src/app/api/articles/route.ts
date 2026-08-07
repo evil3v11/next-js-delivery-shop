@@ -23,7 +23,7 @@ export const GET = async (request: Request) => {
         .limit(limit)
         .toArray();
 
-      return NextResponse.json(articles);
+      return NextResponse.json({ articles, totalCount: articles.length });
     }
 
     const totalCount = await db.collection("articles").countDocuments();
@@ -35,8 +35,8 @@ export const GET = async (request: Request) => {
       .skip(startIndex)
       .limit(perPage)
       .toArray();
-
-    return NextResponse.json({ articles, totalCount });
+      
+    return NextResponse.json({ products: articles, totalCount });
   } catch (error) {
     console.error("Server error", error);
     return NextResponse.json(

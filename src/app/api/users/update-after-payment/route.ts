@@ -1,4 +1,3 @@
-import Purchases from "@/app/(user)/Purchases";
 import { UpdateUserDataAfterPaymentResponse } from "@/types/order";
 import { getDB } from "@/utils/api-routes";
 import { getServerUserId } from "@/utils/getServerUserId";

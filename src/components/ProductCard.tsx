@@ -19,6 +19,7 @@ const ProductCard = ({
   rating,
   tags,
   categories,
+  quantity
 }: ProductCardProps) => {
   const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
@@ -32,7 +33,7 @@ const ProductCard = ({
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
-  const ratingValue = rating?.average ?? 5.0;
+  const ratingValue = rating?.rate || 5.0;
 
   const productUrl = `
     /catalog/${encodeURIComponent(categories?.[0])}/${id}?desc=${encodeURIComponent(description.substring(0, 50))}
@@ -93,7 +94,7 @@ const ProductCard = ({
           <StarRating rating={ratingValue} />
         </div>
       </Link>
-      <AddToCartButton productId={String(id)} variant="onProductCard" />
+      <AddToCartButton productId={String(id)} availableQuantity={quantity} variant="onProductCard" />
     </div>
   );
 };
