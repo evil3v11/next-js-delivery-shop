@@ -9,7 +9,7 @@ export const fetchFavorites = async (options: {
   try {
     const { pagination, filter, priceFrom, priceTo, inStock, userId } = options;
 
-    if (!userId) return { items: [], totalCount: 0 };
+    if (!userId) return { products: [], totalCount: 0 };
 
     const url = new URL(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/favorites/products`,
@@ -37,14 +37,9 @@ export const fetchFavorites = async (options: {
     }
 
     const response = await fetch(String(url), { next: { revalidate: 60 } });
-    if (!response.ok)
-      throw new Error(`Ошибка сервера при получении продуктов из Избранных`);
+    if (!response.ok) throw new Error(`Ошибка сервера при получении продуктов из Избранных`);
 
-    const data = await response.json();
-    return {
-      items: data.products || data,
-      totalCount: data.totalCount || data.length,
-    };
+    return await response.json();
   } catch (e) {
     throw e;
   }

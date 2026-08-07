@@ -8,11 +8,13 @@ import { CartItem } from "@/types/cart";
 import {
   CartItemWithPrice,
   CreateOrderRequest,
-  CreateOrderResponse,
+  CreateOrderSuccess,
   UpdateUserData,
   UpdateUserDataAfterPaymentResponse,
 } from "@/types/order";
 import { ProductCardProps } from "@/types/product";
+import { ObjectId } from "mongodb";
+import { ConfirmPaymentResponse } from "@/types/api/confirm-payment";
 
 export const prepareCartItemsWithPrices = (
   cartItems: CartItem[],
@@ -48,7 +50,7 @@ export const prepareCartItemsWithPrices = (
 
 export const createOrderRequest = async (
   orderData: CreateOrderRequest,
-): Promise<CreateOrderResponse> => {
+): Promise<CreateOrderSuccess> => {
   try {
     console.log(orderData)
     const response = await fetch("/api/orders", {
@@ -65,6 +67,23 @@ export const createOrderRequest = async (
     throw e;
   }
 };
+
+export const confirmOrderPayment = async (orderId: ObjectId): Promise<ConfirmPaymentResponse> => {
+  try {
+    const response = await fetch("/api/orders/confirm-payment", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ orderId })
+    })
+
+    if (!response.ok) throw new Error((await response.json()).message || "Ошибка при проверки оплаты заказа");
+
+    return await response.json()
+  } catch (e) {
+    console.error("Ошибка обновления пользователя после оплаты заказа: ", e);
+    throw e;
+  }
+}
 
 export const updateUserAfterPayment = async (
   data: UpdateUserData,

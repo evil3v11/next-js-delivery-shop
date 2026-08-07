@@ -40,11 +40,7 @@ export const fetchProductsByCategory = async (
         `Ошибка сервера при получении продуктов из категории ${category}`,
       );
 
-    const data = await response.json();
-    return {
-      items: data.products || data,
-      totalCount: data.totalCount || data.length,
-    };
+    return await response.json();
   } catch (e) {
     throw e;
   }

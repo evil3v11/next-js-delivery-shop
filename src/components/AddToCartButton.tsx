@@ -2,41 +2,54 @@
 
 import { useAddToCart } from "@/hooks/useAddToCart";
 
-import CartActionMessage from "./CartActionMessage";
 import QuantitySelector from "@/app/(cart)/cart/_components/QuantitySelector";
 import Image from "next/image";
+import Tooltip from "./Tooltip";
+
+interface AddToCartButtonProps {
+  productId: string;
+  availableQuantity: number;
+  variant: string;
+}
 
 const AddToCartButton = ({
   productId,
+  availableQuantity,
   variant,
-}: {
-  productId: string;
-  variant: string;
-}) => {
+}: AddToCartButtonProps) => {
   const {
-    message,
+    tooltipMessage,
     isAdding,
-    currentQuantity,
+    displayQuantity,
     isInCart,
+    hasReachedMaxQuantity,
+    isOutOfStock,
+    showTooltip,
     addToCart,
     incrementQuantity,
     decrementQuantity,
-    closeMessage,
-  } = useAddToCart(productId);
+  } = useAddToCart(productId, availableQuantity);
 
   const onProductPage = variant === "onProductPage";
 
+  const getAddToCartButtonText = (): string => {
+    if (isOutOfStock) return "Нет в наличии";
+    if (isAdding) return "...";
+    return "В корзину";
+  };
+
   return (
     <div className="relative">
-      {isInCart ? (
+      {showTooltip && <Tooltip text={tooltipMessage} position="top" cardPosition={true} />}
+      {isInCart && !isOutOfStock ? (
         <div
           className={`flex justify-center  
         ${onProductPage ? "w-full h-auto" : "absolute left-2 bottom-2 right-2"}`}
         >
           <QuantitySelector
-            quantity={currentQuantity}
+            quantity={displayQuantity}
             isUpdating={isAdding}
-            isOutOfStock={false}
+            isOutOfStock={isOutOfStock}
             onIncrement={incrementQuantity}
             onDecrement={decrementQuantity}
             variant={variant}
@@ -45,7 +58,7 @@ const AddToCartButton = ({
       ) : (
         <button
           onClick={addToCart}
-          disabled={isAdding}
+          disabled={isOutOfStock || isAdding || hasReachedMaxQuantity}
           className={
             onProductPage
               ? "w-full bg-secondary text-white text-xl md:text-2xl p-4 flex justify-between items-center rounded cursor-pointer shadow-button-default hover:shadow-button-secondary active:shadow-button-activehover:bg-secondary/80 duration-300"
@@ -65,13 +78,12 @@ const AddToCartButton = ({
                   sizes="32px"
                 />
               )}
-              <span className="flex-1 self-center">В корзину</span>
+              <span className="flex-1 self-center">
+                {getAddToCartButtonText()}
+              </span>
             </>
           )}
         </button>
-      )}
-      {message && (
-        <CartActionMessage message={message} onClose={closeMessage} />
       )}
     </div>
   );

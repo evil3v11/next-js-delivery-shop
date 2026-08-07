@@ -24,25 +24,14 @@ export interface CartItemWithPrice {
 }
 
 export type OrderPaymentMethod = "cash" | "online";
-
-type PaymentStatus = "pending" | "waiting";
-
 export type PaymentMethodOrNull = OrderPaymentMethod | null;
+export type PaymentStatus = "pending" | "waiting" | "paid";
+export type OrderStatus = "pending" | "confirmed" | "delivered" | "cancelled";
 
 export interface Order {
-  deliveryAddress: DeliveryAddress;
-  deliveryTime: DeliveryTime;
-  cartItems: {
-    productId: string;
-    quantity: number;
-    price: number;
-  }[];
-  totalPrice: number;
-  totalDiscount: number;
-  finalPrice: number;
-  totalBonuses: number;
-  maxBonusAmountToUse: number;
   paymentMethod: OrderPaymentMethod;
+  status: OrderStatus;
+  paymentStatus: PaymentStatus;
 }
 
 export interface OrderInCreation {
@@ -80,18 +69,15 @@ export interface CreateOrderRequest {
   paymentId?: string;
 }
 
-interface CreateOrderSuccess {
-  success?: boolean;
-  order?: OrderInCreation & { _id: ObjectId };
-  orderNumber?: string;
+export interface CreateOrderSuccess {
+  success: boolean;
+  order: OrderInCreation & { _id: ObjectId };
+  orderNumber: string;
 }
 
-interface CreateOrderError {
-  error?: string;
+export interface CreateOrderError {
+  error: string;
 }
-
-export interface CreateOrderResponse
-  extends CreateOrderSuccess, CreateOrderError {}
 
 export type UpdateUserData = {
   usedBonuses: number;
