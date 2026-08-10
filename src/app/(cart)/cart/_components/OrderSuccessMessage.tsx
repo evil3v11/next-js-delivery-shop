@@ -1,6 +1,5 @@
-'use client'
+"use client";
 
-import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 
 import { CONFIG } from "../../../../../config/config";
@@ -8,20 +7,24 @@ import { getWordEnding } from "@/utils/getWordEnding";
 
 import { CreditCard } from "lucide-react";
 
-const OrderSuccessMessage = ({ orderNumber }: { orderNumber: string | null; }) => {
+const OrderSuccessMessage = ({
+  orderNumber,
+}: {
+  orderNumber: string | null;
+}) => {
   const { setIsOrdered } = useCartStore();
   const { pricing, doesUseBonuses } = useCartStore();
-  const { totalBonuses, maxBonusUse, totalPrice } = pricing;
-  const router = useRouter();
+  const { totalBonuses, maxBonusAmount, totalPrice } = pricing;
 
   const handleNewOrder = () => {
     setIsOrdered(false);
-    router.replace("/");
+    window.location.reload();
   };
 
-  const usedBonuses = Math.min(maxBonusUse,Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100));
-
-  const baseStyles = "h-10 rounded w-full text-base items-center justify-center duration-300";
+  const usedBonuses = Math.min(
+    maxBonusAmount,
+    Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100),
+  );
 
   return (
     <div className="text-center p-4 bg-[#e5ffde] text-[#008c49] rounded border border-primary">
@@ -47,9 +50,9 @@ const OrderSuccessMessage = ({ orderNumber }: { orderNumber: string | null; }) =
       </div>
       <button
         onClick={handleNewOrder}
-        className={`${baseStyles} bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer duration-300`}
+        className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] duration-300 font-medium cursor-pointer"
       >
-        Вернуться на главную
+        Обновить страницу
       </button>
     </div>
   );

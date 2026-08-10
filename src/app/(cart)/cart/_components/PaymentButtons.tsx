@@ -27,11 +27,11 @@ const PaymentButtons = ({
 }: PaymentButtonsProps) => {
   if (isOrdered && paymentMethod === "cash") return <OrderSuccessMessage orderNumber={orderNumber} />;
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col items-center gap-3">
       <button
         disabled={!canProceedWithPayment}
         onClick={handleOnlinePayment}
-        className={`rounded w-full text-xl h-15 items-center justify-center cursor-pointer ${
+        className={`rounded w-xs text-xl h-15 items-center justify-center cursor-pointer ${
           canProceedWithPayment ? buttonStyles.active : buttonStyles.inactive
         }`}
       >
@@ -40,7 +40,7 @@ const PaymentButtons = ({
       <button
         disabled={!canProceedWithPayment}
         onClick={handleCashPayment}
-        className={`h-10 rounded w-full text-base items-center justify-center duration-300 ${
+        className={`h-10 rounded w-xs text-base items-center justify-center duration-300 ${
           canProceedWithPayment
             ? "bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"

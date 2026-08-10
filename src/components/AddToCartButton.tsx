@@ -60,9 +60,13 @@ const AddToCartButton = ({
           onClick={addToCart}
           disabled={isOutOfStock || isAdding || hasReachedMaxQuantity}
           className={
-            onProductPage
-              ? "w-full bg-secondary text-white text-xl md:text-2xl p-4 flex justify-between items-center rounded cursor-pointer shadow-button-default hover:shadow-button-secondary active:shadow-button-activehover:bg-secondary/80 duration-300"
-              : "absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-secondary hover:border-transparent active:shadow-button-active h-10 rounded p-2justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none"
+            onProductPage && !isOutOfStock && !hasReachedMaxQuantity    // if is on product page and is available for purchase
+              ? "w-full bg-secondary text-white text-xl md:text-2xl p-4 flex justify-between items-center rounded cursor-pointer shadow-button-default hover:shadow-button-secondary active:shadow-button-active hover:bg-secondary/80 duration-300"
+              : onProductPage && (isOutOfStock || hasReachedMaxQuantity)    // if is on product page and unavailable
+                ? "w-full bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed rounded md:text-2xl p-4 flex justify-between items-center"
+                : isOutOfStock || hasReachedMaxQuantity     // if isn't on product page and unavailble
+                  ? "absolute border bottom-2 left-2 right-2 bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed p-2 rounded"
+                  : "absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-secondary hover:border-transparent active:shadow-button-active h-10 rounded p-2 justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none"
           }
         >
           {isAdding ? (

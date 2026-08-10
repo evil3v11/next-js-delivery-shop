@@ -10,10 +10,10 @@ import { getWordEnding } from "@/utils/getWordEnding";
 import InStockToggle from "@/components/InStockToggle";
 
 const BonusesSection = () => {
-  const { pricing, doesUseBonuses, setDoesUseBonuses, isOrdered } =useCartStore();
+  const { pricing, doesUseBonuses, setDoesUseBonuses, isOrdered } = useCartStore();
   const { user } = useAuthStore();
-  const { totalPrice, maxBonusUse } = pricing;
-  if (maxBonusUse <= 0) return null;
+  const { totalPrice, maxBonusAmount } = pricing;
+  if (maxBonusAmount <= 0) return null;
 
   const isCardValid = user?.hasNoCard && user.card?.trim().length === 16;
   return (
@@ -27,14 +27,14 @@ const BonusesSection = () => {
           <p>
             Списать{" "}
             {Math.min(
-              maxBonusUse,
+              maxBonusAmount,
               Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100),
             )}{" "}
             ₽
           </p>
         </div>
         <div className="text-[#8f8f8f]">
-          {`На карте накоплено ${maxBonusUse} бонус${getWordEnding(maxBonusUse)}`}
+          {`На карте накоплено ${maxBonusAmount} бонус${getWordEnding(maxBonusAmount)}`}
         </div>
       </div>
     </Activity>

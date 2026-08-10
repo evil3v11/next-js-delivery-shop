@@ -1,8 +1,9 @@
-import { ConfirmPaymentResponse } from "@/types/api/confirm-payment";
-import { OrderInCreation } from "@/types/order";
-import { getDB } from "@/utils/api-routes";
-import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
+import { getDB } from "@/utils/api-routes";
+
+import { ObjectId } from "mongodb";
+import { Order } from "@/types/order";
+import { ConfirmPaymentResponse } from "@/types/api/confirm-payment";
 
 export const POST = async (request: NextRequest): Promise<NextResponse<ConfirmPaymentResponse>> => {
   try {
@@ -14,7 +15,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse<ConfirmPa
       );
 
     const db = await getDB();
-    const order = await db.collection<OrderInCreation>("orders").findOne({ _id: new ObjectId(orderId) });
+    const order = await db.collection<Order>("orders").findOne({ _id: new ObjectId(orderId) });
     if (!order)
       return NextResponse.json(
         { success: false, message: "Такого заказа не существует" },
