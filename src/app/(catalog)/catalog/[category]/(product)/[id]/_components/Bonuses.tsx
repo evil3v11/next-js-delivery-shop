@@ -12,7 +12,7 @@ const Bonuses = ({ bonus }: { bonus: number }) => {
         width={24}
         height={11}
       />
-      <p className="text-xs">
+      <p className="text-xs my-2">
         Вы получате{" "}
         <strong>
           {roundedBonus} бонус{getWordEnding(roundedBonus)}

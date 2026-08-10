@@ -2,7 +2,7 @@ export type ProductRatings = {
   rate: number;
   count: number;
   distribution: Record<string, number>;
-}
+};
 
 export interface ProductCardProps {
   _id: string;
@@ -23,4 +23,9 @@ export interface ProductCardProps {
   brand: string;
   isNonGMO: boolean;
   isHealthyFood: boolean;
+  orderQuantity?: number;
+  isLowStock?: boolean;
+  isInsufficientStock?: boolean;
+  hasNoCard: boolean;
+  hasLoyaltyDiscount?: boolean;
 }

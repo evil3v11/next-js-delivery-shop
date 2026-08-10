@@ -26,7 +26,7 @@ export interface PricingState {
   totalMaxPrice: number;
   totalDiscount: number;
   finalPrice: number;
-  maxBonusUse: number;
+  maxBonusAmount: number;
   totalBonuses: number;
   isMinimumReached: boolean;
 }

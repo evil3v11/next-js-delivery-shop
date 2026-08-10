@@ -2,7 +2,42 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { getServerUserId } from "@/utils/getServerUserId";
 import { ObjectId } from "mongodb";
-import { CreateOrderError, CreateOrderSuccess, OrderInCreation } from "@/types/order";
+import { CreateOrderError, CreateOrderSuccess, Order } from "@/types/order";
+import { FetchOrdersResponse } from "@/types/api/orders";
+
+export const GET = async (): Promise<NextResponse<FetchOrdersResponse<Order>>> => {
+  try {
+    const userId = await getServerUserId()
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Нет данных о пользователе" },
+        { status: 400 },
+      );
+    }
+
+    const db = await getDB();
+    const userOrders = await db
+      .collection<Order>('orders')
+      .find({ userId: new ObjectId(userId) })
+      .sort({ createdAt: -1 })
+      .toArray()
+
+    if (!userOrders.length) {
+      return NextResponse.json(
+        { success: false, message: "Нет заказов" },
+        { status: 200 },
+      );
+    } 
+
+    return NextResponse.json({ success: true, orders: userOrders })
+  } catch (e) {
+    console.error("Ошибка при запросе заказов пользователя: ", e)
+    return NextResponse.json(
+      { success: false, message: "Внутренняя ошибка сервера" },
+      { status: 500 },
+    );
+  }
+}
 
 export const POST = async (request: NextRequest): Promise<NextResponse<CreateOrderSuccess | CreateOrderError>> => {
   try {
@@ -17,7 +52,6 @@ export const POST = async (request: NextRequest): Promise<NextResponse<CreateOrd
       cartItems,
     } = await request.json();
 
-    console.log(deliveryTime)
     const userId = await getServerUserId();
     if (!userId) {
       return NextResponse.json(
@@ -56,7 +90,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse<CreateOrd
       }),
     );
 
-    const order: OrderInCreation = {
+    const order: Omit<Order, '_id'> = {
       userId: user._id,
       orderNumber: `${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`,
       status: "pending",

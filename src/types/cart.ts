@@ -1,4 +1,4 @@
-import { DeliveryAddress, DeliveryTime } from "./order";
+import { DeliveryData, ProductsData } from "./order";
 import { ProductCardProps } from "./product";
 
 export type CartItem = {
@@ -16,12 +16,15 @@ export interface CartItemProps {
 }
 
 export interface CartSidebarProps {
-  deliveryData: {
-    address: DeliveryAddress;
-    time: DeliveryTime;
-    isValid: boolean;
-  } | null;
-  productsData: Record<string, ProductCardProps>;
+  deliveryData: DeliveryData | null;
+  productsData: ProductsData;
+}
+
+export interface CartSummaryProps extends CartSidebarProps {
+  isReorder?: boolean;
+  customCartItems?: CustomCartItem[];
+  customPricing?: CustomPricing;
+  onOrderSuccess?: () => void;
 }
 
 export interface CalculatedItem {
@@ -31,4 +34,23 @@ export interface CalculatedItem {
   discountAmount: number;
   bonuses: number;
   quantity: number;
+}
+
+export interface CustomCartItem {
+  productId: string;
+  quantity: number;
+  price: number;
+  discountPercent: number;
+  hasLoyaltyDiscount: boolean;
+  addedAt: Date;
+}
+
+export interface CustomPricing {
+  totalPrice: number;
+  totalMaxPrice: number;
+  totalDiscount: number;
+  finalPrice: number;
+  totalBonuses: number;
+  maxBonusAmount: number;
+  isMinimumReached: boolean;
 }

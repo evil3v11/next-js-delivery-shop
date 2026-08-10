@@ -1,5 +1,5 @@
-const IconBox = ({ isManagerOrAdmin }: { isManagerOrAdmin: boolean }) => {
-  const fillColor = isManagerOrAdmin ? "rgb(255,102,51)" : "rgb(65,65,65)";
+const IconBox = ({ isActive }: { isActive: boolean }) => {
+  const fillColor = isActive ? "rgb(255,102,51)" : "rgb(65,65,65)";
 
   return (
     <svg viewBox="0 0 24 24" width="24.000000" height="24.000000" fill="none">

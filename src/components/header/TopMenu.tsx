@@ -18,9 +18,12 @@ const TopMenu = () => {
   const isCatalogPage = pathname === "/catalog";
   const isFavoritesPage = pathname === "/favorites";
   const isCartPage = pathname === "/cart";
-  const isOrdersPage = pathname === "/orders";
+  const isUserOrdersPage = pathname === "/orders";
+  const isAdminOrdersPage = pathname === "/admin/orders";
+  const isOrdersPage = isUserOrdersPage || isAdminOrdersPage
 
   const isManagerOrAdmin = user?.role === "admin" || user?.role === "manager";
+  const ordersPageLink = isManagerOrAdmin ? "/admin/orders" : "/orders"
 
   useEffect(() => {
     if (user && !isManagerOrAdmin) fetchCart();
@@ -56,10 +59,10 @@ const TopMenu = () => {
       )}
       <li>
         <Link
-          href="/orders"
+          href={ordersPageLink}
           className="flex flex-col items-center gap-2.5 w-11 h-auto"
         >
-          <IconBox isManagerOrAdmin={isManagerOrAdmin} />
+          <IconBox isActive={isOrdersPage} />
           <span className={isOrdersPage ? "text-secondary" : ""}>Заказы</span>
         </Link>
       </li>

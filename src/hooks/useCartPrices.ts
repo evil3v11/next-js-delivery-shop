@@ -65,8 +65,8 @@ export const useCartPrices = (
     );
   }, [calculatedItems]);
 
-  const maxBonusUse = Math.min(bonusesAmount, Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100));
-  const finalPrice = doesUseBonuses ? Math.max(0, totalPrice - maxBonusUse) : totalPrice;
+  const maxBonusAmount = Math.min(bonusesAmount, Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100));
+  const finalPrice = doesUseBonuses ? Math.max(0, totalPrice - maxBonusAmount) : totalPrice;
   const isMinimumReached = finalPrice >= 1000;
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export const useCartPrices = (
       totalMaxPrice,
       totalDiscount,
       finalPrice,
-      maxBonusUse,
+      maxBonusAmount,
       totalBonuses,
       isMinimumReached,
     });
@@ -84,7 +84,7 @@ export const useCartPrices = (
     totalMaxPrice,
     totalDiscount,
     finalPrice,
-    maxBonusUse,
+    maxBonusAmount,
     totalBonuses,
     isMinimumReached,
     updatePricing,
@@ -95,7 +95,7 @@ export const useCartPrices = (
     totalMaxPrice,
     totalDiscount,
     finalPrice,
-    maxBonusUse,
+    maxBonusAmount,
     totalBonuses,
     isMinimumReached,
   };

@@ -10,15 +10,17 @@ const ProductsSection = ({
   applyIndexStyle = true,
   contentType,
   mobileItemsLimit = 4,
+  isOrderCard = false
 }: ProductsSectionProps & {
   applyIndexStyle?: boolean;
   contentType?: string;
+  isOrderCard?: boolean;
 }) => {
   const gridClasses =
     contentType === "category"
       ? "grid-cols-2 md:grid-cols-3"
       : "grid-cols-2 md:grid-cols-3 xl:grid-cols-4";
-
+  
   return (
     <section>
       <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
@@ -45,7 +47,7 @@ const ProductsSection = ({
                     : ""
                 }
               >
-                <ProductCard {...item} />
+                <ProductCard {...item} isOrderCard={isOrderCard} />
               </li>
             ))}
           </ul>

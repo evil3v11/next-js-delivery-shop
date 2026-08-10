@@ -9,16 +9,16 @@ import {
   CartItemWithPrice,
   CreateOrderRequest,
   CreateOrderSuccess,
+  ProductsData,
   UpdateUserData,
   UpdateUserDataAfterPaymentResponse,
 } from "@/types/order";
-import { ProductCardProps } from "@/types/product";
 import { ObjectId } from "mongodb";
 import { ConfirmPaymentResponse } from "@/types/api/confirm-payment";
 
 export const prepareCartItemsWithPrices = (
   cartItems: CartItem[],
-  productsData: Record<string, ProductCardProps>,
+  productsData: ProductsData,
   hasLoyaltyCard: boolean,
 ): CartItemWithPrice[] => {
   return cartItems
