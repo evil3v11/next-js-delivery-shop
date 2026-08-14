@@ -49,9 +49,7 @@ const ProductCard = ({
 
   const ratingValue = rating?.rate || 5.0;
 
-  const productUrl = `
-    /catalog/${encodeURIComponent(categories?.[0])}/${id}?desc=${encodeURIComponent(description.substring(0, 50))}
-  `;
+  const productUrl = `/catalog/${encodeURIComponent(categories?.[0])}/${id}}`;
 
   const isPriorityImage = index < 4;
 

@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /cart/
+Disallow: /user-profile/
+Disallow: /orders/
+Disallow: /favorites/
+Disallow: /user/
+Disallow: /*?*
+Disallow: /_next/
+Disallow: /*.json
+
+Sitemap: https://delivery-shop.ru/sitemap.xml

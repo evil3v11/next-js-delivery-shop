@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
-import { Review } from "@/app/(catalog)/catalog/[category]/(product)/[id]/_components/ProductsReviews";
+import { Review } from "@/app/(catalog)/catalog/[category]/(product)/[slug]/_components/ProductsReviews";
 
 export const dynamic = "force-dynamic";
 
