@@ -1,7 +1,7 @@
-import { ArticleCardProps } from "./articles";
-import { ProductCardProps } from "./product";
+import { Article } from "./articles";
+import { Product } from "./product";
 
-type ContentItem = ProductCardProps | ArticleCardProps;
+type ContentItem = Product | Article;
 
 interface PaginatedResponse<T> {
   products: T[];

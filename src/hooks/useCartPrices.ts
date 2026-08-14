@@ -10,11 +10,11 @@ import {
 } from "@/utils/calculateProductPrice";
 
 import { CalculatedItem, CartItem } from "@/types/cart";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const useCartPrices = (
   items: CartItem[],
-  productData: Record<string, ProductCardProps>,
+  productData: Record<string, Product>,
   hasLoyaltyCard: boolean,
   doesUseBonuses: boolean,
   bonusesAmount: number,

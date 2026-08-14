@@ -1,15 +1,15 @@
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import ProductsSection from "@/app/(products)/ProductsSection";
 
 const SameBrandProducts = async ({
   currentProduct,
 }: {
-  currentProduct: ProductCardProps;
+  currentProduct: Product;
 }) => {
   if (!currentProduct) return null;
 
-  let sameBrandProducts: ProductCardProps[] = [];
+  let sameBrandProducts: Product[] = [];
 
   try {
     const response = await fetch(

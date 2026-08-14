@@ -8,11 +8,11 @@ import {
   updateItemQuantityAction,
 } from "@/actions/cartActions";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 import { CartItem } from "@/types/cart";
 
 export const useCartActions = () => {
-  const [productsData, setProductData] = useState<Record<string, ProductCardProps>>({});
+  const [productsData, setProductData] = useState<Record<string, Product>>({});
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [removedItems, setRemovedItems] = useState<string[]>([]);
   const [isCartLoading, setIsCartLoading] = useState<boolean>(true);  
@@ -42,7 +42,7 @@ export const useCartActions = () => {
       });
 
       const productsResults = await Promise.all(productPromises);
-      const productsMap: Record<string, ProductCardProps> = {};
+      const productsMap: Record<string, Product> = {};
 
       for (const result of productsResults) {
         if (result && result.product)

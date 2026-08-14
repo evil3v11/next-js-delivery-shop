@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { formatDateToString } from "@/utils/formatDateToString";
 import { formatTimeSlot } from "@/app/(cart)/cart/_utils/formatTimeSlot";
 import { getAvailableDates } from "../_utils/getAvailableDates";
-import { getAvailableTimeSlot } from "../_utils/getAvailableTimeSlot";
+import { getAvailableTimeSlots } from "@/utils/getAvailableTimeSlots";
 import { formatDisplayDate } from "../_utils/formatDisplayDate";
 import {
   formatDateFull,
@@ -47,7 +47,7 @@ const DeliveryDatePicker = ({
   };
 
   const availableTimeSlots = selectedDate
-    ? getAvailableTimeSlot(selectedDate, schedule)
+    ? getAvailableTimeSlots(selectedDate, schedule)
     : [];
 
   return (

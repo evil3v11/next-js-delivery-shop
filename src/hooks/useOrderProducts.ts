@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import { Order } from "@/types/order";
 import { UseOrderProductsResult } from "@/types/hooks/useOrderProducts";
-import { ProductCardProps } from "@/types/product";
+import { Product, ProductCardProps } from "@/types/product";
 
 export const useOrderProducts = (
   order: Order,
-  productsData?: ProductCardProps[],
+  productsData?: Product[],
 ): UseOrderProductsResult => {
   const [orderProducts, setOrderProducts] = useState<ProductCardProps[]>([]);
   const [stockWarnings, setStockWarnings] = useState<string[]>([]);

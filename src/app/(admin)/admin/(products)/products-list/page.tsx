@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import SearchHeader from "./_components/SearchHeader";
 import SearchInput from "./_components/SearchInput";
@@ -21,7 +21,7 @@ const ProductsListPage = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasSearched, setHasSearched] = useState<boolean>(false);
-  const [products, setProducts] = useState<ProductCardProps[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [deleteModal, setDeleteModal] = useState<DeleteModalState>({
     isOpen: false,
@@ -48,7 +48,7 @@ const ProductsListPage = () => {
         if (!response.ok)
           throw new Error("Не удалось запросить продукты по поиску");
 
-        const products: ProductCardProps[] = await response.json();
+        const products: Product[] = await response.json();
         setProducts(products || []);
       } catch (e) {
         console.error("Ошибка при поиске продуктов: ", e);

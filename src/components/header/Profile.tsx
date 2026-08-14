@@ -8,8 +8,6 @@ import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 import { checkAvatarExistence } from "@/utils/avatarUtils";
 import { getAvatarByGender } from "@/utils/getAvatarByGender";
 
-import iconArrow from "../../../public/icons-header/icon-arrow.svg";
-
 import Image from "next/image";
 import Link from "next/link";
 import MiniLoader from "../MiniLoader";
@@ -145,7 +143,7 @@ const Profile = () => {
         </p>
         <div className="hidden xl:block cursor-pointer p-2">
           <Image
-            src={iconArrow}
+            src='/icons-header/icon-arrow.svg'
             alt="Меню профиля"
             height={24}
             width={24}

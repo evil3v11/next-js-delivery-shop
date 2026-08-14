@@ -7,8 +7,9 @@ import { useAuthStore } from "@/store/authStore";
 
 import { CONFIG } from "../../config/config";
 import {
-  confirmOrderPayment,
+  clearUserCart,
   createOrderRequest,
+  markPaymentAsFailed,
   prepareCartItemsWithPrices,
   updateUserAfterPayment,
 } from "../app/(cart)/cart/_utils/orderHelperFunctions";
@@ -75,7 +76,7 @@ const CartSummary = ({
     isReorder && customCartItems
       ? customCartItems
       : cart.filter((item) => item.quantity > 0);
-
+  
   const maxBonusAmountToUse = Math.min(
     maxBonusAmount,
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENTAGE) / 100),
@@ -154,8 +155,8 @@ const CartSummary = ({
 
       if (paymentMethod === "online") {
         if (paymentData?.status === "succeeded") {
-          await confirmOrderPayment(currentOrderId!);
           await updateUserAfterPayment({
+            orderId: currentOrderId!,
             usedBonuses: actualMaxBonusAmountToUse,
             earnedBonuses: totalBonuses,
             purchasedProductIds: visibleItems.map((i) => i.productId),
@@ -171,9 +172,14 @@ const CartSummary = ({
 
         setSuccessModalData(successModalData);
         setShowSuccessModal(true);
+        setIsOrdered(true)
+
+        await clearUserCart()
       } else {
         const result = await createOrder(paymentMethod, paymentData?.id);
+        await clearUserCart()
         setOrderNumber(result.orderNumber);
+        setIsOrdered(true)
       }
       setIsOrdered(true);
     } catch (e) {
@@ -226,9 +232,16 @@ const CartSummary = ({
     }
   };
 
-  const handlePaymentError = (e: string): void => {
+  const handlePaymentError = async (e: string): Promise<void> => {
     setShowPaymentModal(false);
+
+    if (currentOrderId) await markPaymentAsFailed(String(currentOrderId))
+    else console.error("ID заказа не найден для отметки платежа как неудачного")
+  
     alert(`Ошибка оплаты: ${e}`);
+    resetAfterOrder()
+    await clearUserCart()
+    router.push('/orders')
   };
 
   const handleCloseSuccessModal = (): void => {
@@ -250,7 +263,7 @@ const CartSummary = ({
       />
       <div className="w-full">
         {!isMinimumReached && <MinimumPriceWarning />}
-        {!isCheckout || isReorder ? (
+        {isCheckout || isReorder ? (
           <PaymentButtons
             isOrdered={isOrdered}
             canProceedWithPayment={canProceedWithPayment()}

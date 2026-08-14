@@ -1,4 +1,4 @@
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import { CONFIG } from "../../../../../../../../config/config";
 import { getWordEnding } from "@/utils/getWordEnding";
@@ -22,7 +22,7 @@ import Promotions from "@/app/(products)/Promotions";
 import AddToFavoritesButton from "@/components/AddToFavoritesButton";
 import AddToCartButton from "@/components/AddToCartButton";
 
-const ProductPageContent = ({ product }: { product: ProductCardProps }) => {
+const ProductPageContent = ({ product }: { product: Product }) => {
   const discountedPrice = calculateFinalPrice(
     product.basePrice,
     product.discountPercent,

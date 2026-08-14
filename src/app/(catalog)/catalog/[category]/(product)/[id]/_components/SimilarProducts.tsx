@@ -1,4 +1,4 @@
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,12 +6,12 @@ import Link from "next/link";
 const SimilarProducts = async ({
   currentProduct,
 }: {
-  currentProduct: ProductCardProps;
+  currentProduct: Product;
 }) => {
   const category = currentProduct.categories[0];
   if (!category) return null;
 
-  let similarProducts: ProductCardProps[] = [];
+  let similarProducts: Product[] = [];
 
   try {
     const response = await fetch(
@@ -27,7 +27,7 @@ const SimilarProducts = async ({
     console.error(e instanceof Error ? e.message : "Неизвестная ошибка");
   }
 
-  const calculatePrice = (product: ProductCardProps): number => {
+  const calculatePrice = (product: Product): number => {
     const discount = product.basePrice * (product.discountPercent / 100);
     return Math.round(product.basePrice - discount);
   };

@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import iconRight from "../../public/icons-header/icon-arrow-right.svg";
-
 const ViewAllButton = ({
   btnText,
   href,
@@ -19,7 +17,7 @@ const ViewAllButton = ({
         {btnText}
       </p>
       <Image
-        src={iconRight}
+        src="icons-header/icon-arrow-right.svg"
         alt={btnText}
         width={24}
         height={24}

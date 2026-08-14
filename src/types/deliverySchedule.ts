@@ -1,7 +1,3 @@
-interface DaySchedule {
-  [timeSlot: string]: boolean;
-}
+type DaySchedule = Record<string, boolean>
 
-export interface Schedule {
-  [date: string]: DaySchedule;
-}
+export type Schedule = Record<string, DaySchedule>

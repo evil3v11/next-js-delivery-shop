@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { CONFIG } from "../../../../../config/config";
 import { ObjectId } from "mongodb";
 import { FetchPurchasesError, FetchPurchasesResponse } from "@/types/purchases";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const dynamic = "force-dynamic";
 
@@ -30,13 +30,13 @@ export const GET = async (request: Request): Promise<NextResponse<FetchPurchases
       const limit = Number(userPurchasesLimit);
 
       const purchasedProducts = await db
-        .collection<ProductCardProps>("products")
+        .collection<Product>("products")
         .find({ id: { $in: productIds } })
         .limit(limit)
         .toArray();
 
       return NextResponse.json({
-        products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as ProductCardProps),
+        products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as Product),
         totalCount: purchasedProducts.length
       });
     }
@@ -44,7 +44,7 @@ export const GET = async (request: Request): Promise<NextResponse<FetchPurchases
     const totalCount = productIds.length;
 
     const purchasedProducts = await db
-      .collection<ProductCardProps>("products")
+      .collection<Product>("products")
       .find({ id: { $in: productIds } })
       .sort({ _id: -1 })
       .skip(startIndex)
@@ -52,7 +52,7 @@ export const GET = async (request: Request): Promise<NextResponse<FetchPurchases
       .toArray();
 
     return NextResponse.json({
-      products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as ProductCardProps),
+      products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as Product),
       totalCount,
     });
   } catch (e) {

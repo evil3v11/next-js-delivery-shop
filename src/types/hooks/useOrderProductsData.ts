@@ -1,6 +1,6 @@
-import { ProductCardProps } from "../product"
+import { Product } from "../product"
 
 export type UseOrderProductsDataResult = {
-  productsData: ProductCardProps[],
+  productsData: Product[],
   isProductsDataLoading: boolean;
 }

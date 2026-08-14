@@ -2,8 +2,6 @@ import Image from "next/image";
 
 import { SearchInputProps } from "@/types/searchInputProps";
 
-import iconSearch from "../../../../public/icons-header/icon-search.svg";
-
 const SearchInput = ({
   query,
   setQuery,
@@ -31,7 +29,12 @@ const SearchInput = ({
           type="submit"
           className="absolute right-2 top-2 w-6 h-6 cursor-pointer"
         >
-          <Image src={iconSearch} alt="Поиск" height={24} width={24} />
+          <Image
+            src="/icons-header/icon-search.svg"
+            alt="Поиск"
+            height={24}
+            width={24}
+          />
         </button>
       </form>
     </div>

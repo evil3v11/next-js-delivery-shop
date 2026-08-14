@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import { CONFIG } from "../../../config/config";
 import fetchPurchases from "./fetchPurchases";
@@ -13,7 +13,7 @@ import Loader from "@/components/Loader";
 
 const Purchases = () => {
   const { user, isAuth } = useAuthStore();
-  const [items, setItems] = useState<ProductCardProps[]>([]);
+  const [items, setItems] = useState<Product[]>([]);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showPurchases, setShowPurchases] = useState<boolean>(false);
