@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 import {
   AddProductApiResponse,
   AddProductFormData,
@@ -54,7 +54,7 @@ const EditProductPage = () => {
           return;
         }
 
-        const product: ProductCardProps = await response.json();
+        const product: Product = await response.json();
         setProductData({
           title: product.title || "",
           description: product.description || "",

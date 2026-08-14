@@ -1,6 +1,6 @@
 import { GenericListPageProps } from "@/types/genericListPageProps";
-import { ProductCardProps } from "@/types/product";
-import { ArticleCardProps } from "@/types/articles";
+import { Product } from "@/types/product";
+import { Article } from "@/types/articles";
 import { CONFIG } from "../../../config/config";
 
 import ProductsSection from "./ProductsSection";
@@ -37,14 +37,14 @@ const GenericListPage = async ({
       {!props.contentType || props.contentType === "category" ? (
         <ProductsSection
           title={props.pageTitle}
-          products={products as ProductCardProps[]}
+          products={products as Product[]}
           applyIndexStyle={props.contentType === "category" ? false : true}
           contentType={props.contentType}
         />
       ) : (
         <ArticlesSection
           title={props.pageTitle || ""}
-          articles={products as ArticleCardProps[]}
+          articles={products as Article[]}
         />
       )}
 

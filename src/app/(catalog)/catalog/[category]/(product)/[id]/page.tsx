@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import { getProduct } from "../getProduct";
 
@@ -43,7 +43,7 @@ export const generateMetadata = async ({
 
 const ProductPage = async ({ params }: ProductPageProps) => {
   const { id } = await params;
-  let product: ProductCardProps;
+  let product: Product;
 
   try {
     product = await getProduct(id);

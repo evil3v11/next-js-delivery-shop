@@ -1,7 +1,7 @@
 import { getDB } from "@/utils/api-routes";
 import { NextResponse } from "next/server";
 import { CONFIG } from "../../../../config/config";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 import { Filter } from "mongodb";
 
 export const dynamic = "force-dynamic";
@@ -24,7 +24,7 @@ export const GET = async (request: Request) => {
     const getPriceRangeOnly = searchParams.get("getPriceRangeOnly") === "true";
     const inStock = searchParams.get("inStock") === "true";
 
-    const query: Filter<ProductCardProps> = {};
+    const query: Filter<Product> = {};
 
     if (!category) {
       return NextResponse.json(
@@ -34,11 +34,11 @@ export const GET = async (request: Request) => {
     }
 
     if (getPriceRangeOnly) {
-      const categoryOnlyQuery: Filter<ProductCardProps> = {};
+      const categoryOnlyQuery: Filter<Product> = {};
 
       categoryOnlyQuery.categories = { $in: [category] };
       const priceRange = await db
-        .collection<ProductCardProps>("products")
+        .collection<Product>("products")
         .aggregate([
           { $match: categoryOnlyQuery },
           {
@@ -88,9 +88,9 @@ export const GET = async (request: Request) => {
     }
 
     const [totalCount, products] = await Promise.all([
-      db.collection<ProductCardProps>("products").countDocuments(query),
+      db.collection<Product>("products").countDocuments(query),
       db
-        .collection<ProductCardProps>("products")
+        .collection<Product>("products")
         .find(query)
         .sort({ _id: 1 })
         .skip(startIndex)

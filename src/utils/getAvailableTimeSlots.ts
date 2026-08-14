@@ -1,10 +1,10 @@
-import { formatDateToString } from "@/utils/formatDateToString";
 import { isTimeSlotPassed } from "@/app/(cart)/cart/_utils/isTimeSlotPassed";
+import { formatDateToLocalYYYYMMDD } from "./formatDateToLocalYYYYMMDD";
 
-import { Schedule } from "@/types/deliverySchedule";
+import type { Schedule } from "@/types/deliverySchedule";
 
-export const getAvailableTimeSlot = (date: Date, schedule: Schedule): string[] => {
-  const dateString = formatDateToString(date);
+export const getAvailableTimeSlots = (date: Date, schedule: Schedule): string[] => {
+  const dateString = formatDateToLocalYYYYMMDD(date);
   const daySchedule = schedule[dateString];
   if (!daySchedule) return [];
 

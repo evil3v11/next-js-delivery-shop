@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const GET = async (request: NextRequest): Promise<NextResponse> => {
   try {
@@ -30,7 +30,7 @@ export const GET = async (request: NextRequest): Promise<NextResponse> => {
     }
 
     const similarProducts = await db
-      .collection<ProductCardProps>("products")
+      .collection<Product>("products")
       .aggregate([
         {
           $match: {

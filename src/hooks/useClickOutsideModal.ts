@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 export const useClickOutsideModal = <T extends HTMLElement>(
   onClickOutside: () => void,
-) => {
+): React.RefObject<T | null> => {
   const ref = useRef<T>(null);
 
   useEffect(() => {

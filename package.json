@@ -15,6 +15,7 @@
     "@iminside/react-yandex-maps": "^1.2.7",
     "@react-email/components": "^1.0.12",
     "@react-input/mask": "^2.0.4",
+    "@reduxjs/toolkit": "^2.12.0",
     "@types/nodemailer": "^8.0.1",
     "bcrypt": "^6.0.0",
     "better-auth": "^1.6.23",
@@ -27,9 +28,12 @@
     "nodemailer": "^9.0.3",
     "rc-slider": "^11.1.9",
     "react": "^19.2.7",
+    "react-day-picker": "^10.0.1",
     "react-dom": "^19.2.7",
+    "react-redux": "^9.3.0",
     "react-share": "^5.3.0",
     "resend": "^6.16.0",
+    "xlsx": "^0.18.5",
     "zustand": "^5.0.14"
   },
   "devDependencies": {

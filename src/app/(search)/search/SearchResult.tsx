@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import ProductsSection from "@/app/(products)/ProductsSection";
 import ErrorComponent from "@/components/ErrorComponent";
 import Loader from "@/components/Loader";
 
 const SearchResult = () => {
-  const [products, setProducts] = useState<ProductCardProps[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<{
     error: Error;

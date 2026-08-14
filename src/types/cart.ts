@@ -1,5 +1,5 @@
 import { DeliveryData, ProductsData } from "./order";
-import { ProductCardProps } from "./product";
+import { Product } from "./product";
 
 export type CartItem = {
   productId: string;
@@ -9,7 +9,7 @@ export type CartItem = {
 
 export interface CartItemProps {
   item: CartItem;
-  productData: ProductCardProps;
+  productData: Product;
   isSelected: boolean;
   onSelectionChange: (productId: string, isSelected: boolean) => void;
   onQuantityUpdate: (productId: string, newQuantity: number) => Promise<void>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 import { TRANSLATIONS } from "@/utils/translations";
 
@@ -10,7 +10,7 @@ import { Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface ProductSearchResultProps {
-  products: ProductCardProps[];
+  products: Product[];
   deletingId: number | null;
   onClearResults: () => void;
   onOpenDeleteModal: (productId: number, productTitle: string) => void;

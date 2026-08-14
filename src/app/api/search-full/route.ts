@@ -1,7 +1,7 @@
 import { getDB } from "@/utils/api-routes";
 import { NextResponse } from "next/server";
 
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const GET = async (request: Request) => {
   try {
@@ -31,7 +31,7 @@ export const GET = async (request: Request) => {
         tags: 1,
         quantity: 1,
       })
-      .toArray()) as ProductCardProps[];
+      .toArray()) as Product[];
 
     return NextResponse.json(products);
   } catch (e) {

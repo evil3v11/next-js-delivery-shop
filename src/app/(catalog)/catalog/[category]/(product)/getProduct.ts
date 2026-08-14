@@ -1,8 +1,8 @@
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const getProduct = async (
   productId: string,
-): Promise<ProductCardProps> => {
+): Promise<Product> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${productId}`,
@@ -10,7 +10,7 @@ export const getProduct = async (
     );
     if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
 
-    const product: ProductCardProps = await response.json();
+    const product: Product = await response.json();
     return product;
   } catch (e) {
     console.log("Ошибка при запросе продукта: ", e);

@@ -4,8 +4,6 @@ import Link from "next/link";
 import { SearchResultsProps } from "@/types/searchResultsProps";
 import { TRANSLATIONS } from "@/utils/translations";
 
-import burgerMenu from "../../../../public/icons-header/icon-burgerMenu.svg";
-
 import HighlightText from "../../HighlightText";
 import MiniLoader from "../../MiniLoader";
 
@@ -35,7 +33,7 @@ const SearchResults = ({
                 />
               </div>
               <Image
-                src={burgerMenu}
+                src="icons-header/icon-burgerMenu.svg"
                 alt={TRANSLATIONS[category] || category}
                 height={24}
                 width={24}

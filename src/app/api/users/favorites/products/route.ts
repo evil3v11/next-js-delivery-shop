@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { CONFIG } from "../../../../../../config/config";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 import { Filter, ObjectId } from "mongodb";
 import { UserData } from "@/types/userData";
 
@@ -50,12 +50,12 @@ export const GET = async (request: NextRequest) => {
         );
       }
 
-      const query: Filter<ProductCardProps> = {
+      const query: Filter<Product> = {
         id: { $in: numbericFavIds },
       };
 
       const priceRange = await db
-        .collection<ProductCardProps>("products")
+        .collection<Product>("products")
         .aggregate([
           { $match: query },
           {
@@ -90,7 +90,7 @@ export const GET = async (request: NextRequest) => {
       );
     }
 
-    const query: Filter<ProductCardProps> = {
+    const query: Filter<Product> = {
       id: { $in: numbericFavIds },
     };
 
@@ -119,9 +119,9 @@ export const GET = async (request: NextRequest) => {
     }
 
     const [totalCount, products] = await Promise.all([
-      db.collection<ProductCardProps>("products").countDocuments(query),
+      db.collection<Product>("products").countDocuments(query),
       db
-        .collection<ProductCardProps>("products")
+        .collection<Product>("products")
         .find(query)
         .sort({ _id: 1 })
         .skip(startIndex)

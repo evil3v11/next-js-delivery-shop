@@ -3,6 +3,13 @@ import { ProductsSectionProps } from "@/types/productsSection";
 import ProductCard from "@/components/ProductCard";
 import ViewAllButton from "@/components/ViewAllButton";
 
+interface ExtendedProductsSectionProps extends ProductsSectionProps {
+  applyIndexStyle?: boolean;
+  contentType?: string;
+  isOrderCard?: boolean;
+  isAdminOrderPage?: boolean;
+}
+
 const ProductsSection = ({
   title,
   products,
@@ -10,12 +17,9 @@ const ProductsSection = ({
   applyIndexStyle = true,
   contentType,
   mobileItemsLimit = 4,
-  isOrderCard = false
-}: ProductsSectionProps & {
-  applyIndexStyle?: boolean;
-  contentType?: string;
-  isOrderCard?: boolean;
-}) => {
+  isOrderCard = false,
+  isAdminOrderPage = false,
+}: ExtendedProductsSectionProps) => {
   const gridClasses =
     contentType === "category"
       ? "grid-cols-2 md:grid-cols-3"
@@ -47,7 +51,7 @@ const ProductsSection = ({
                     : ""
                 }
               >
-                <ProductCard {...item} isOrderCard={isOrderCard} />
+                <ProductCard {...item} isOrderCard={isOrderCard} isAdminOrderPage={isAdminOrderPage} />
               </li>
             ))}
           </ul>

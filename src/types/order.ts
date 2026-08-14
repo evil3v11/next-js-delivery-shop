@@ -37,9 +37,26 @@ export interface CartItemWithPrice {
 
 export type OrderPaymentMethod = "cash" | "online";
 export type PaymentMethodOrNull = OrderPaymentMethod | null;
-export type PaymentStatus = "pending" | "waiting" | "paid";
+export type PaymentStatus = "pending" | "waiting" | "paid" | "failed";
 export type OrderStatus =
-  "pending" | "confirmed" | "delivered" | "cancelled" | "failed";
+  | "pending"
+  | "confirmed"
+  | "delivered"
+  | "cancelled"
+  | "failed"
+  | "collected"
+  | "delivering"
+  | "refund"
+  | "returned";
+
+export type OrderStatusRu =
+  | "Подтвержден"
+  | "Не подтвердили"
+  | "Новый"
+  | "Доставляется"
+  | "Возврат"
+  | "Собран"
+  | "Вернули";
 
 export type OrderItem = {
   productId: string;
@@ -47,6 +64,8 @@ export type OrderItem = {
   price: number;
   discountPercent?: number;
   hasLoyaltyDiscount?: boolean;
+  name: string;
+  totalPrice: number;
   // basePrice: number;
   // title: string;
   // productDetails?: {
@@ -60,7 +79,7 @@ export type OrderItem = {
   // };
 };
 
-export interface Order {
+export type Order = {
   _id: ObjectId;
   userId: ObjectId;
   orderNumber: string;
@@ -81,7 +100,12 @@ export interface Order {
   items: OrderItem[];
   createdAt: Date;
   updatedAt: Date;
-}
+  paidAt?: Date;
+};
+
+export type OrderStats = {
+  amountOfNextThreeDaysOfOrders: number;
+};
 
 export interface CreateOrderRequest {
   finalPrice: number;
@@ -111,27 +135,6 @@ export type UpdateUserData = {
   earnedBonuses: number;
   purchasedProductIds: string[];
 };
-
-interface UpdateUserDataAfterPaymentSuccess {
-  message: string;
-  success?: boolean;
-  updatedFields?: {
-    bonusesDeducted: number;
-    bonusesAdded: number;
-    newBonusesAmount: number;
-    productsAdded: number;
-    cartCleared: boolean;
-  };
-}
-
-interface UpdateUserDataAfterPaymentError {
-  message: string;
-  availableBonuses?: number;
-  requiredBonuses?: number;
-}
-
-export interface UpdateUserDataAfterPaymentResponse
-  extends UpdateUserDataAfterPaymentSuccess, UpdateUserDataAfterPaymentError {}
 
 export type ProductsData = Record<
   string,
@@ -168,7 +171,7 @@ export type PriceComparison = {
   }[];
 };
 
-export type RepeatOrderSectionProps =  {
+export type RepeatOrderSectionProps = {
   isRepeatOrderCreated: boolean;
   selectedDelivery: DeliveryData | null;
   canReorder: boolean;
@@ -182,4 +185,4 @@ export type RepeatOrderSectionProps =  {
   cartItemsForSummary: CustomCartItem[];
   customPricing: CustomPricing;
   onOrderSuccess: () => void;
-}
+};

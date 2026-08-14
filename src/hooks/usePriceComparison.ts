@@ -4,12 +4,12 @@ import { useAuthStore } from "@/store/authStore";
 import { CONFIG } from "../../config/config";
 
 import { CurrentProduct, Order, PriceComparison } from "@/types/order";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 import { UsePriceComparisonResult } from "@/types/hooks/usePriceComparison";
 
 export const usePriceComparison = (
   order: Order,
-  productsData: ProductCardProps[],
+  productsData: Product[],
 ): UsePriceComparisonResult => {
   const [priceComparison, setPriceComparison] = useState<PriceComparison | null>(null)
   const { user } = useAuthStore()

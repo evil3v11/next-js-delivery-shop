@@ -7,8 +7,8 @@ const SlideSecond = () => {
         src="/images/graphics/slide-2.jpeg"
         alt="Слайд"
         fill
+        priority
         className="object-cover"
-        sizes="(max-width: 768px) 50px, (max-width: 1200px): 75px, 100px"
       />
     </div>
   );

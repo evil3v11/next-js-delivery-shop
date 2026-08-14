@@ -4,7 +4,7 @@ export type ProductRatings = {
   distribution: Record<string, number>;
 };
 
-export interface ProductCardProps {
+export type Product = {
   _id: string;
   id: number;
   img: string;
@@ -13,8 +13,7 @@ export interface ProductCardProps {
   basePrice: number;
   discountPercent: number;
   rating: ProductRatings;
-  weight: string;
-  volume: string;
+  weight: number;
   categories: string[];
   quantity: number;
   tags: string[];
@@ -23,6 +22,10 @@ export interface ProductCardProps {
   brand: string;
   isNonGMO: boolean;
   isHealthyFood: boolean;
+}
+
+export interface ProductCardProps extends Product {
+  volume: string;
   orderQuantity?: number;
   isLowStock?: boolean;
   isInsufficientStock?: boolean;

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 
 import { CONFIG } from "../../../../../config/config";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 interface MatchCondition {
   brand: string;
@@ -43,7 +43,7 @@ export const GET = async (request: NextRequest): Promise<NextResponse> => {
     };
 
     const sameBrandProducts = await db
-      .collection<ProductCardProps>("products")
+      .collection<Product>("products")
       .aggregate([{ $match: matchCondition }, { $sample: { size: limit } }])
       .toArray();
 

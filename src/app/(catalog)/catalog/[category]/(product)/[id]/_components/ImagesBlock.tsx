@@ -1,7 +1,7 @@
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 import Image from "next/image";
 
-const ImagesBlock = ({ product }: { product: ProductCardProps }) => {
+const ImagesBlock = ({ product }: { product: Product }) => {
   return (
     <div className="flex items-start gap-x-4 h-62 xl:h-124 justify-center">
       <div className="flex flex-col justify-between h-full shrink-0">

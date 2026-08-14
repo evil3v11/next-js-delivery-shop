@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCartStore } from "@/store/cartStore";
 
 import { CONFIG } from "../../../../../config/config";
@@ -12,13 +13,14 @@ const OrderSuccessMessage = ({
 }: {
   orderNumber: string | null;
 }) => {
-  const { setIsOrdered } = useCartStore();
+  const { resetAfterOrder } = useCartStore();
   const { pricing, doesUseBonuses } = useCartStore();
   const { totalBonuses, maxBonusAmount, totalPrice } = pricing;
+  const router = useRouter()
 
-  const handleNewOrder = () => {
-    setIsOrdered(false);
-    window.location.reload();
+  const handleToOrder = () => {
+    resetAfterOrder()
+    router.push('/orders');
   };
 
   const usedBonuses = Math.min(
@@ -49,10 +51,10 @@ const OrderSuccessMessage = ({
         {getWordEnding(totalBonuses)}
       </div>
       <button
-        onClick={handleNewOrder}
+        onClick={handleToOrder}
         className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] duration-300 font-medium cursor-pointer"
       >
-        Обновить страницу
+        Перейти на страницу заказов
       </button>
     </div>
   );

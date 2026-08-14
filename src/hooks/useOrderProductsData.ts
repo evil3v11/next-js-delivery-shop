@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 
 import { Order } from "@/types/order";
 import { UseOrderProductsDataResult } from "@/types/hooks/useOrderProductsData";
-import { ProductCardProps } from "@/types/product";
+import { Product } from "@/types/product";
 
 export const useOrderProductsData = (order: Order): UseOrderProductsDataResult => {
-  const [productsData, setProductsData] = useState<ProductCardProps[]>([]);
+  const [productsData, setProductsData] = useState<Product[]>([]);
   const [isProductsDataLoading, setIsProductsDataLoading] = useState<boolean>(true);
 
   useEffect(() => {

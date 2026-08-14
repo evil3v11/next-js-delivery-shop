@@ -1,10 +1,10 @@
-import { ProductCardProps } from "./product"
+import { Product } from "./product"
 
 export interface FetchPurchasesError {
   message: string;
 }
 
 export interface FetchPurchasesResponse {
-  products: ProductCardProps[],
+  products: Product[],
   totalCount: number;
 }
