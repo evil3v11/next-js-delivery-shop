@@ -8,6 +8,7 @@ import FilterButtons from "@/components/filters/FilterButtons";
 import FilterControls from "@/components/filters/FilterControls";
 import PriceFilter from "@/components/filters/PriceFilter";
 import DropFilter from "@/components/filters/DropFilter";
+import { baseUrl } from "@/utils/baseUrl";
 
 export async function generateMetadata({
   params,
@@ -18,6 +19,10 @@ export async function generateMetadata({
   return {
     title: TRANSLATIONS[category] || category,
     description: `Описание категории ${TRANSLATIONS[category] || category} магазина Северяночка`,
+    metadataBase: new URL(baseUrl),
+    alternates: {
+      canonical: `${baseUrl}/catalog/${category}`,
+    },
   };
 }
 

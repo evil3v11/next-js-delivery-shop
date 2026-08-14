@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import {
+  handleCatalogProductRedirect,
+  handleOldProductRedirect,
+} from "./utils/proxy-redirects";
 
 export const proxy = async (request: NextRequest) => {
   const protectedPaths = ["/profile", "/admin", "/favorites", "/cart"];
@@ -20,9 +24,26 @@ export const proxy = async (request: NextRequest) => {
     }
   }
 
+  const redirectHandlers = [
+    handleCatalogProductRedirect,
+    handleOldProductRedirect,
+  ];
+
+  for (const handler of redirectHandlers) {
+    const redirectResponse = await handler(request);
+    if (redirectResponse) {
+      return redirectResponse;
+    }
+  }
+
   return NextResponse.next();
 };
 
 export const config = {
-  matcher: ["/profile/:path*", "/admin/:path*"],
+  matcher: [
+    "/profile/:path*",
+    "/admin/:path*",
+    "/catalog/:path*",
+    "/product/:path*",
+  ],
 };

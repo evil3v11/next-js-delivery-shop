@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 import dotenv from "dotenv";
-import PriceAlertEmail from "@/app/(catalog)/catalog/[category]/(product)/[id]/_components/PriceAlertEmail";
+import PriceAlertEmail from "@/app/(catalog)/catalog/[category]/(product)/[slug]/_components/PriceAlertEmail";
 
 dotenv.config();
 

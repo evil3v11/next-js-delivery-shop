@@ -21,6 +21,7 @@ import ReviewWrapper from "./ReviewWrapper";
 import Promotions from "@/app/(products)/Promotions";
 import AddToFavoritesButton from "@/components/AddToFavoritesButton";
 import AddToCartButton from "@/components/AddToCartButton";
+import ProductTitle from "./ProductTitle";
 
 const ProductPageContent = ({ product }: { product: Product }) => {
   const discountedPrice = calculateFinalPrice(
@@ -43,9 +44,7 @@ const ProductPageContent = ({ product }: { product: Product }) => {
       flex flex-col gap-y-20 pb-10"
     >
       <div>
-        <h1 className="text-xl md:text-2xl font-bold mb-4">
-          {product.description}
-        </h1>
+        <ProductTitle title={product.title} description={product.description} />
         <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
           <div className="flex flex-wrap items-center gap-6 mb-4 md:mb-6">
             <div className="text-xs">арт. {product.article}</div>

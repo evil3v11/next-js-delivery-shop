@@ -1,23 +1,22 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { usePathname } from "next/navigation";
+import { useProduct } from "@/app/contexts/ProductContext";
+
+import { TRANSLATIONS } from "@/utils/translations";
 
 import Link from "next/link";
 import Image from "next/image";
 
-import { TRANSLATIONS } from "@/utils/translations";
-
-import iconToRight from "../../public/icons-products/icon-arrow-right.svg";
-import { Suspense } from "react";
-
 const BreadcrumbsContent = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { title } = useProduct();
 
   if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
-  const productDesc = searchParams.get("desc");
+  const productDesc = title
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
@@ -68,7 +67,7 @@ const BreadcrumbsContent = () => {
             </div>
             {!item.isLast && (
               <Image
-                src={iconToRight}
+                src="/icons-products/icon-arrow-right.svg"
                 alt={`Переход от ${item.label} к ${breadcrumbs[breadcrumbs.length - 1]}`}
                 width={24}
                 height={24}

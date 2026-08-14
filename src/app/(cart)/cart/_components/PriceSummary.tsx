@@ -2,7 +2,7 @@ import { formatPrice } from "@/utils/formatPrice";
 import { getWordEnding } from "@/utils/getWordEnding";
 
 import { CartItem } from "@/types/cart";
-import Bonuses from "@/app/(catalog)/catalog/[category]/(product)/[id]/_components/Bonuses";
+import Bonuses from "@/app/(catalog)/catalog/[category]/(product)/[slug]/_components/Bonuses";
 
 interface PriceSummaryProps {
   visibleItems: CartItem[];
