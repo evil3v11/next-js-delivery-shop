@@ -30,5 +30,7 @@ export const TRANSLATIONS: Record<string, string> = {
   favorites: "Избранное",
   cart: "Корзина",
   "delivery-schedule": "График доставки",
-  orders: "Заказы"
+  orders: "Заказы",
+  cms: "Система управления контентом",
+  "semantic-core": "Семантическое ядро",
 };
