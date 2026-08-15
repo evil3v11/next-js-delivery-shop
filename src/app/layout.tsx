@@ -9,19 +9,14 @@ import { RegFormProvider } from "./contexts/RegFormContext";
 import StateProvider from "@/store/StateProvider";
 import StoreProvider from "./provider";
 import { ProductProvider } from "./contexts/ProductContext";
+import { generateSiteMetadata } from "@/utils/metadata/generateSiteMetadata";
 
 const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin", "cyrillic"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
-  ),
-  title: "Северяночка",
-  description: "Доставка и покупка продуктов питания",
-};
+export const generateMetadata = async (): Promise<Metadata> => await generateSiteMetadata()
 
 export default function RootLayout({
   children,

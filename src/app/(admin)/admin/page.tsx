@@ -31,6 +31,12 @@ const AdminPage = () => {
         >
           График доставки
         </Link>
+        <Link
+          href="/admin/cms"
+          className={`${buttonStyles.active} px-4 py-3 rounded w-full`}
+        >
+          Система управления контентом
+        </Link>
       </div>
     </div>
   );
