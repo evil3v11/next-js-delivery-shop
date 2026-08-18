@@ -1,12 +1,12 @@
 import { RefObject } from "react";
-import { Category } from "./categories";
 import { ErrorComponentProps } from "./errors";
+import { ProductCategory } from "./productCategories";
 
 export interface CatalogMenuProps {
   isLoading: boolean;
   isCatalogOpen: boolean;
   setIsCatalogOpen: (isOpen: boolean) => void;
-  categories: Category[];
+  categories: ProductCategory[];
   error: ErrorComponentProps | null;
   searchBlockRef: RefObject<HTMLDivElement | null>;
   menuRef: RefObject<HTMLDivElement | null>;

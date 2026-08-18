@@ -1,6 +1,16 @@
-import { FileText, FolderTree, Plus, Tags } from "lucide-react";
+import { FileText, FolderTree, Home, Plus, Tags } from "lucide-react";
 
 export const menuItems = [
+  {
+    id: "cms-home",
+    title: "CMS",
+    description: "Главная страница управления контентом",
+    icon: <Home className="w-6 h-6" />,
+    color: "from-blue-500 to-blue-600",
+    hoverColor: "hover:from-blue-600 hover:to-blue-700",
+    shadow: "shadow-lg shadow-blue-500/20",
+    path: "/admin/cms",
+  },
   {
     id: "new-article",
     title: "Новая статья",

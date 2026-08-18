@@ -24,7 +24,7 @@ const CMSLayout = ({ children }: { children: React.ReactNode }) => {
           <Menu className="w-5 h-5" />
         </button>
       )}
-      <main className="min-h-screen bg-gray-50 p-6 w-full mx-auto">
+      <main className="min-h-screen px-[max(12px,calc((100%-1208px)/2))] bg-gray-50 p-6 w-full mx-auto">
         {children}
       </main>
       <SidebarMenu

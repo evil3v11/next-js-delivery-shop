@@ -3,9 +3,10 @@
 import { useSiteSettings } from "../_hooks/useSiteSettings";
 
 import { Loader, Loader2 } from "lucide-react";
-import Header from "../_components/HeaderCMS";
+import Header from "../_components/CMSHeader";
 import SEOForm from "./_components/SEOForm";
-import SEORecommendations from "./_components/SEORecommendations";
+import SEORecommendations from "../_components/SEORecommendations";
+import { COMMON_SEO_RECOMMENDATIONS } from "../_utils/recommendations";
 
 const SemanticCorePage = () => {
   const { settings, isLoading, isSaving, formData, setFormData, handleSave } = useSiteSettings();
@@ -39,7 +40,7 @@ const SemanticCorePage = () => {
         isSaving={isSaving}
         handleSave={handleSave}
       />
-      <SEORecommendations />
+      <SEORecommendations recommendations={COMMON_SEO_RECOMMENDATIONS} />
     </>
   );
 };

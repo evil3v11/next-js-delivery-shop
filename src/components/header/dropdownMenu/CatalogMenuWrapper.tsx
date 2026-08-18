@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Category } from "@/types/categories";
+import { ProductCategory } from "@/types/productCategories";
 
 import CatalogMenu from "./CatalogMenu";
 
 const CatalogMenuWrapper = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [error, setError] = useState<{
     error: Error;
