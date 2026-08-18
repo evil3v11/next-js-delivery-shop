@@ -7,7 +7,6 @@ import { initialProductData } from "@/constants/addProductFormData";
 import {
   AddProductApiResponse,
   AddProductFormData,
-  ImageUploadResponse,
 } from "@/types/addProductTypes";
 
 import ProductTitle from "../_components/ProductTitle";
@@ -26,8 +25,7 @@ import ImageUploadSection from "../_components/ImageUploadSection";
 import CreateSuccessMessage from "../_components/CreateSuccessMessage";
 
 const AddProductPage = () => {
-  const [formData, setFormData] =
-    useState<AddProductFormData>(initialProductData);
+  const [formData, setFormData] = useState<AddProductFormData>(initialProductData);
   const [isLoading, setIsLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [image, setImage] = useState<File | null>(null);
@@ -74,11 +72,9 @@ const AddProductPage = () => {
         method: "POST",
         body: formData,
       });
-      const data: ImageUploadResponse = await response.json();
-      if (!response.ok)
-        throw new Error(data.error || "Ошибка при загрузке изображения");
-      if (data.success && data.product)
-        return { id: data.product.id, img: data.product.img };
+      const {success, message, product} = await response.json();
+      if (!response.ok) throw new Error(message || "Ошибка при загрузке изображения");
+      if (success && product) return { id: product.id, img: product.img };
       return null;
     } catch (e) {
       alert(e instanceof Error ? e.message : "Ошибка при загрузке изображения");

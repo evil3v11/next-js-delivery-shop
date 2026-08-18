@@ -1,4 +1,4 @@
-import Header from "./_components/HeaderCMS";
+import Header from "./_components/CMSHeader";
 import DashboardCardsGrid from "./_components/DashboardCardsGrid";
 import StatsSection from "./_components/StatsSection";
 

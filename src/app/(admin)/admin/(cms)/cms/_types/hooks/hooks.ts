@@ -1,4 +1,4 @@
-import { FormData, SiteSettings } from "./siteSettings";
+import { FormData, SiteSettings } from "../siteSettings";
 
 export type UseSiteSettingsResult = {
   settings: SiteSettings | null;

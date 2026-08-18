@@ -1,12 +1,10 @@
-import { getDB } from "@/utils/api-routes";
 import { NextRequest, NextResponse } from "next/server";
-import { SiteSettings } from "../../_types/siteSettings";
+import { getDB } from "@/utils/api-routes";
 import { ObjectId } from "mongodb";
-import { ApiResponse } from "@/types/api/default-response";
-import {
-  GetSiteSettingsResponse,
-  PutSiteSettingsResponse,
-} from "../../_types/api";
+
+import type { SiteSettings } from "../../_types/siteSettings";
+import type { ApiResponse } from "@/types/api/default-response";
+import type { GetSiteSettingsResponse, PutSiteSettingsResponse } from "../../_types";
 
 export const GET = async (): Promise<
   NextResponse<GetSiteSettingsResponse | ApiResponse>

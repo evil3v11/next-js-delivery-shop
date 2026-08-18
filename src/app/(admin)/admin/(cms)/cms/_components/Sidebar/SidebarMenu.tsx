@@ -61,12 +61,16 @@ const SidebarMenu = ({
           <div className="absolute inset-0 bg-linear-to-b from-white via-white to-gray-50/95 backdrop-blur-xl" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-purple-500/5" />
           <div className="absolute inset-0 shadow-[inset_0_0_60px_-20px_rgba(59,130,246,0.1)]" />
-          <div className="relative h-full flex flex-col p-8">
-            <MenuHeader
-              onCloseSidebarAction={onCloseSidebarAction}
-              icon={<Truck className="relative w-7 h-7 text-blue-600" />}
-            />
-            <MenuItemsList items={menuItems} onItemClick={handleItemClick} />
+          <div className="relative h-full flex flex-col">
+            <div className="shrink-0 p-5">
+              <MenuHeader
+                onCloseSidebarAction={onCloseSidebarAction}
+                icon={<Truck className="relative w-7 h-7 text-blue-600" />}
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto overflow-x-hidden px-5">
+              <MenuItemsList items={menuItems} onItemClick={handleItemClick} />
+            </div>
             <MenuFooter />
           </div>
         </div>

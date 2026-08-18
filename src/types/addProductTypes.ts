@@ -24,13 +24,3 @@ export interface AddProductApiResponse {
   };
   error?: string;
 }
-
-export interface ImageUploadResponse {
-  success: boolean;
-  product?: {
-    id: number;
-    img: string;
-    filename: string;
-  };
-  error?: string;
-}

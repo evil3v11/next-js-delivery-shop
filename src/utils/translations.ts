@@ -33,4 +33,5 @@ export const TRANSLATIONS: Record<string, string> = {
   orders: "Заказы",
   cms: "Система управления контентом",
   "semantic-core": "Семантическое ядро",
+  categories: "Категории",
 };

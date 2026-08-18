@@ -1,4 +1,4 @@
-const Header = ({ title, description }: { title: string; description?: string; }) => {
+const CMSHeader = ({ title, description }: { title: string; description?: string; }) => {
   return (
     <header className="mb-8">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h1>
@@ -7,4 +7,4 @@ const Header = ({ title, description }: { title: string; description?: string; }
   );
 };
 
-export default Header;
+export default CMSHeader;

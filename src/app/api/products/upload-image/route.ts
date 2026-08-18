@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
+// import sharp from "sharp";
 
 export const POST = async (request: NextRequest): Promise<NextResponse> => {
   try {
+    // TODO: rewrite image uploading feature for users using sharp as well
+    // /admin/cms/api/categories/upload-image
     const formData = await request.formData();
     const image = formData.get("image") as File;
     const imageId = formData.get("imageId") as string;

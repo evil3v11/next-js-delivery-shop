@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { authClient } from "@/lib/auth-client";
 
-import { AuthState } from "@/types/storeState";
+import { AuthState } from "@/types/store/storeState";
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   isAuth: false,

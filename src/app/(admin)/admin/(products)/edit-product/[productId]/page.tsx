@@ -7,7 +7,6 @@ import { Product } from "@/types/product";
 import {
   AddProductApiResponse,
   AddProductFormData,
-  ImageUploadResponse,
 } from "@/types/addProductTypes";
 
 import { initialProductData } from "@/constants/addProductFormData";
@@ -111,10 +110,9 @@ const EditProductPage = () => {
         method: "POST",
         body: formData,
       });
-      const data: ImageUploadResponse = await response.json();
-      if (!response.ok)
-        throw new Error(data.error || "Ошибка при загрузке изображения");
-      return data.success;
+      const { success, message } = await response.json();
+      if (!response.ok) throw new Error(message || "Ошибка при загрузке изображения");
+      return success;
     } catch (e) {
       alert(e instanceof Error ? e.message : "Ошибка при загрузке изображения");
       return false;
