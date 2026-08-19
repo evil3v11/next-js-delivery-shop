@@ -23,7 +23,7 @@ export type UpdateArticleFormData = Omit<ArticleFormData, "keywords"> & {
   keywords: string[];
 };
 
-export type ArticleFormProps = Omit<CategoryFormProps, "errors">;
+export type ArticleFormProps = Omit<CategoryFormProps, "errors" | "showForm">;
 
 export interface CategorySelectProps {
   value: string;
