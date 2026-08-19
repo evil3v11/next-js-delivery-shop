@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 
 import ErrorContent from "@/app/(auth)/(registration)/_components/ErrorContent";
 import DeleteAccountModal from "./DeleteAccountModal";
-import { useScrollModalToCenter } from "@/hooks/useScrollModalToCenter";
+import { useScrollModalToBlock } from "@/hooks/useScrollModalToBlock";
 
 const SecuritySection = () => {
   const { user, logout } = useAuthStore();
@@ -15,7 +15,7 @@ const SecuritySection = () => {
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  useScrollModalToCenter(modalRef, showDeleteConfirmModal);
+  useScrollModalToBlock(modalRef, showDeleteConfirmModal, 'center');
 
   const handleOpenConfirmDeleteModal = () => {
     setError(null);
