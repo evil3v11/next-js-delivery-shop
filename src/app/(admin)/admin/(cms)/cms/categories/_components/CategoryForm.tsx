@@ -2,10 +2,10 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import { CategoryFormProps, CharCount } from "../../_types";
-import { FormField } from "../../_types/category-form/form/category-form-field";
+import { CharCount } from "../../_types/charCount";
+import { CategoryFormField, CategoryFormProps } from "../_types";
 
-import CategoryImageSection from "./CategoryImageSection";
+import CategoryImageSection from "../../_components/ImageSection";
 import CategoryFormFields from "./CategoryFormFields";
 import CategorySubmitSection from "./CategorySubmitSection";
 
@@ -28,7 +28,7 @@ const CategoryForm = ({
   };
 
   const handleInputChange = (
-    field: FormField,
+    field: CategoryFormField,
     value: string,
     maxLength: number,
   ): void => {
@@ -42,6 +42,7 @@ const CategoryForm = ({
       <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
         <CategoryImageSection
+          type="category"
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}

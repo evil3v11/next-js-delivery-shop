@@ -1,26 +1,15 @@
 import { useCallback, useState } from "react";
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useArticleStore } from "@/store/articleStore";
 
 import { transliterateText } from "@/utils/transliterateText";
 
-import type { Category } from "../_types/entities";
-
-export const useCategoryFormState = () => {
+export const useArticleFormState = () => {
   const [tempImageFile, setTempImageFile] = useState<File | null>(null);
-  const {
-    formData,
-    setEditingId,
-    clearEditingId,
-    setShowForm,
-    setOriginalImageUrl,
-    setFormData,
-    updateFormField,
-    resetFormData,
-  } = useArticleCategoriesStore();
+  const { formData, setOriginalImageUrl, updateFormField, resetFormData } = useArticleStore();
 
   const generateSlug = useCallback((): void => {
     if (!formData.name.trim()) {
-      alert("Сначала введите название категории");
+      alert("Сначала введите название статьи");
       return;
     }
 
@@ -59,7 +48,9 @@ export const useCategoryFormState = () => {
       const uploadFormData = new FormData();
       uploadFormData.append("image", tempImageFile);
 
-      const response = await fetch("/admin/cms/api/categories/image", {
+      if (formData.categorySlug) uploadFormData.append("categorySlug", formData.categorySlug);
+
+      const response = await fetch("/admin/cms/api/articles/image", {
         method: "POST",
         body: uploadFormData,
       });
@@ -79,7 +70,7 @@ export const useCategoryFormState = () => {
       console.error("Ошибка загрузки изображения: ", e);
       throw e;
     }
-  }, [tempImageFile, formData.image]);
+  }, [tempImageFile, formData.image, formData.categorySlug]);
 
   const getKeywordsArray = useCallback((): string[] => {
     return formData.keywords
@@ -93,64 +84,9 @@ export const useCategoryFormState = () => {
       URL.revokeObjectURL(formData.image);
     }
     resetFormData();
-    clearEditingId();
     setTempImageFile(null);
     setOriginalImageUrl("");
-    setShowForm(false);
-  }, [
-    formData.image,
-    clearEditingId,
-    setShowForm,
-    setOriginalImageUrl,
-    resetFormData,
-  ]);
-
-  const deleteOldImage = useCallback(
-    async (imageUrl: string): Promise<boolean> => {
-      if (!imageUrl || imageUrl.startsWith("blob:")) return true;
-
-      try {
-        const filename = imageUrl.split("/").pop();
-        if (!filename) return true;
-
-        const response = await fetch(
-          `/admin/cms/api/categories/image?file=${encodeURIComponent(filename)}`,
-          {
-            method: "DELETE",
-          },
-        );
-        const { success } = await response.json();
-        return success === true;
-      } catch (e) {
-        console.error("Ошибка при удалении изображения: ", e);
-        return false;
-      }
-    },
-    [],
-  );
-
-  const startCreating = useCallback((): void => {
-    resetForm();
-    setShowForm(true);
-  }, [resetForm, setShowForm]);
-
-  const startEditing = useCallback(
-    (category: Category): void => {
-      setEditingId(String(category._id));
-      setFormData({
-        name: category.name,
-        slug: category.slug,
-        description: category.description,
-        keywords: (category.keywords || []).join(", "),
-        image: category.image || "",
-        imageAlt: category.imageAlt || "",
-      });
-      setOriginalImageUrl(category.image || "");
-      setTempImageFile(null);
-      setShowForm(true);
-    },
-    [setEditingId, setShowForm, setOriginalImageUrl, setFormData],
-  );
+  }, [formData.image, setOriginalImageUrl, resetFormData]);
 
   return {
     generateSlug,
@@ -159,8 +95,5 @@ export const useCategoryFormState = () => {
     uploadImageToServer,
     getKeywordsArray,
     resetForm,
-    deleteOldImage,
-    startCreating,
-    startEditing,
   };
 };

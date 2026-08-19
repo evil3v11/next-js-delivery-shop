@@ -1,27 +1,12 @@
-"use client";
-
-import { Activity, useEffect, useState } from "react";
-
 import { useAuthStore } from "@/store/authStore";
+import { useEffect, useState } from "react";
+import { useCategoryFormValidation } from "./useCategoryFormValidation";
+import { useCategoryFormState } from "./useCategoryFormState";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
-import { useCategoryFormState } from "../../_hooks/useCategoryFormState";
-import { useCategoryFormValidation } from "../../_hooks/useCategoryFormValidation";
-// import { useCategoriesCRUD } from "../../_hooks/useCategoriesCRUD";
 
-import { CATEGORY_SEO_RECOMMENDATIONS } from "../../_utils/recommendations";
 import type { Category } from "../../_types/entities";
 
-import CMSHeader from "../../_components/CMSHeader";
-import SEORecommendations from "../../_components/SEORecommendations";
-import CategoryTable from "./CategoryTable";
-import CategoryForm from "./CategoryForm";
-import CategoryNotification from "./CategoryNotification";
-import WarningAlert from "./WarningAlert";
-import HeaderActions from "./HeaderActions";
-import CMSPagination from "../../_components/CMSPagination";
-import CategoryReorderStatus from "./CategoryReorderStatus";
-
-const CMSCategoriesPageWrapper = () => {
+export const useCategoriesCRUD = () => {
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
@@ -30,29 +15,16 @@ const CMSCategoriesPageWrapper = () => {
   const { user } = useAuthStore();
   const author = `${user?.lastName} ${user?.name}`.trim() || "Неизвестен";
 
-  const { errors, validateForm } = useCategoryFormValidation();
-  // const { createCategory, deleteCategory, updateCategory } = useCategoriesCRUD();
-  const {
-    generateSlug,
-    saveImageFile,
-    removeImage,
-    uploadImageToServer,
-    getKeywordsArray,
-    deleteOldImage,
-    startCreating,
-    startEditing,
-    resetForm,
-  } = useCategoryFormState();
+  const { validateForm } = useCategoryFormValidation();
+  const { uploadImageToServer, getKeywordsArray, deleteOldImage, resetForm } =
+    useCategoryFormState();
 
   const {
     categories,
-    totalAllItems,
     editingId,
-    showForm,
     originalImageUrl,
     formData,
     setIsSubmitting,
-    totalPages,
     currentPage,
     fetchArticleCategories,
     createCategory,
@@ -60,7 +32,6 @@ const CMSCategoriesPageWrapper = () => {
     updateCategory,
     setIsReordering,
     reorderItems,
-    isReordering,
   } = useArticleCategoriesStore();
 
   useEffect(() => {
@@ -269,41 +240,12 @@ const CMSCategoriesPageWrapper = () => {
     }
   };
 
-  return (
-    <>
-      <CMSHeader
-        title="Управление категориями"
-        description={`Всего категорий: ${totalAllItems}`}
-      />
-      {notification && (
-        <CategoryNotification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
-      <HeaderActions onCreate={startCreating} />
-      {isReordering && <CategoryReorderStatus />}
-      <WarningAlert />
-      <Activity mode={showForm ? "visible" : "hidden"}>
-        <CategoryForm
-          errors={errors}
-          onGenerateSlug={generateSlug}
-          onSaveImageFile={saveImageFile}
-          onRemoveImage={removeImage}
-          onSubmit={editingId ? handleUpdateCategory : handleCreateCategory}
-          onCancel={resetForm}
-        />
-      </Activity>
-      <CategoryTable
-        onDelete={handleDeleteCategory}
-        onEdit={startEditing}
-        onReorder={handleReorder}
-      />
-      {totalPages > 1 && <CMSPagination />}
-      <SEORecommendations recommendations={CATEGORY_SEO_RECOMMENDATIONS} />
-    </>
-  );
+  return {
+    notification,
+    setNotification,
+    handleCreateCategory,
+    handleDeleteCategory,
+    handleUpdateCategory,
+    handleReorder,
+  };
 };
-
-export default CMSCategoriesPageWrapper;

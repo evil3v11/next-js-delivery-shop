@@ -1,15 +1,16 @@
 import { CartItem } from "../cart";
 import { UserDataOrNull } from "../userData";
 import { Category } from "@/app/(admin)/admin/(cms)/cms/_types/entities";
+
+import { ApiResponse } from "../api/default-response";
+import { ArticleFormData, UpdateArticleFormData } from "@/app/(admin)/admin/(cms)/cms/articles/_types";
 import {
   CategoryFormData,
   FilterType,
-  FormField,
   SortDirection,
   SortField,
-  UpdateFormData,
-} from "@/app/(admin)/admin/(cms)/cms/_types";
-import { ApiResponse } from "../api/default-response";
+  UpdateCategoryFormData,
+} from "@/app/(admin)/admin/(cms)/cms/categories/_types";
 
 export interface CartState {
   cart: CartItem[];
@@ -93,7 +94,7 @@ export interface ArticleCategoriesState {
   setShowForm: (showForm: boolean) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
   setFormData: (formData: CategoryFormData) => void;
-  updateFormField: (field: FormField, value: string) => void;
+  updateFormField: (field: keyof CategoryFormData, value: string) => void;
   resetFormData: () => void;
   setCurrentPage: (currentPage: number) => void;
   setTotalFilteredItems: (totalFilteredItems: number) => void;
@@ -105,13 +106,29 @@ export interface ArticleCategoriesState {
     query?: string;
     filterBy?: FilterType;
   }) => Promise<void>;
-  createCategory: (categoryData: UpdateFormData) => Promise<ApiResponse>;
+  createCategory: (
+    categoryData: UpdateCategoryFormData,
+  ) => Promise<ApiResponse>;
   deleteCategory: (categoryId: string) => Promise<ApiResponse>;
   updateCategory: (
     editingId: string,
-    categoryData: UpdateFormData,
+    categoryData: UpdateCategoryFormData,
   ) => Promise<ApiResponse>;
   setSearchQuery: (searchQuery: string) => void;
   setFilterType: (filterType: FilterType) => void;
   clearSearchQuery: () => void;
+}
+export interface ArticleState {
+  isSubmitting: boolean;
+  formData: ArticleFormData;
+  originalImageUrl: string;
+  editingId?: string;
+  isUploading: boolean;
+  setIsUploading: (isUploading: boolean) => void;
+  setIsSubmitting: (isSubmitting: boolean) => void;
+  setFormData: (formData: ArticleFormData) => void;
+  setOriginalImageUrl: (originalImageUrl: string) => void;
+  updateFormField: (field: keyof ArticleFormData, value: string | boolean) => void;
+  resetFormData: () => void;
+  createArticle: (articleData: UpdateArticleFormData) => Promise<ApiResponse>;
 }

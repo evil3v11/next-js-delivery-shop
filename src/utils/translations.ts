@@ -34,4 +34,5 @@ export const TRANSLATIONS: Record<string, string> = {
   cms: "Система управления контентом",
   "semantic-core": "Семантическое ядро",
   categories: "Категории",
+  editor: "Текстовый редактор",
 };

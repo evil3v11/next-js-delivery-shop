@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import { CategoryTableProps } from "../../_types";
 import { Category } from "../../_types/entities";
+import { CategoryTableProps } from "../_types";
 
 import CategoryTableHeader from "./CategoryTableHeader";
 import EmptyState from "./EmptyState";

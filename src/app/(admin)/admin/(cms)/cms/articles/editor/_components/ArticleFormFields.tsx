@@ -1,34 +1,28 @@
 "use client";
 
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useArticleStore } from "@/store/articleStore";
 
-import { SEO_LIMITS } from "../../_utils/SEO_LIMITS";
+import { SEO_LIMITS } from "../../../_utils/SEO_LIMITS";
 
-import { CategoryFormFieldsProps } from "../_types";
+import { ArticleFormFieldsProps } from "../../_types/form/";
 
 import { RotateCcw } from "lucide-react";
 
-const CategoryFormFields = ({
-  errors,
+const ArticleFormFields = ({
   charCount,
   onInputChange,
   onGenerateSlug,
-}: CategoryFormFieldsProps) => {
-  const { formData, isSubmitting } = useArticleCategoriesStore();
+}: ArticleFormFieldsProps) => {
+  const { formData, isSubmitting } = useArticleStore();
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div>
         <div className="flex justify-between items-center mb-1">
           <label className="block text-sm font-medium text-gray-700">
-            Название категории *
+            Название статьи *
           </label>
-          <span
-            className={`text-xs ${
-              charCount.name > SEO_LIMITS.name.max
-                ? "text-red-600"
-                : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.name}/{SEO_LIMITS.name.max}
           </span>
         </div>
@@ -40,28 +34,17 @@ const CategoryFormFields = ({
           onChange={(e) =>
             onInputChange("name", e.target.value, SEO_LIMITS.name.max)
           }
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
-            errors.name
-              ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-              : "border-gray-300 focus:border-primary focus:ring-primary/20"
-          } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 
+          border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 
+          disabled:bg-gray-100 placeholder:text-gray-400"
         />
-        {errors.name && (
-          <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-        )}
       </div>
       <div>
         <div className="flex justify-between items-center mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Алиас (slug) *
           </label>
-          <span
-            className={`text-xs ${
-              charCount.slug > SEO_LIMITS.slug.max
-                ? "text-red-600"
-                : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.slug}/{SEO_LIMITS.slug.max}
           </span>
         </div>
@@ -78,11 +61,9 @@ const CategoryFormFields = ({
                 .replace(/[^a-z0-9-]/g, "");
               onInputChange("slug", cleaned, SEO_LIMITS.slug.max);
             }}
-            className={`flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
-              errors.slug
-                ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-                : "border-gray-300 focus:border-primary focus:ring-primary/20"
-            } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+            className="flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 
+            border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 
+            disabled:bg-gray-100 placeholder:text-gray-400"
           />
           <button
             type="button"
@@ -97,29 +78,16 @@ const CategoryFormFields = ({
             Генерировать
           </button>
         </div>
-        {errors.slug ? (
-          <p className="text-red-500 text-xs mt-1">{errors.slug}</p>
-        ) : (
-          <p className="text-xs text-gray-500 mt-1">
-            Только латиница, цифры и дефисы
-          </p>
-        )}
+        <p className="text-xs text-gray-500 mt-1">
+          Только латиница, цифры и дефисы
+        </p>
       </div>
       <div className="md:col-span-2">
         <div className="flex justify-between items-center mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Описание (мета-описание)
           </label>
-          <span
-            className={`text-xs ${
-              charCount.description > SEO_LIMITS.description.max
-                ? "text-red-600"
-                : charCount.description < SEO_LIMITS.description.min &&
-                    charCount.description > 0
-                  ? "text-yellow-600"
-                  : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.description}/{SEO_LIMITS.description.max}
           </span>
         </div>
@@ -135,20 +103,14 @@ const CategoryFormFields = ({
               SEO_LIMITS.description.max,
             )
           }
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 resize-none ${
-            errors.description
-              ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-              : "border-gray-300 focus:border-primary focus:ring-primary/20"
-          } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 
+          resize-none border-gray-300 focus:border-primary focus:ring-primary/20 
+          disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
         />
-        {errors.description ? (
-          <p className="text-red-500 text-xs mt-1">{errors.description}</p>
-        ) : (
-          <p className="text-xs text-gray-500 mt-1">
-            Оптимальная длина для SEO: {SEO_LIMITS.description.min}-
-            {SEO_LIMITS.description.max} символов
-          </p>
-        )}
+        <p className="text-xs text-gray-500 mt-1">
+          Оптимальная длина для SEO: {SEO_LIMITS.description.min}-
+          {SEO_LIMITS.description.max} символов
+        </p>
       </div>
       <div className="md:col-span-2">
         <div className="flex justify-between items-center mb-1">
@@ -156,13 +118,7 @@ const CategoryFormFields = ({
             Ключевые слова
             <span className="text-gray-500 text-xs ml-2">(через запятую)</span>
           </label>
-          <span
-            className={`text-xs ${
-              charCount.keywords > SEO_LIMITS.keywords.maxLength
-                ? "text-red-600"
-                : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.keywords}/{SEO_LIMITS.keywords.maxLength}
           </span>
         </div>
@@ -177,18 +133,13 @@ const CategoryFormFields = ({
               SEO_LIMITS.keywords.maxLength,
             )
           }
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
-            errors.keywords
-              ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-              : "border-gray-300 focus:border-primary focus:ring-primary/20"
-          } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 
+          border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 
+          disabled:bg-gray-100 placeholder:text-gray-400"
         />
-        {errors.keywords && (
-          <p className="text-red-500 text-xs mt-1">{errors.keywords}</p>
-        )}
       </div>
     </div>
   );
 };
 
-export default CategoryFormFields;
+export default ArticleFormFields;

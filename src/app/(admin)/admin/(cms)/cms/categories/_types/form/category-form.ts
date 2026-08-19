@@ -1,11 +1,11 @@
-import { Category } from "../../entities";
+import { Category } from "../../../_types";
 
-export type UpdateFormData = Omit<
+export type UpdateCategoryFormData = Omit<
   Category,
   "_id" | "numericId" | "author" | "createdAt" | "updatedAt"
 >;
 
-export type CategoryFormData = Omit<UpdateFormData, "keywords"> & {
+export type CategoryFormData = Omit<UpdateCategoryFormData, "keywords"> & {
   keywords: string;
 };
 
@@ -18,4 +18,3 @@ export interface CategoryFormProps {
   onCancel: () => void;
 }
 
-export type CharCount = Record<keyof Omit<CategoryFormData, "image">, number>;

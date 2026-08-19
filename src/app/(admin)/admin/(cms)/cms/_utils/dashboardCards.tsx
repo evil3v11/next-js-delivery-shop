@@ -8,7 +8,7 @@ export const dashboardCards: DashboardCard[] = [
     description: "Создать статью в редакторе",
     icon: <Plus className="w-6 h-6" />,
     color: "blue",
-    path: "/admin/cms/editor",
+    path: "/admin/cms/articles/editor",
     actionText: "Создать",
   },
   {
@@ -17,7 +17,7 @@ export const dashboardCards: DashboardCard[] = [
     description: "Просмотр и управление статьями",
     icon: <FileText className="w-6 h-6" />,
     color: "indigo",
-    path: "/admin/cms",
+    path: "/admin/cms/articles",
     actionText: "Перейти",
   },
   {

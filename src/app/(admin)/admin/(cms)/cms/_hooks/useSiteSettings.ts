@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { FormData, SiteSettings } from "../_types/siteSettings";
-import { UseSiteSettingsResult } from "../_types/hooks";
+import { UseSiteSettingsResult } from "../categories/_types/hooks";
 
 export const useSiteSettings = (): UseSiteSettingsResult => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
