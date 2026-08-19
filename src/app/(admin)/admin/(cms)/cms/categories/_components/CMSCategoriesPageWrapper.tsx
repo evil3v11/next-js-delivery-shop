@@ -288,6 +288,7 @@ const CMSCategoriesPageWrapper = () => {
       <Activity mode={showForm ? "visible" : "hidden"}>
         <CategoryForm
           errors={errors}
+          showForm={showForm}
           onGenerateSlug={generateSlug}
           onSaveImageFile={saveImageFile}
           onRemoveImage={removeImage}

@@ -14,7 +14,7 @@ const ArticlesSection = ({
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold">{title}</h2>
           {viewAllBtn && (
-            <ViewAllButton btnText={viewAllBtn.text} href={viewAllBtn.href} />
+            <ViewAllButton btnText={viewAllBtn.text} href="/blog" />
           )}
         </div>
         <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6">

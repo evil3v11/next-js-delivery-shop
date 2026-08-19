@@ -1,6 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useScrollModalToBlock } from "@/hooks/useScrollModalToBlock";
 
 import { CategoryFormProps, CharCount } from "../../_types";
 import { FormField } from "../../_types/category-form/form/category-form-field";
@@ -10,6 +12,7 @@ import CategoryFormFields from "./CategoryFormFields";
 import CategorySubmitSection from "./CategorySubmitSection";
 
 const CategoryForm = ({
+  showForm,
   errors,
   onGenerateSlug,
   onSaveImageFile,
@@ -18,6 +21,9 @@ const CategoryForm = ({
   onCancel,
 }: CategoryFormProps) => {
   const { formData, updateFormField } = useArticleCategoriesStore();
+
+  const formRef = useRef<HTMLDivElement>(null);
+  useScrollModalToBlock(formRef, showForm, "start");
 
   const charCount: CharCount = {
     name: formData.name.length,
@@ -38,7 +44,7 @@ const CategoryForm = ({
   const handleGenerateSlug = () => onGenerateSlug();
 
   return (
-    <div className="mb-8 bg-white rounded shadow-sm p-6">
+    <div ref={formRef} className="mb-8 bg-white rounded shadow-sm p-6">
       <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
         <CategoryImageSection

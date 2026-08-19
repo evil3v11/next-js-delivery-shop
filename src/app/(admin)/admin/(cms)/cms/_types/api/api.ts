@@ -1,6 +1,7 @@
 import { ApiResponse } from "@/types/api/default-response";
 import { SiteSettings } from "../siteSettings";
 import { Category } from "../entities";
+import { BlogCategory } from "@/app/(blog)/blog/categories/_types/categories";
 
 export type GetSiteSettingsResponse = {
   success: boolean;
@@ -28,5 +29,11 @@ export type GetCategoriesResponse =
         };
       };
       totalAmount: number;
+    })
+  | ApiResponse;
+
+export type GetBlogCategoriesResponse =
+  | (Pick<ApiResponse, "success"> & {
+      data: BlogCategory[];
     })
   | ApiResponse;

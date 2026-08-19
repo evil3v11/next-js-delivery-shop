@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
-import { useScrollModalToCenter } from "@/hooks/useScrollModalToCenter";
+import { useScrollModalToBlock } from "@/hooks/useScrollModalToBlock";
 
 import { formStyles } from "@/app/styles";
 
@@ -15,7 +15,7 @@ const ProfilePassword = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const modalRef = useClickOutsideModal<HTMLDivElement>(() => setIsModalOpen(false))
   const router = useRouter();
-  useScrollModalToCenter(modalRef, isModalOpen)
+  useScrollModalToBlock(modalRef, isModalOpen, 'center')
 
   const isPhoneRegistered = user?.phoneNumberVerified;
 

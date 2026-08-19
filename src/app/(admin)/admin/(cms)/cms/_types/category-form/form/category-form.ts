@@ -10,6 +10,7 @@ export type CategoryFormData = Omit<UpdateFormData, "keywords"> & {
 };
 
 export interface CategoryFormProps {
+  showForm: boolean;
   errors: Record<string, string>;
   onGenerateSlug: () => void;
   onSaveImageFile: (file: File) => void;

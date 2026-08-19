@@ -16,7 +16,7 @@ const SortableItem = ({
   onEdit,
 }: SortableItemProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
-  const { draggedId}  = useArticleCategoriesStore()
+  const { draggedId } = useArticleCategoriesStore();
 
   useEffect(() => {
     const checkMobile = () => setIsMobileView(window.innerWidth < 1024);
@@ -25,8 +25,8 @@ const SortableItem = ({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-  
-  const isBeingDragged = draggedId === id
+
+  const isBeingDragged = draggedId === id;
 
   return (
     <div>

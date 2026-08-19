@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getDB } from "@/utils/api-routes";
 import sharp from "sharp";
 import fs from "fs/promises";
 import path from "path";
@@ -43,28 +44,28 @@ export const POST = async (
     if (originalExtension === "png") {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
+          fit: "fill",
           position: "center",
-          withoutEnlargement: true,
+          withoutEnlargement: false,
         })
         .png({ quality: 80 })
         .toBuffer();
     } else if (originalExtension === "gif") {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
+          fit: "fill",
           position: "center",
-          withoutEnlargement: true,
+          withoutEnlargement: false,
         })
         .gif()
         .toBuffer();
     } else {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
+          fit: "fill",
           background: { r: 255, g: 255, b: 255, alpha: 1 },
           position: "center",
-          withoutEnlargement: true,
+          withoutEnlargement: false,
         })
         .jpeg({ quality: 80 })
         .toBuffer();
@@ -97,13 +98,24 @@ export const DELETE = async (
   try {
     const fileName = request.nextUrl.searchParams.get("file");
     if (!fileName) return NextResponse.json({ success: false }, { status: 400 });
-
+    
     const publicDir = path.join(process.cwd(), "public", "blogCategories");
-    const pathToImage = path.join(publicDir, fileName)
+    const pathToImage = path.join(publicDir, fileName);
 
     try {
       await fs.access(pathToImage);
       await fs.unlink(pathToImage);
+      const db = await getDB();
+      await db.collection("article-category").findOneAndUpdate(
+        { image: { $regex: fileName } },
+        {
+          $set: {
+            image: "",
+            imageAlt: "",
+          },
+        },
+      );
+
       return NextResponse.json({ success: true }, { status: 200 });
     } catch {
       return NextResponse.json({ success: false }, { status: 404 });
