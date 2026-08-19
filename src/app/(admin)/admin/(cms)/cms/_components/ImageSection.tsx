@@ -2,26 +2,34 @@
 
 import { useRef } from "react";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useArticleStore } from "@/store/articleStore";
 
-import { SEO_LIMITS } from "../../_utils/SEO_LIMITS";
+import { SEO_LIMITS } from "../_utils/SEO_LIMITS";
 
-import type { CategoryImageSectionProps} from "../../_types";
+import { ImageSectionProps } from "../_types/imageSection";
 
 import { AlertCircle, Upload, XCircle } from "lucide-react";
 import Image from "next/image";
 
-const CategoryImageSection = ({
-  errors,
+const ImageSection = ({
+  type,
+  errors = {},
   charCount,
   onInputChange,
   onRemoveImage,
   onSaveImageFile,
-}: CategoryImageSectionProps) => {
-  const { formData, editingId, isUploading, isSubmitting, setIsUploading } = useArticleCategoriesStore()
+}: ImageSectionProps) => {
+  const categoryData = useArticleCategoriesStore();
+  const articleData = useArticleStore();
+  const storeData = type === "category" ? categoryData : articleData;
+
+  const { formData, editingId, isUploading, isSubmitting, setIsUploading } = storeData;
+
+  const entityName = type === "category" ? "категории" : "статьи";
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -48,7 +56,7 @@ const CategoryImageSection = ({
 
   return (
     <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
-      <h3 className="text-lg font-medium mb-4">Изображение категории</h3>
+      <h3 className="text-lg font-medium mb-4">Изображение {entityName}</h3>
       <div className="space-y-4">
         {formData.image && (
           <div className="bg-white p-4 rounded border border-gray-200">
@@ -68,7 +76,7 @@ const CategoryImageSection = ({
               <p className="text-sm text-gray-600 mb-2">
                 {formData.image.startsWith("blob:")
                   ? "Новое изображение (будет загружено при сохранении)"
-                  : "Текущее изображение категории"}
+                  : `Текущее изображение ${entityName}`}
               </p>
               {formData.image.startsWith("blob:") && (
                 <p className="flex items-center gap-1 text-xs text-green-600 mb-2">
@@ -129,7 +137,7 @@ const CategoryImageSection = ({
           </div>
           <p className="text-xs text-gray-500 mt-2">
             Поддерживаемые форматы: JPG, PNG, GIF, WebP. Изображение будет
-            загружено на сервер только при сохранении категории.
+            загружено на сервер только при сохранении {entityName}.
             {editingId &&
               formData.image &&
               formData.image.startsWith("blob:") && (
@@ -180,4 +188,4 @@ const CategoryImageSection = ({
   );
 };
 
-export default CategoryImageSection;
+export default ImageSection;

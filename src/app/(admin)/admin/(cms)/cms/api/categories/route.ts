@@ -7,23 +7,24 @@ import { buildFilterQuery } from "../../_utils/buildFilterQuery";
 
 import { ObjectId } from "mongodb";
 import type { Category } from "../../_types/entities";
+import type { FilterType, SortDirection, SortField } from "../../categories/_types";
 import type {
   CreateCategoryResponse,
   GetCategoriesResponse,
-  SortField,
-  SortDirection,
-  FilterType
 } from "../../_types";
 
-export const GET = async (request: NextRequest): Promise<NextResponse<GetCategoriesResponse>> => {
+export const GET = async (
+  request: NextRequest,
+): Promise<NextResponse<GetCategoriesResponse>> => {
   try {
     const searchParams = request.nextUrl.searchParams;
     const page = Number(searchParams.get("page") || "1");
-    const limit = Number(searchParams.get("limit")) || CMS_CONFIG.ITEMS_PER_PAGE;
-    const sortBy = searchParams.get("sortBy") as SortField || "numericId";
-    const sortOrder = searchParams.get("sortOrder") as SortDirection || "asc";
+    const limit =
+      Number(searchParams.get("limit")) || CMS_CONFIG.ITEMS_PER_PAGE;
+    const sortBy = (searchParams.get("sortBy") as SortField) || "numericId";
+    const sortOrder = (searchParams.get("sortOrder") as SortDirection) || "asc";
     const query = searchParams.get("query") || "";
-    const filterBy = searchParams.get("filterBy") as FilterType || 'all';
+    const filterBy = (searchParams.get("filterBy") as FilterType) || "all";
 
     const validPage = Math.max(1, page);
     const validLimit = Math.max(1, Math.min(limit, 100));
@@ -31,7 +32,7 @@ export const GET = async (request: NextRequest): Promise<NextResponse<GetCategor
     const skip = (validPage - 1) * validLimit;
 
     const sortObject = buildSortObject(sortBy, sortOrder);
-    const filterQuery = buildFilterQuery(query, filterBy)
+    const filterQuery = buildFilterQuery(query, filterBy);
 
     const db = await getDB();
     const categories = await db
@@ -85,7 +86,9 @@ export const GET = async (request: NextRequest): Promise<NextResponse<GetCategor
   }
 };
 
-export const POST = async (request: NextRequest): Promise<NextResponse<CreateCategoryResponse>> => {
+export const POST = async (
+  request: NextRequest,
+): Promise<NextResponse<CreateCategoryResponse>> => {
   try {
     const data: Category = await request.json();
 
@@ -149,7 +152,7 @@ export const POST = async (request: NextRequest): Promise<NextResponse<CreateCat
       description: data.description.trim() || "",
       keywords: data.keywords || [],
       image: data.image || "",
-      imageAlt: data.imageAlt || "",
+      imageAlt: data.imageAlt || data.name,
       author: data.author || "",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

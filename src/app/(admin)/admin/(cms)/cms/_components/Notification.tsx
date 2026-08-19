@@ -1,10 +1,10 @@
 "use client";
 
-import type { CategoryNotificationProps } from "../../_types";
+import { CategoryNotificationProps } from "../categories/_types";
 
 import { X } from "lucide-react";
 
-const CategoryNotification = ({
+const Notification = ({
   type,
   message,
   onClose,
@@ -32,4 +32,4 @@ const CategoryNotification = ({
   );
 };
 
-export default CategoryNotification;
+export default Notification;

@@ -4,12 +4,13 @@ import { useRef } from "react";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 import { useScrollModalToBlock } from "@/hooks/useScrollModalToBlock";
 
-import { CategoryFormProps, CharCount } from "../../_types";
-import { FormField } from "../../_types/category-form/form/category-form-field";
+import { CharCount } from "../../_types/charCount";
+import { CategoryFormField, CategoryFormProps } from "../_types";
 
-import CategoryImageSection from "./CategoryImageSection";
 import CategoryFormFields from "./CategoryFormFields";
 import CategorySubmitSection from "./CategorySubmitSection";
+import ImageSection from "../../_components/ImageSection";
+import { ArticleFormField } from "../../articles/_types";
 
 const CategoryForm = ({
   showForm,
@@ -34,11 +35,11 @@ const CategoryForm = ({
   };
 
   const handleInputChange = (
-    field: FormField,
+    field: CategoryFormField | ArticleFormField,
     value: string,
     maxLength: number,
   ): void => {
-    if (value.length <= maxLength) updateFormField(field, value);
+    if (value.length <= maxLength) updateFormField(field as CategoryFormField, value);
   };
 
   const handleGenerateSlug = () => onGenerateSlug();
@@ -47,7 +48,8 @@ const CategoryForm = ({
     <div ref={formRef} className="mb-8 bg-white rounded shadow-sm p-6">
       <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
-        <CategoryImageSection
+        <ImageSection
+          type="category"
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}

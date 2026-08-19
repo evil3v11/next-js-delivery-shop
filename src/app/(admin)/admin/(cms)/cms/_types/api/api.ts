@@ -1,4 +1,5 @@
 import { ApiResponse } from "@/types/api/default-response";
+import { Article, Category } from "../entities";
 import { SiteSettings } from "../siteSettings";
 import { Category } from "../entities";
 import { BlogCategory } from "@/app/(blog)/blog/categories/_types/categories";
@@ -37,3 +38,8 @@ export type GetBlogCategoriesResponse =
       data: BlogCategory[];
     })
   | ApiResponse;
+
+
+export type CreateArticleResponse = ApiResponse & {
+  data?: Article;
+};

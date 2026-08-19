@@ -1,8 +1,8 @@
-import CMSCategoriesPageWrapper from "./_components/CMSCategoriesPageWrapper";
+import CMSCategoriesPageContentWrapper from "./_components/CMSCategoriesPageContentWrapper";
 
 const CMSCategoriesPage = () => (
   <div className="relative">
-    <CMSCategoriesPageWrapper />
+    <CMSCategoriesPageContentWrapper />
   </div>
 );
 
