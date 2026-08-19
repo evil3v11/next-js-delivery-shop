@@ -27,7 +27,7 @@ const CMSCategoriesPageContentWrapper = () => {
     saveImageFile,
     removeImage,
     resetForm,
-    uploadImageToServer
+    uploadImageToServer,
   } = useCategoryFormState();
 
   const {
@@ -38,10 +38,11 @@ const CMSCategoriesPageContentWrapper = () => {
     handleDeleteCategory,
     handleReorder,
   } = useCategoriesCRUD(uploadImageToServer);
-  
+
   const { errors } = useCategoryFormValidation();
 
-  const { totalPages, totalAllItems, isReordering, showForm, editingId } = useArticleCategoriesStore();
+  const { totalPages, totalAllItems, isReordering, showForm, editingId } =
+    useArticleCategoriesStore();
 
   return (
     <>
@@ -61,6 +62,7 @@ const CMSCategoriesPageContentWrapper = () => {
       <WarningAlert />
       <Activity mode={showForm ? "visible" : "hidden"}>
         <CategoryForm
+          showForm={showForm}
           errors={errors}
           onGenerateSlug={generateSlug}
           onSaveImageFile={saveImageFile}

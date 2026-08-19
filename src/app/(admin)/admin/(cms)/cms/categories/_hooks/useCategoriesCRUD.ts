@@ -248,40 +248,4 @@ export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: stri
     handleUpdateCategory,
     handleReorder,
   };
-  return (
-    <>
-      <CMSHeader
-        title="Управление категориями"
-        description={`Всего категорий: ${totalAllItems}`}
-      />
-      {notification && (
-        <CategoryNotification
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
-      <HeaderActions onCreate={startCreating} />
-      {isReordering && <CategoryReorderStatus />}
-      <WarningAlert />
-      <Activity mode={showForm ? "visible" : "hidden"}>
-        <CategoryForm
-          errors={errors}
-          showForm={showForm}
-          onGenerateSlug={generateSlug}
-          onSaveImageFile={saveImageFile}
-          onRemoveImage={removeImage}
-          onSubmit={editingId ? handleUpdateCategory : handleCreateCategory}
-          onCancel={resetForm}
-        />
-      </Activity>
-      <CategoryTable
-        onDelete={handleDeleteCategory}
-        onEdit={startEditing}
-        onReorder={handleReorder}
-      />
-      {totalPages > 1 && <CMSPagination />}
-      <SEORecommendations recommendations={CATEGORY_SEO_RECOMMENDATIONS} />
-    </>
-  );
 };
