@@ -7,7 +7,6 @@ const Footer = () => {
   return (
     <footer className="bg-[#f9f4e2] mt-auto bg-[url('/images/graphics/pattern-footer.png')] px-[max(12px,calc((100%-1208px)/2))] w-full">
       <div className="px-7 py-10 grid-container gap-6 text-main-text md:gap-x-10 items-center">
-        {/* Логотип со ссылкой на главную */}
         <div className="logo">
           <Link href="/" className="relative w-23 h-16 md:w-16 md:h-11 block">
             <Image
@@ -18,8 +17,6 @@ const Footer = () => {
             />
           </Link>
         </div>
-
-        {/* Социальные сети с кликабельными иконками */}
         <div className="social flex flex-row gap-x-5 md:flex-col xl:flex-row gap-y-3 justify-between">
           <div className="flex gap-x-5 items-start">
             <Link
@@ -78,8 +75,6 @@ const Footer = () => {
             </Link>
           </div>
         </div>
-
-        {/* Телефон с кликом */}
         <div className="phone">
           <Link
             href="tel:+78007773333"
@@ -97,8 +92,6 @@ const Footer = () => {
             </p>
           </Link>
         </div>
-
-        {/* Навигация с кликабельными пунктами */}
         <nav className="nav">
           <ul className="flex flex-wrap gap-x-8 text-xs gap-4 xl:gap-y-2 md:gap-x-10">
             <li className="hover:text-black cursor-pointer">
@@ -111,15 +104,13 @@ const Footer = () => {
               <Link href="#">Вакансии</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">Статьи</Link>
+              <Link href="/blog">Статьи</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
               Политика обработки персональных данных
             </li>
           </ul>
         </nav>
-
-        {/* Дизайнер (без изменений) */}
         <div className="design">
           <Link href="https://zasovskiy.ru/" target="_blank">
             <Image

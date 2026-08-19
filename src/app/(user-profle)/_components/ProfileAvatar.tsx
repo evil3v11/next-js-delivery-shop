@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useAvatar } from "@/hooks/useAvatar";
-import { useScrollModalToCenter } from "@/hooks/useScrollModalToCenter";
+import { useScrollModalToBlock } from "@/hooks/useScrollModalToBlock";
 
 import { getAvatarByGender } from "@/utils/getAvatarByGender";
 import { optimizeCameraPhoto } from "@/utils/optimizeImages/optimizeCameraPhoto";
@@ -33,7 +33,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     gender,
   });
 
-  useScrollModalToCenter(modalRef, showConfirmModal)
+  useScrollModalToBlock(modalRef, showConfirmModal, 'center')
 
   useEffect(() => {
     if (videoRef.current && cameraStream) {
