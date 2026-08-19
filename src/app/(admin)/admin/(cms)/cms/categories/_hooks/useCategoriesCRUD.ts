@@ -6,7 +6,7 @@ import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
 import type { Category } from "../../_types/entities";
 
-export const useCategoriesCRUD = () => {
+export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: string; fileName: string; } | null>) => {
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
@@ -16,7 +16,7 @@ export const useCategoriesCRUD = () => {
   const author = `${user?.lastName} ${user?.name}`.trim() || "Неизвестен";
 
   const { validateForm } = useCategoryFormValidation();
-  const { uploadImageToServer, getKeywordsArray, deleteOldImage, resetForm } =
+  const { getKeywordsArray, deleteOldImage, resetForm } =
     useCategoryFormState();
 
   const {

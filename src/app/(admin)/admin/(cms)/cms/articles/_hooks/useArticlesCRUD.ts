@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-
-import { useAuthStore } from "@/store/authStore";
 import { useArticleStore } from "@/store/articleStore";
+import { useAuthStore } from "@/store/authStore";
+import { useArticleFormState } from "./useArticleFormState";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import { useArticleFormState } from "./useArticleFormState";
-
-export const useArticlesCRUD = () => {
+export const useArticlesCRUD = (
+  uploadImageToServer: () => Promise<{ url: string; fileName: string } | null>,
+) => {
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
@@ -15,11 +15,9 @@ export const useArticlesCRUD = () => {
   const { user } = useAuthStore();
   const author = `${user?.lastName} ${user?.name}`.trim() || "Неизвестен";
 
-  const { formData, setIsSubmitting, createArticle } =
-    useArticleStore();
+  const { formData, setIsSubmitting, createArticle } = useArticleStore();
 
-  const { getKeywordsArray, resetForm, uploadImageToServer } =
-    useArticleFormState();
+  const { getKeywordsArray, resetForm } = useArticleFormState();
 
   const { fetchArticleCategories } = useArticleCategoriesStore();
 

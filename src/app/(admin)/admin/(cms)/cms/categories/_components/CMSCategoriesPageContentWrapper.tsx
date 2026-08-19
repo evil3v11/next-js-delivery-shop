@@ -21,23 +21,24 @@ import CategoryReorderStatus from "./CategoryReorderStatus";
 
 const CMSCategoriesPageContentWrapper = () => {
   const {
-    notification,
-    setNotification,
-    handleCreateCategory,
-    handleUpdateCategory,
-    handleDeleteCategory,
-    handleReorder,
-  } = useCategoriesCRUD();
-
-  const {
     startCreating,
     startEditing,
     generateSlug,
     saveImageFile,
     removeImage,
     resetForm,
+    uploadImageToServer
   } = useCategoryFormState();
 
+  const {
+    notification,
+    setNotification,
+    handleCreateCategory,
+    handleUpdateCategory,
+    handleDeleteCategory,
+    handleReorder,
+  } = useCategoriesCRUD(uploadImageToServer);
+  
   const { errors } = useCategoryFormValidation();
 
   const { totalPages, totalAllItems, isReordering, showForm, editingId } = useArticleCategoriesStore();

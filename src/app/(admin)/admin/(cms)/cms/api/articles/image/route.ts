@@ -39,7 +39,7 @@ export const POST = async (
       originalName.split(".").pop()?.toLowerCase() || ".jpg";
     const fileName = `${safeName}_${timestamp}.${originalExtension}`;
 
-    const publicDir = path.join(process.cwd(), "public", "images", "articles", categoryFolder);
+    const publicDir = path.join(process.cwd(), "public", "articles", categoryFolder);
     await fs.mkdir(publicDir, { recursive: true });
 
     const filePath = path.join(publicDir, fileName);

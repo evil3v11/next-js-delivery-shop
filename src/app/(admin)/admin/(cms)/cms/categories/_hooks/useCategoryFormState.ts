@@ -153,6 +153,7 @@ export const useCategoryFormState = () => {
   );
 
   return {
+    tempImageFile,
     generateSlug,
     saveImageFile,
     removeImage,

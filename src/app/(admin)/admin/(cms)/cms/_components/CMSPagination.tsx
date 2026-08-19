@@ -40,7 +40,7 @@ const CMSPagination = () => {
         pageButtons.push(i);
       }
     }
-    console.log(pageButtons.length);
+    
     return pageButtons.map((page) => (
       <button
         key={page}

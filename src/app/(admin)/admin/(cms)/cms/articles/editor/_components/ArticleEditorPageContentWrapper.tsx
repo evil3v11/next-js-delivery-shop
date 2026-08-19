@@ -1,8 +1,7 @@
 "use client";
 
-// import { useArticleStore } from "@/store/articleStore";
-import { useArticlesCRUD } from "../../_hooks/useArticlesCRUD";
 import { useArticleFormState } from "../../_hooks/useArticleFormState";
+import { useArticlesCRUD } from "../../_hooks/useArticlesCRUD";
 
 import { ARTICLE_SEO_RECOMMENDATIONS } from "../../../_utils/recommendations";
 
@@ -12,13 +11,15 @@ import Notification from "../../../_components/Notification";
 import ArticleForm from "./ArticleForm";
 
 const ArticleEditorPageContentWrapper = () => {
-  // const { formData, setIsSubmitting, updateFormField } = useArticleStore();
+  const {
+    generateSlug,
+    saveImageFile,
+    removeImage,
+    resetForm,
+    uploadImageToServer,
+  } = useArticleFormState();
 
-  const { notification, setNotification, handleCreateArticle } =
-    useArticlesCRUD();
-
-  const { generateSlug, saveImageFile, removeImage, resetForm } =
-    useArticleFormState();
+  const { notification, setNotification, handleCreateArticle } = useArticlesCRUD(uploadImageToServer);
 
   return (
     <>
