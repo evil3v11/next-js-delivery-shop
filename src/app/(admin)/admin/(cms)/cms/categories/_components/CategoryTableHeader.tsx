@@ -2,7 +2,7 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import type { SortField } from "../../_types";
+import type { SortField } from "../_types";
 
 import { ChevronUp, ImageIcon } from "lucide-react";
 

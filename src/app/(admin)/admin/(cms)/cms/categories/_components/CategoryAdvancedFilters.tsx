@@ -2,7 +2,7 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import type { FilterType, SortField } from "../../_types";
+import type { FilterType, SortField } from "../_types";
 
 const CategoryAdvancedFilters = () => {
   const {

@@ -2,7 +2,7 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import { CategorySubmitSectionProps } from "../../_types";
+import { CategorySubmitSectionProps } from "../_types";
 
 import { Loader2, Save } from "lucide-react";
 

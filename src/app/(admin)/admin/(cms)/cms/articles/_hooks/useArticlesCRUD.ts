@@ -181,7 +181,7 @@ export const useArticlesCRUD = (
   //     if (success) {
   //       setNotification({
   //         type: "success",
-  //         message: "Категория успешно обновленна",
+  //         message: "Категория успешно обновлена",
   //       });
   //       resetForm();
   //     } else {

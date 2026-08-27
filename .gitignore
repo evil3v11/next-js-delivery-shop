@@ -43,4 +43,5 @@ next-env.d.ts
 certificates
 
 /public/blogCategories
-/public/articles
+/public/uploads
+/public/temp

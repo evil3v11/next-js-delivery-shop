@@ -2,9 +2,9 @@ import ArticleEditorPageContentWrapper from "./_components/ArticleEditorPageCont
 
 const ArticleEditorPage = () => {
   return (
-    <div className="relative">
+    <>
       <ArticleEditorPageContentWrapper />
-    </div>
+    </>
   );
 };
 

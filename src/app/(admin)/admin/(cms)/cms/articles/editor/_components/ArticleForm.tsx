@@ -10,6 +10,7 @@ import ImageSection from "../../../_components/ImageSection";
 import ArticleFormFields from "./ArticleFormFields";
 import CategorySelect from "./CategorySelect";
 import ArticleSubmitSection from "./ArticleSubmitSection";
+import TiptapEditor from "../tiptap-components/TiptapEditor";
 
 const ArticleForm = ({
   onGenerateSlug,
@@ -32,9 +33,10 @@ const ArticleForm = ({
   const handleInputChange = (
     field: ArticleFormField,
     value: string,
-    maxLength: number,
+    maxLength?: number,
   ): void => {
-    if (value.length <= maxLength) updateFormField(field, value);
+    if (value.length <= maxLength!) updateFormField(field, value);
+    if (field === 'content') updateFormField(field, value)
   };
 
   const handleGenerateSlug = () => onGenerateSlug();
@@ -74,6 +76,14 @@ const ArticleForm = ({
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
+        <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
+          <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
+          <TiptapEditor
+            key={formData._id || "new-article"}
+            content={formData.content || ""}
+            onContentChange={(content) => handleInputChange("content", content)}
+          />
+        </div>
         <ArticleSubmitSection onCancel={onCancel} />
       </form>
     </div>
