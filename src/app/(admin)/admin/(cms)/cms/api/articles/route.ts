@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { ObjectId } from "mongodb";
 import type { CreateArticleResponse } from "../../_types";
+import { sanitizeArticleHTML } from "@/utils/sanitizeArticleHTML";
+import { processArticleImages } from "../../articles/editor/_utils/processArticleImages";
 
 export const POST = async (
   request: NextRequest,
@@ -55,7 +57,7 @@ export const POST = async (
     const content = data.content || "";
     const isFeatured = data.isFeatured || false;
     const status = data.status || "draft";
-
+    console.log(content)
     const db = await getDB();
     const existingCategory = await db.collection("articles").findOne({ slug });
 
@@ -78,6 +80,21 @@ export const POST = async (
         );
       }
     }
+
+    const sanitizedContent = sanitizeArticleHTML(content);
+    console.log(sanitizedContent)
+    if (
+      !sanitizedContent ||
+      !sanitizedContent.trim() ||
+      sanitizedContent === "<p></p>"
+    ) {
+      return NextResponse.json(
+        { success: false, message: "Текст статьи не может быть пустым" },
+        { status: 400 },
+      );
+    }
+
+    const finalContent = await processArticleImages(sanitizedContent)
 
     const result = await db
       .collection("articles")
@@ -115,7 +132,7 @@ export const POST = async (
       categoryId,
       categoryName,
       categorySlug,
-      content,
+      content: finalContent,
       isFeatured,
       status,
       views: 0,

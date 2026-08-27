@@ -189,7 +189,7 @@ export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: stri
       if (success) {
         setNotification({
           type: "success",
-          message: "Категория успешно обновленна",
+          message: "Категория успешно обновлена",
         });
         resetForm();
       } else {

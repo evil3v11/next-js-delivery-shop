@@ -1,11 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useArticleStore } from "@/store/articleStore";
 
-import { Eye, EyeOff, FileText, Globe, Save, Star } from "lucide-react";
 import { ArticleStatus } from "../../../_types";
-import { useRouter } from "next/navigation";
+
+import '../_styles/modal-preview.css'
+
+import { Eye, EyeOff, FileText, Globe, Save, Star } from "lucide-react";
+import ArticlePreviewModal from "../tiptap-components/ArticlePreviewModal";
 
 const ArticleSubmitSection = ({ onCancel }: { onCancel: () => void }) => {
   const { formData, updateFormField, isSubmitting, isUploading } =
@@ -17,6 +21,7 @@ const ArticleSubmitSection = ({ onCancel }: { onCancel: () => void }) => {
   const [isFeatured, setIsFeatured] = useState<boolean>(
     formData.isFeatured || false,
   );
+  const [showPreview, setShowPreview] = useState(false);
 
   const router = useRouter();
 
@@ -67,8 +72,51 @@ const ArticleSubmitSection = ({ onCancel }: { onCancel: () => void }) => {
     }
   };
 
+  const canShowPreview = !!formData.content?.trim();
+
   return (
     <>
+      {showPreview && (
+        <ArticlePreviewModal onClose={() => setShowPreview(false)} />
+      )}
+      <div className="mb-6 bg-linear-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border border-purple-200">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
+              <Eye className="w-5 h-5 text-purple-600" />
+              Предпросмотр статьи
+            </h3>
+            <p className="text-gray-600 text-sm">
+              Посмотрите, как статья будет выглядеть на сайте перед сохранением
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowPreview(true)}
+            disabled={!canShowPreview || isUploading || isSubmitting}
+            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-lg cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium whitespace-nowrap shadow-lg ${
+              canShowPreview
+                ? "bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all"
+                : "bg-gray-200 text-gray-500"
+            }`}
+            title={
+              !canShowPreview
+                ? "Добавьте контент статьи для предпросмотра"
+                : "Открыть предпросмотр статьи"
+            }
+          >
+            <Eye className="w-5 h-5" />
+            <span>Предпросмотр статьи</span>
+          </button>
+        </div>
+        {!canShowPreview && (
+          <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <p className="text-yellow-700 text-sm">
+              Для предпросмотра необходимо заполнить название и текст статьи
+            </p>
+          </div>
+        )}
+      </div>
       <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
         <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
           <Star className="w-5 h-5" />

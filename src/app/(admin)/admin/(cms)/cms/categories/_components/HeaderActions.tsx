@@ -2,7 +2,7 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import type { HeaderActionsProps } from "../../_types";
+import type { HeaderActionsProps } from "../_types";
 
 import { Plus } from "lucide-react";
 import ItemsPerPageSelector from "../../_components/ItemsPerPageSelector";

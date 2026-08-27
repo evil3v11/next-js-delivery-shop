@@ -10,7 +10,7 @@ const Notification = ({
   onClose,
 }: CategoryNotificationProps) => {
   const baseClasses =
-    "mb-4 p-4 rounded absolute self-center top-10 flex justify-between items-center";
+    "mb-4 p-4 rounded fixed right-10 self-center bottom-10 flex justify-between items-center z-100";
   const typeClasses =
     type === "success"
       ? "bg-green-50 text-green-800 border border-green-200"

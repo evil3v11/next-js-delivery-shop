@@ -1,4 +1,4 @@
-import { SortDirection, SortField } from "../_types";
+import { SortDirection, SortField } from "../categories/_types";
 
 type SortObject = {
   [K in SortField]: { [P in K]: 1 | -1; };

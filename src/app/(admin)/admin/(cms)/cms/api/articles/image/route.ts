@@ -10,7 +10,6 @@ export const POST = async (
 ): Promise<NextResponse<ImageUploadResponse>> => {
   try {
     const formData = await request.formData();
-    const categorySlug = String(formData.get('categorySlug'))
     const file = formData.get("image") as File;
     if (!file) {
       return NextResponse.json(
@@ -19,36 +18,25 @@ export const POST = async (
       );
     }
 
-    const categoryFolder = categorySlug.trim() || 'uncategorized'
-
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     const originalName = file.name;
-    const baseName = originalName.replace(/\.[^/.]+$/, "");
-    const cleanName = baseName
-      .toLowerCase()
-      .replace(/[^a-zа-яё0-9]/g, "")
-      .replace(/_+/g, "_")
-      .replace(/^_+|_+$/g, "");
-
+    const originalExtension = originalName.split(".").pop()?.toLowerCase() || "jpg";
     const timestamp = Date.now();
-    const safeName = cleanName || "image";
+    const random = Math.floor(Math.random() * 10000)
+    const fileName = `${timestamp}_${random}.${originalExtension}`;
 
-    const originalExtension =
-      originalName.split(".").pop()?.toLowerCase() || ".jpg";
-    const fileName = `${safeName}_${timestamp}.${originalExtension}`;
+    const uploadDir = path.join(process.cwd(), "public", 'uploads', "articles");
+    await fs.mkdir(uploadDir, { recursive: true });
 
-    const publicDir = path.join(process.cwd(), "public", "articles", categoryFolder);
-    await fs.mkdir(publicDir, { recursive: true });
-
-    const filePath = path.join(publicDir, fileName);
+    const filePath = path.join(uploadDir, fileName);
     await fs.writeFile(filePath, buffer);
 
-    const publicUrl = `/articles/${categoryFolder}/${fileName}`;
+    const publicUrl = `/uploads/articles/${fileName}`;
 
     return NextResponse.json(
-      { success: true, url: publicUrl, fileName, category: categoryFolder },
+      { success: true, url: publicUrl, fileName },
       { status: 201 },
     );
   } catch (e) {
@@ -65,12 +53,10 @@ export const DELETE = async (
 ): Promise<NextResponse<Pick<ApiResponse, "success">>> => {
   try {
     const fileName = request.nextUrl.searchParams.get("file");
-    const category = request.nextUrl.searchParams.get("categorySlug");
-    if (!fileName || !category) return NextResponse.json({ success: false }, { status: 400 });
+    if (!fileName) return NextResponse.json({ success: false }, { status: 400 });
 
-    const categoryFolder = category.trim()
-    const publicDir = path.join(process.cwd(), "public", "articles", categoryFolder);
-    const pathToImage = path.join(publicDir, fileName)
+    const uploadDir = path.join(process.cwd(), "public", 'uploads', "articles");
+    const pathToImage = path.join(uploadDir, fileName)
 
     try {
       await fs.access(pathToImage);

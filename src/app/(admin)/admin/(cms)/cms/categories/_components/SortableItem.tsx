@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import { SortableItemProps } from "../../_types";
+import { SortableItemProps } from "../_types";
 
 import DesktopCategoryRow from "./DesktopCategoryRow";
 import MobileCategoryCard from "./MobileCategoryCard";

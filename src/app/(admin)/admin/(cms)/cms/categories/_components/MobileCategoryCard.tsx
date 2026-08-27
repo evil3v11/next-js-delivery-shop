@@ -2,7 +2,7 @@
 
 import { Activity, useState } from "react";
 
-import type { CategoryRowProps } from "../../_types";
+import type { CategoryRowProps } from "../_types";
 
 import { ChevronDown } from "lucide-react";
 import DragCategoriesElement from "./DragCategoriesElement";

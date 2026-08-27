@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryRowProps } from "../../_types";
+import { CategoryRowProps } from "../_types";
 
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";

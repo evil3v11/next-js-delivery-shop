@@ -1,4 +1,4 @@
-import type { MobileCategoryHeaderProps } from "../../_types";
+import type { MobileCategoryHeaderProps } from "../_types";
 
 const MobileCategoryHeader = ({
   category,

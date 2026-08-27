@@ -48,8 +48,6 @@ export const useArticleFormState = () => {
       const uploadFormData = new FormData();
       uploadFormData.append("image", tempImageFile);
 
-      if (formData.categorySlug) uploadFormData.append("categorySlug", formData.categorySlug);
-
       const response = await fetch("/admin/cms/api/articles/image", {
         method: "POST",
         body: uploadFormData,
@@ -61,7 +59,6 @@ export const useArticleFormState = () => {
         if (formData.image && formData.image.startsWith("blob:")) {
           URL.revokeObjectURL(formData.image);
         }
-        setTempImageFile(null);
         return { url, fileName };
       } else {
         throw new Error(message || "Ошибка загрузки изображения");
@@ -70,7 +67,7 @@ export const useArticleFormState = () => {
       console.error("Ошибка загрузки изображения: ", e);
       throw e;
     }
-  }, [tempImageFile, formData.image, formData.categorySlug]);
+  }, [tempImageFile, formData.image]);
 
   const getKeywordsArray = useCallback((): string[] => {
     return formData.keywords

@@ -1,6 +1,6 @@
 'use client'
 
-import type { MobileExpandableContentProps } from "../../_types";
+import type { MobileExpandableContentProps } from "../_types";
 
 const MobileExpandableContent = ({ category, onDelete, onEdit }: MobileExpandableContentProps) => {
   const handleEdit = (e: React.MouseEvent): void => {

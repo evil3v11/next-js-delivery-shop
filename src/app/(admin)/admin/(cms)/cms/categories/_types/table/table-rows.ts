@@ -1,4 +1,4 @@
-import { Category } from "../../../../_types/entities";
+import { Category } from "../../../_types/entities";
 
 export interface SortableItemProps {
   id: string;
