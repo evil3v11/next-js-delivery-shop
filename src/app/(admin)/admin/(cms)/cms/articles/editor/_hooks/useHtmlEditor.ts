@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
-import { highlight, languages } from "prismjs";
+import type * as monaco from "monaco-editor";
 
 import type { EditorProps } from "../../_types";
 
@@ -19,8 +19,8 @@ export const useHtmlEditor = ({
   const [isCopied, setIsCopied] = useState(false);
 
   const modalRef = useClickOutsideModal<HTMLDivElement>(onCloseAction);
-  const preRef = useRef<HTMLPreElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const handleUpdate = useCallback((): void => {
@@ -67,47 +67,14 @@ export const useHtmlEditor = ({
       const html = editor.getHTML();
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setHtmlContent(html);
-
-      const timer = setTimeout(() => {
-        textAreaRef.current?.focus();
-        textAreaRef.current?.select();
-      });
-
-      return () => clearTimeout(timer);
     }
   }, [editor, isOpen]);
 
   useEffect(() => {
-    const textarea = textAreaRef.current;
-    const pre = preRef.current;
-
-    if (!textarea || !pre) return;
-
-    const handleScroll = (): void => {
-      textarea.scrollTop = pre.scrollTop;
-      textarea.scrollLeft = pre.scrollLeft;
+    return () => {
+      editorRef.current = null;
     };
-
-    textarea.addEventListener("scroll", handleScroll);
-    return () => textarea.addEventListener("scroll", handleScroll);
   }, []);
-
-  const handleTextAreaChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-  ): void => setHtmlContent(e.target.value);
-
-  const handleTextAreaKeyDown = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>,
-  ): void => {
-    if (e.key === "Escape") {
-      onCloseAction();
-    }
-
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-      e.preventDefault();
-      handleUpdate();
-    }
-  };
 
   const handleCopy = async (): Promise<void> => {
     try {
@@ -119,32 +86,62 @@ export const useHtmlEditor = ({
     }
   };
 
-  const getHighlightedHtml = (): string => {
-    if (!htmlContent) return "";
-    try {
-      return highlight(htmlContent, languages.markup, "html");
-    } catch (e) {
-      console.error("Не удалось подсветить: ", e);
-      return htmlContent
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    }
-  };
+  const handleEditorChange = (value: string | undefined) => setHtmlContent(value || "");
 
-  const highlightedHtml = getHighlightedHtml();
+  const handleEditorDidMount = useCallback((
+    editorInstance: monaco.editor.IStandaloneCodeEditor,
+  ) => {
+    editorRef.current = editorInstance;
+
+    editorInstance.focus();
+    const model = editorInstance.getModel();
+    
+    if (!model) return
+
+    const lastLine = model.getLineCount();
+    const lastColumn = model.getLineLength(lastLine) + 1;
+    editorInstance.setSelection({
+      startLineNumber: 1,
+      startColumn: 1,
+      endLineNumber: lastLine,
+      endColumn: lastColumn,
+    });
+  }, []);
+
+  const handleBeforeMount = useCallback((monacoInstance: typeof monaco) => {
+    monacoInstance.editor.defineTheme("dark-theme", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [
+        { token: "tag", foreground: "569cd6" },
+        { token: "attribute.name", foreground: "9cdcfe" },
+        { token: "attribute.value", foreground: "ce9178" },
+      ],
+      colors: {
+        "editor.background": "#111827",
+        "editor.foreground": "#e5e7eb",
+        "editor.lineHighlightBackground": "#1f2937",
+        "editorLineNumber.foreground": "#6b7280",
+        "editorLineNumber.activeForeground": "#9ca3af",
+        "editorCursor.foreground": "#ffffff",
+        "editor.selectionBackground": "#374151",
+        "editor.selectionHighlightBackground": "#1e3a8a",
+        "editorIndentGuide.background": "#374151",
+        "editorIndentGuide.activeBackground": "#4b5563",
+      },
+    });
+  }, []);
 
   return {
     modalRef,
-    preRef,
-    textAreaRef,
+    editorRef,
     previewRef,
-    highlightedHtml,
     htmlContent,
     isCopied,
     handleCopy,
     handleUpdate,
-    handleTextAreaChange,
-    handleTextAreaKeyDown,
+    handleEditorChange,
+    handleEditorDidMount,
+    handleBeforeMount,
   };
 };

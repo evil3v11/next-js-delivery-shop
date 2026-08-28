@@ -1,7 +1,6 @@
 import { useHtmlEditor } from "../../_hooks/useHtmlEditor";
 import { HtmlEditorProps } from "../../../_types";
 
-import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-tomorrow.css";
 import "../../_styles/html-preview.css";
 
@@ -17,16 +16,14 @@ const HtmlEditorModal = ({
 }: HtmlEditorProps) => {
   const {
     modalRef,
-    preRef,
-    textAreaRef,
     previewRef,
-    highlightedHtml,
     htmlContent,
     isCopied,
     handleCopy,
     handleUpdate,
-    handleTextAreaChange,
-    handleTextAreaKeyDown,
+    handleEditorChange,
+    handleEditorDidMount,
+    handleBeforeMount,
   } = useHtmlEditor({ editor, isOpen, onCloseAction });
 
   return (
@@ -47,25 +44,25 @@ const HtmlEditorModal = ({
           handleCopy={handleCopy}
           onCloseAction={onCloseAction}
         />
-        <div className="flex-1 overflow-hidden grid grid-cols-2">
-          <HtmlEditorModalRedactor
-            preRef={preRef}
-            textAreaRef={textAreaRef}
-            highlightedHtml={highlightedHtml}
+        <div className="overflow-hidden flex flex-col h-[calc(90vh-120px)]">
+          <div className="grid grid-cols-2 flex-1 min-h-0">
+            <HtmlEditorModalRedactor
+              htmlContent={htmlContent}
+              handleEditorChange={handleEditorChange}
+              handleEditorDidMount={handleEditorDidMount}
+              handleBeforeMount={handleBeforeMount}
+            />
+            <HtmlEditorModalShowcase
+              previewRef={previewRef}
+              htmlContent={htmlContent}
+            />
+          </div>
+          <HtmlEditorModalFooter
             htmlContent={htmlContent}
-            handleTextAreaChange={handleTextAreaChange}
-            handleTextAreaKeyDown={handleTextAreaKeyDown}
-          />
-          <HtmlEditorModalShowcase
-            previewRef={previewRef}
-            htmlContent={htmlContent}
+            onCloseAction={onCloseAction}
+            handleUpdate={handleUpdate}
           />
         </div>
-        <HtmlEditorModalFooter
-          htmlContent={htmlContent}
-          onCloseAction={onCloseAction}
-          handleUpdate={handleUpdate}
-        />
       </div>
     </div>
   );

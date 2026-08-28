@@ -25,7 +25,7 @@ import MainToolbar from "./MainToolbar";
 const TiptapEditor = ({ content, onContentChange }: TiptapEditorProps) => {
   const [stats, setStats] = useState({ characters: 0, words: 0 });
   const [showDragIcon, setShowDragIcon] = useState(false);
-  console.log(content)
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ undoRedo: { depth: 500 } }),
