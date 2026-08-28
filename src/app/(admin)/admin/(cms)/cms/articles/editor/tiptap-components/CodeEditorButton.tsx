@@ -19,13 +19,15 @@ const CodeEditorButton = ({ editor }: EditorProps) => {
       >
         <FileCode className="w-4 h-4" />
       </button>
-      <Activity mode={isHtmlModalOpen ? "visible" : "hidden"}>
+      {/* <Activity mode={isHtmlModalOpen ? "visible" : "hidden"}> */}
+      {isHtmlModalOpen && (
         <HtmlEditorModal
           editor={editor}
           isOpen={isHtmlModalOpen}
           onCloseAction={() => setIsHtmlModalOpen(false)}
         />
-      </Activity>
+      )}
+      {/* </Activity> */}
     </>
   );
 };
