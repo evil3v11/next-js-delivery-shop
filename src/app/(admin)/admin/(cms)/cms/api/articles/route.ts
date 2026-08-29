@@ -57,10 +57,13 @@ export const POST = async (
     const content = data.content || "";
     const isFeatured = data.isFeatured || false;
     const status = data.status || "draft";
-    console.log(content)
-    const db = await getDB();
-    const existingCategory = await db.collection("articles").findOne({ slug });
 
+    const db = await getDB();
+
+    const query: Record<string, unknown> = { slug };
+    if (data._id.trim()) query._id = { $ne: new ObjectId(data._id) };
+
+    const existingCategory = await db.collection("articles").findOne(query);
     if (existingCategory) {
       return NextResponse.json(
         { success: false, message: "Такой slug статьи уже существует" },
@@ -82,19 +85,54 @@ export const POST = async (
     }
 
     const sanitizedContent = sanitizeArticleHTML(content);
-    console.log(sanitizedContent)
-    if (
-      !sanitizedContent ||
-      !sanitizedContent.trim() ||
-      sanitizedContent === "<p></p>"
-    ) {
-      return NextResponse.json(
-        { success: false, message: "Текст статьи не может быть пустым" },
-        { status: 400 },
-      );
-    }
+    const finalContent = await processArticleImages(sanitizedContent);
 
-    const finalContent = await processArticleImages(sanitizedContent)
+    if (data._id.trim()) {
+      try {
+        const articleId = new ObjectId(data._id);
+        const updateData = {
+          name,
+          slug,
+          description,
+          keywords,
+          image,
+          imageAlt,
+          author,
+          categoryId,
+          categoryName,
+          categorySlug,
+          isFeatured,
+          status,
+          content: finalContent,
+          updatedAt: new Date().toISOString(),
+          ...(status === "published" && {
+            publishedAt: new Date().toISOString(),
+          }),
+        };
+
+        const updateResult = await db
+          .collection("articles")
+          .updateOne({ _id: articleId }, { $set: updateData });
+
+        if (!updateResult.modifiedCount) {
+          return NextResponse.json(
+            { success: false, message: "Такое статьи не существует" },
+            { status: 404 },
+          );
+        }
+
+        return NextResponse.json(
+          { success: true, message: "Статья успешно отредактирована" },
+          { status: 200 },
+        );
+      } catch (e) {
+        console.error("Ошибка при редактировании статьи: ", e);
+        return NextResponse.json(
+          { success: false, message: "Ошибка при редактировании статьи" },
+          { status: 400 },
+        );
+      }
+    }
 
     const result = await db
       .collection("articles")

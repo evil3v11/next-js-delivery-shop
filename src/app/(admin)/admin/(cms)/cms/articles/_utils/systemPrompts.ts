@@ -1,5 +1,7 @@
 import { QuickAction } from "../_types";
 
+// type SystemQuickAction = Exclude<QuickAction, "custom">;
+
 export const SYSTEM_PROMPTS: Readonly<Record<QuickAction, string>> = {
   improve:
     "Улучши стиль, грамотность и структуру русского текста. Сделай его более профессиональным и литературным. Отвечай только на русском языке.",
@@ -13,10 +15,11 @@ export const SYSTEM_PROMPTS: Readonly<Record<QuickAction, string>> = {
     "Упрости русский текст, сделай его понятным для широкой аудитории. Отвечай только на русском языке.",
   translate:
     "Переведи текст качественно на русский язык, сохраняя смысл и стиль. Отвечай только на русском языке.",
+  custom: "",
 };
 
 export const DEFAULT_PROMPT =
   "Ты полезный AI помощник для редактирования текста на русском языке. Отвечай только на русском языке.";
 
-export const getSystemPrompt = (action: QuickAction): string => SYSTEM_PROMPTS[action] || DEFAULT_PROMPT;
-
+export const getSystemPrompt = (action: QuickAction): string =>
+  SYSTEM_PROMPTS[action] || DEFAULT_PROMPT;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
 import { EditorProps } from "../../_types";
@@ -8,18 +8,42 @@ import { HeadingButton } from "@/components/tiptap-ui/heading-button";
 
 const TextLevelMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useClickOutsideModal<HTMLDivElement>(() =>
-    setIsOpen(false),
-  );
+  const [currentLabel, setCurrentLabel] = useState("");
 
-  const getCurrentLabel = () => {
-    if (editor?.isActive("paragraph")) return "Текст";
-    for (let i = 1; i <= 6; i++) {
-      if (editor?.isActive("heading", { level: i as 1 | 2 | 3 | 4 | 5 | 6 }))
-        return `H${i}`;
-    }
-    return "Текст";
-  };
+  const dropdownRef = useClickOutsideModal<HTMLDivElement>(() => setIsOpen(false));
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleUpdateLevel = () => {
+      let newLabel = "Текст";
+
+      for (let i = 1; i <= 6; i++) {
+        if (editor.isActive("heading", { level: i as 1 | 2 | 3 | 4 | 5 | 6 })) {
+          newLabel = `H${i}`;
+          break;
+        }
+      }
+
+      if (newLabel === "Текст" && editor.isActive("paragraph")) newLabel = "Текст";
+
+      setCurrentLabel(newLabel);
+    };
+
+    editor.on("selectionUpdate", handleUpdateLevel);
+    editor.on("transaction", ({ transaction }) => {
+      if (transaction.selectionSet || transaction.docChanged) {
+        requestAnimationFrame(() => handleUpdateLevel());
+      }
+    });
+
+    handleUpdateLevel();
+
+    return () => {
+      editor.off("selectionUpdate", handleUpdateLevel);
+      editor.off("transaction", handleUpdateLevel);
+    };
+  }, [editor]);
 
   if (!editor) return null;
 
@@ -38,7 +62,7 @@ const TextLevelMenu = ({ editor }: EditorProps) => {
           }
         `}
       >
-        <span className="text-xs font-medium">{getCurrentLabel()}</span>
+        <span className="text-xs font-medium">{currentLabel}</span>
         <ChevronDown
           className={`w-3 h-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
         />

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 
-import { CMS_CONFIG } from "../../cms_config";
 import { buildSortObject } from "../../_utils/buildSortObject";
 import { buildFilterQuery } from "../../_utils/buildFilterQuery";
 
@@ -19,15 +18,14 @@ export const GET = async (
   try {
     const searchParams = request.nextUrl.searchParams;
     const page = Number(searchParams.get("page") || "1");
-    const limit =
-      Number(searchParams.get("limit")) || CMS_CONFIG.ITEMS_PER_PAGE;
+    const limit = Number(searchParams.get("limit"))
     const sortBy = (searchParams.get("sortBy") as SortField) || "numericId";
     const sortOrder = (searchParams.get("sortOrder") as SortDirection) || "asc";
     const query = searchParams.get("query") || "";
     const filterBy = (searchParams.get("filterBy") as FilterType) || "all";
 
     const validPage = Math.max(1, page);
-    const validLimit = Math.max(1, Math.min(limit, 100));
+    const validLimit = limit ? Math.max(1, Math.min(limit, 100)) : 100;
 
     const skip = (validPage - 1) * validLimit;
 

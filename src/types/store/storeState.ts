@@ -3,7 +3,10 @@ import { UserDataOrNull } from "../userData";
 import { Category } from "@/app/(admin)/admin/(cms)/cms/_types/entities";
 
 import { ApiResponse } from "../api/default-response";
-import { ArticleFormData, UpdateArticleFormData } from "@/app/(admin)/admin/(cms)/cms/articles/_types";
+import {
+  ArticleFormData,
+  UpdateArticleFormData,
+} from "@/app/(admin)/admin/(cms)/cms/articles/_types";
 import {
   CategoryFormData,
   FilterType,
@@ -11,6 +14,7 @@ import {
   SortField,
   UpdateCategoryFormData,
 } from "@/app/(admin)/admin/(cms)/cms/categories/_types";
+import { CreateArticleResponse } from "@/app/(admin)/admin/(cms)/cms/_types";
 
 export interface CartState {
   cart: CartItem[];
@@ -102,9 +106,10 @@ export interface ArticleCategoriesState {
   setSortField: (sortField: SortField) => void;
   setSortDirection: (sortDirection: SortDirection) => void;
   fetchArticleCategories: (queryParams?: {
-    page: number;
+    page?: number;
     query?: string;
     filterBy?: FilterType;
+    unlimited?: boolean;
   }) => Promise<void>;
   createCategory: (
     categoryData: UpdateCategoryFormData,
@@ -128,7 +133,10 @@ export interface ArticleState {
   setIsSubmitting: (isSubmitting: boolean) => void;
   setFormData: (formData: ArticleFormData) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
-  updateFormField: (field: keyof ArticleFormData, value: string | boolean) => void;
+  updateFormField: (
+    field: keyof ArticleFormData,
+    value: string | boolean,
+  ) => void;
   resetFormData: () => void;
-  createArticle: (articleData: UpdateArticleFormData) => Promise<ApiResponse>;
+  createArticle: (articleData: UpdateArticleFormData) => Promise<CreateArticleResponse>;
 }
