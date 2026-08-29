@@ -13,15 +13,15 @@ export const POST = async (
     const { prompt, action = "improve" } =
       (await request.json()) as YandexGPTRequest;
 
-    const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
+    const YANDEX_TEXT_API_KEY = process.env.YANDEX_TEXT_API_KEY;
     const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 
-    if (!YANDEX_API_KEY || !YANDEX_FOLDER_ID) {
+    if (!YANDEX_TEXT_API_KEY || !YANDEX_FOLDER_ID) {
       return NextResponse.json(
         {
           success: false,
           message: "YandexGPT API не настроен",
-          details: "Проверьте YANDEX_API_KEY и YANDEX_FOLDER_ID в .env.local",
+          details: "Проверьте YANDEX_TEXT_API_KEY и YANDEX_FOLDER_ID в .env.local",
         },
         { status: 500 },
       );
@@ -47,7 +47,7 @@ export const POST = async (
       method: "POST",
       headers: {
         "content-type": "application/json",
-        Authorization: `Api-Key ${YANDEX_API_KEY}`,
+        Authorization: `Api-Key ${YANDEX_TEXT_API_KEY}`,
         Accept: "application/json",
       },
       body: JSON.stringify({

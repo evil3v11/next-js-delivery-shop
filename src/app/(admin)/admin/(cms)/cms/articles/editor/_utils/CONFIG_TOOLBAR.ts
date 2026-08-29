@@ -13,6 +13,7 @@ import TextColorMenu from "../tiptap-components/color-menu/TextColorMenu";
 import TextFormattingMenu from "../tiptap-components/TextFormattingMenu";
 import TextLevelMenu from "../tiptap-components/TextLevelMenu";
 import TextAIMenu from "../tiptap-components/text-ai/TextAIMenu";
+import ImageAIMenu from "../tiptap-components/image-ai/ImageAIMenu";
 
 export const CONFIG_GROUPS = [
   {
@@ -75,6 +76,11 @@ export const CONFIG_GROUPS = [
     name: "Генерация текста",
     items: ["textAI"],
   },
+  {
+    id: "imageAI",
+    name: "Генерация изображений",
+    items: ["imageAI"],
+  },
 ];
 
 export const CONFIG_TOOLBAR_COMPONENTS = {
@@ -93,4 +99,5 @@ export const CONFIG_TOOLBAR_COMPONENTS = {
   image: { component: ImageMenu },
   imageAttributes: { component: ImageAttributes },
   textAI: { component: TextAIMenu },
+  imageAI: { component: ImageAIMenu },
 } as const;

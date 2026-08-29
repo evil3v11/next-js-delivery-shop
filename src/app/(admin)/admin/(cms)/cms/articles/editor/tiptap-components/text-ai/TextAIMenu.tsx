@@ -25,10 +25,17 @@ const TextAIMenu = ({ editor }: EditorProps) => {
   const [aiStatus, setAiStatus] = useState<AIStatus>("idle");
   const [errorDetails, setErrorDetails] = useState<string>("");
 
-  const aiStatusTimer = useRef<NodeJS.Timeout>(undefined);
+  const aiStatusTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (aiStatusTimer.current) return () => clearTimeout(aiStatusTimer.current);
+    if (aiStatusTimer.current) {
+      clearTimeout(aiStatusTimer.current)
+      aiStatusTimer.current = null
+    }
+
+    return () => {
+      if (aiStatusTimer.current) clearTimeout(aiStatusTimer.current);
+    };
   }, []);
 
   const getSelectedText = (): string => {
@@ -67,11 +74,14 @@ const TextAIMenu = ({ editor }: EditorProps) => {
         return;
       }
 
-      const response = await fetch("/admin/cms/api/articles/yandex-gpt", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ prompt, action }),
-      });
+      const response = await fetch(
+        "/admin/cms/api/articles/yandex-gpt/generate-text",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ prompt, action }),
+        },
+      );
 
       const { success, message, data } =
         (await response.json()) as YandexGPTResponse;
@@ -110,7 +120,7 @@ const TextAIMenu = ({ editor }: EditorProps) => {
     } catch (e: unknown) {
       setAiStatus("error");
       console.error("YandexGPT error: ", e);
-      
+
       if (isErrorWithStatusCode(e)) {
         setErrorDetails(getErrorMessage(e.statusCode));
         if (e.statusCode && e.statusCode >= 500) alert(getFullErrorMessage(e));
@@ -120,7 +130,7 @@ const TextAIMenu = ({ editor }: EditorProps) => {
         setErrorDetails("Unknown error");
       }
     } finally {
-      setIsGenerating(false)
+      setIsGenerating(false);
       aiStatusTimer.current = setTimeout(() => setAiStatus("idle"), 2000);
     }
   };
@@ -149,22 +159,29 @@ const TextAIMenu = ({ editor }: EditorProps) => {
       setIsGenerating(true);
       setAiStatus("loading");
 
-      const response = await fetch("/admin/cms/api/articles/yandex-gpt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: "Привет! Это тестовый запрос. Ответь коротко, работает ли API.",
-          action: "custom",
-        }),
-      });
+      const response = await fetch(
+        "/admin/cms/api/articles/yandex-gpt/generate-text",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt:
+              "Привет! Это тестовый запрос. Ответь коротко, работает ли API.",
+            action: "custom",
+          }),
+        },
+      );
 
-      const { success, data, details } = await response.json() as YandexGPTResponse
+      const { success, data, details } =
+        (await response.json()) as YandexGPTResponse;
 
       if (response.ok && success) {
-        setAiStatus('success')
-        alert(`YandexGPT API работает!\n\nОтвет: ${data?.text}\n\nМодель: ${data?.model || "yandexgpt"}`)
+        setAiStatus("success");
+        alert(
+          `YandexGPT API работает!\n\nОтвет: ${data?.text}\n\nМодель: ${data?.model || "yandexgpt"}`,
+        );
       } else {
-        throw createApiError(details || 'Unknown error', response.status)
+        throw createApiError(details || "Unknown error", response.status);
       }
     } catch (e: unknown) {
       setAiStatus("error");
@@ -173,13 +190,13 @@ const TextAIMenu = ({ editor }: EditorProps) => {
       if (isErrorWithStatusCode(e)) {
         alert(getFullErrorMessage(e));
       } else if (e instanceof Error) {
-        alert(`Ошибка подключения: ${e.message}`)
+        alert(`Ошибка подключения: ${e.message}`);
       } else {
         alert("Неизвестная ошибка подключения");
         aiStatusTimer.current = setTimeout(() => setAiStatus("idle"), 2000);
       }
     } finally {
-      setIsGenerating(false)
+      setIsGenerating(false);
     }
   };
 
