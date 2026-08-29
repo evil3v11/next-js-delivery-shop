@@ -3,8 +3,8 @@ import {
   YandexGPTRequest,
   YandexGPTResponse,
   YandexGPTApiResponse,
-} from "../../../articles/_types";
-import { getSystemPrompt } from "../../../articles/_utils/systemPrompts";
+} from "../../../../articles/_types";
+import { getSystemPrompt } from "../../../../articles/_utils/systemPrompts";
 
 export const POST = async (
   request: NextRequest,

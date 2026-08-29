@@ -89,13 +89,19 @@ export const useArticleCategoriesStore = create<ArticleCategoriesState>(
         const pageToLoad = queryParams?.page ?? state.currentPage;
         const searchQuery = queryParams?.query ?? state.searchQuery;
         const filterBy = queryParams?.filterBy ?? state.filterType;
+        const unlimited = queryParams?.unlimited ?? false;
 
         query.append("page", String(pageToLoad));
-        query.append("limit", String(state.itemsPerPage));
         query.append("sortBy", state.sortField);
         query.append("sortOrder", state.sortDirection);
         query.append("query", searchQuery);
         query.append("filterBy", filterBy);
+
+        if (unlimited) {
+          query.append("limit", '');
+        } else {
+          query.append("limit", String(state.itemsPerPage));
+        }
 
         const response = await fetch(`/admin/cms/api/categories?${query}`);
         const { success, data, totalAmount } = await response.json();

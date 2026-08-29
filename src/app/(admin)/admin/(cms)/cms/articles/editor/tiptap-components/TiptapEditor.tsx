@@ -28,7 +28,10 @@ const TiptapEditor = ({ content, onContentChange }: TiptapEditorProps) => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ undoRedo: { depth: 500 } }),
+      StarterKit.configure({
+        undoRedo: { depth: 500 },
+        link: { openOnClick: false },
+      }),
       AllowHtmlAttributes,
       CharacterCount,
       Placeholder.configure({ placeholder: "Начните писать статью..." }),

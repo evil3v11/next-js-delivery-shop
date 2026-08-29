@@ -7,6 +7,7 @@ import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 export const useArticlesCRUD = (
   uploadImageToServer: () => Promise<{ url: string; fileName: string } | null>,
 ) => {
+  const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
@@ -17,14 +18,14 @@ export const useArticlesCRUD = (
 
   const { formData, setIsSubmitting, createArticle } = useArticleStore();
 
-  const { getKeywordsArray, resetForm } = useArticleFormState();
+  const { getKeywordsArray } = useArticleFormState();
 
   const { fetchArticleCategories } = useArticleCategoriesStore();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        await fetchArticleCategories();
+        await fetchArticleCategories({ unlimited: true });
       } catch (e) {
         console.error("Ошибка загрузки категорий: ", e);
       }
@@ -63,6 +64,8 @@ export const useArticlesCRUD = (
         }
       }
 
+      const articleId = currentArticleId || undefined;
+
       const articleData = {
         ...formData,
         keywords: getKeywordsArray(),
@@ -73,15 +76,21 @@ export const useArticlesCRUD = (
         status: formData.status || "draft",
         isFeatured: formData.isFeatured || false,
         views: 0,
+        _id: articleId,
       };
 
-      const { success, message } = await createArticle(articleData);
+      const { success, message, data } = await createArticle(articleData);
       if (success) {
+        if (data?._id && !currentArticleId) {
+          setCurrentArticleId(data._id);
+        }
+
         setNotification({
           type: "success",
-          message: "Статья успешно создана",
+          message: currentArticleId
+            ? "Изменения сохранены"
+            : "Статья успешно создана",
         });
-        resetForm();
       } else {
         setNotification({
           type: "error",
@@ -96,6 +105,7 @@ export const useArticlesCRUD = (
       });
     } finally {
       setIsSubmitting(false);
+      window.scroll({ top: 0, behavior: "smooth" });
     }
   };
 

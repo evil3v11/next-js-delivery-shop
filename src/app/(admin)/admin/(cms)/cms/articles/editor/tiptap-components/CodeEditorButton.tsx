@@ -1,4 +1,4 @@
-import { Activity, useState } from "react";
+import { useState } from "react";
 
 import { EditorProps } from "../../_types";
 
@@ -19,7 +19,6 @@ const CodeEditorButton = ({ editor }: EditorProps) => {
       >
         <FileCode className="w-4 h-4" />
       </button>
-      {/* <Activity mode={isHtmlModalOpen ? "visible" : "hidden"}> */}
       {isHtmlModalOpen && (
         <HtmlEditorModal
           editor={editor}
@@ -27,7 +26,6 @@ const CodeEditorButton = ({ editor }: EditorProps) => {
           onCloseAction={() => setIsHtmlModalOpen(false)}
         />
       )}
-      {/* </Activity> */}
     </>
   );
 };

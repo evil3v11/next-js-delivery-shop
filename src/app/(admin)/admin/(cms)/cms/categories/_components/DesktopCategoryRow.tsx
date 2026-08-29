@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { CategoryRowProps } from "../_types";
 
 import { Edit, Trash2 } from "lucide-react";
@@ -13,6 +15,8 @@ const DesktopCategoryRow = ({
   onEdit,
   isBeingDragged = false,
 }: CategoryRowProps) => {
+  const [imageError, setImageError] = useState(false)
+
   const handleEdit = (e: React.MouseEvent): void => {
     e.stopPropagation();
     onEdit(category);
@@ -22,6 +26,8 @@ const DesktopCategoryRow = ({
     e.stopPropagation();
     onDelete(category._id);
   };
+
+  const showImage = category.image && !imageError
 
   return (
     <div
@@ -45,7 +51,7 @@ const DesktopCategoryRow = ({
           </span>
         </div>
         <div className="flex items-center justify-center">
-          {category.image ? (
+          {showImage ? (
             <Image
               src={category.image}
               alt={category.imageAlt || category.name}
@@ -53,6 +59,8 @@ const DesktopCategoryRow = ({
               width={50}
               height={50}
               className="object-cover rounded border border-gray-200"
+              onError={() => setImageError(true)}
+              loading="lazy"
             />
           ) : (
             <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center">
