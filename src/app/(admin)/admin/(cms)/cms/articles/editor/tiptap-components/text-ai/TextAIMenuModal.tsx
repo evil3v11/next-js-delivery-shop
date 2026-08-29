@@ -23,11 +23,11 @@ const TextAIMenuModal = ({
   return (
     <div
       className="fixed inset-0 bg-linear-to-br from-purple-700 to-pink-700 flex items-center 
-    justify-center z-100 p-4 backdrop-blur-sm px-[max(12px,calc((100%-1208px)/2))]"
+    justify-center z-100 p-4 backdrop-blur-sm px-[max(12px,calc((100%-1208px)/2))] cursor-default"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-xl shadow-2xl w-full overflow-hidden cursor-default select-text"
+        className="bg-white rounded-xl shadow-2xl w-full overflow-hidden select-text"
       >
         <div className="flex justify-between items-center p-6 border-b bg-linear-to-r from-red-50 to-yellow-50">
           <div>
