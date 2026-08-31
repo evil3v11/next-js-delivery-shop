@@ -1,6 +1,6 @@
 import { CartItem } from "../cart";
 import { UserDataOrNull } from "../userData";
-import { Category } from "@/app/(admin)/admin/(cms)/cms/_types/entities";
+import { Category } from "@/types/entities";
 
 import { ApiResponse } from "../api/default-response";
 import {

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { ApiResponse } from "@/types/api/default-response";
 import { ObjectId } from "mongodb";
-import { Category } from "../../../_types/entities";
+import { Category } from "../../../../../../../../types/entities";
 
 type ReorderData = Pick<Category, "_id" | "numericId">;
 

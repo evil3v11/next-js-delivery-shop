@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/types/api/default-response";
 import { SiteSettings } from "../siteSettings";
 import { BlogCategory } from "@/app/(blog)/blog/categories/_types/categories";
-import { Article, Category } from "../entities";
+import { Article, Category } from "@/types/entities";
 
 export type GetSiteSettingsResponse = {
   success: boolean;

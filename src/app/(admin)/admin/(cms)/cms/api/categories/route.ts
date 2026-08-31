@@ -5,7 +5,7 @@ import { buildSortObject } from "../../_utils/buildSortObject";
 import { buildFilterQuery } from "../../_utils/buildFilterQuery";
 
 import { ObjectId } from "mongodb";
-import type { Category } from "../../_types/entities";
+import type { Category } from "../../../../../../../types/entities";
 import type { FilterType, SortDirection, SortField } from "../../categories/_types";
 import type {
   CreateCategoryResponse,

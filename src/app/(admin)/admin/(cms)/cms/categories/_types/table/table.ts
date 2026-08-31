@@ -1,4 +1,4 @@
-import { Category } from "../../../_types/entities";
+import { Category } from "../../../../../../../../types/entities";
 
 export interface CategoryTableProps {
   onDelete: (categoryId: string) => void;

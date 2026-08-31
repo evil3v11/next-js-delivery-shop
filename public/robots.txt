@@ -8,6 +8,7 @@ Disallow: /cart/
 Disallow: /user-profile/
 Disallow: /orders/
 Disallow: /favorites/
+Disallow: /articles/
 Disallow: /user/
 Disallow: /*?*
 Disallow: /_next/

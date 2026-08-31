@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import { Category } from "../../_types/entities";
+import { Category } from "../../../../../../../types/entities";
 import { CategoryTableProps } from "../_types";
 
 import CategoryTableHeader from "./CategoryTableHeader";
@@ -92,7 +92,7 @@ const CategoryTable = ({ onDelete, onEdit, onReorder }: CategoryTableProps) => {
             const isDragOver = draggedOverId === category._id;
             return (
               <div
-                key={category._id}
+                key={String(category._id)}
                 draggable="true"
                 onDragStart={() => handleDragStart(category._id)}
                 onDragOver={(e) => handleDragOver(e, category._id)}

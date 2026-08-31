@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useArticleStore } from "@/store/articleStore";
 
-import { ArticleStatus } from "../../../_types";
+import { ArticleStatus } from "@/types/entities";
 
 import '../_styles/modal-preview.css'
 

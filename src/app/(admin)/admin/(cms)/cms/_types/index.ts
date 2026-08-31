@@ -1,3 +1,3 @@
 export * from "./api";
-export * from "./entities";
+export * from "../../../../../../types/entities";
 export * from "./hooks";

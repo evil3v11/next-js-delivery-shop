@@ -5,12 +5,12 @@ import Link from "next/link";
 
 const createPageUrl = (
   basePath: string,
-  params: URLSearchParams,
+  searchParams: URLSearchParams,
   page: number,
 ): string => {
-  const newParams = new URLSearchParams(params);
-  newParams.set("page", String(page));
-  return `${basePath}?${String(newParams)}`;
+  const newSearchParams = new URLSearchParams(searchParams);
+  newSearchParams.set("page", String(page));
+  return `${basePath}?${String(newSearchParams)}`;
 };
 
 const getVisiblePages = (totalPages: number, currentPage: number) => {
@@ -47,7 +47,7 @@ const Pagination = ({
   searchQuery,
 }: PaginationProps) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const params = new URLSearchParams(searchQuery);
+  const searchParams = new URLSearchParams(searchQuery);
   const visiblePages = getVisiblePages(totalPages, currentPage);
 
   const buttonBase ="w-5.5 h-5.5 md:w-10 md:h-10 flex items-center justify-center rounded duration-300 text-secondary";
@@ -59,7 +59,7 @@ const Pagination = ({
     <div className="flex justify-center mt-10 text-white text-sm md:text-base">
       <nav className="flex gap-1 md:gap-2 items-center">
         <Link
-          href={createPageUrl(basePath, params, 1)}
+          href={createPageUrl(basePath, searchParams, 1)}
           className={`${pageButtonClass} ${currentPage === 1 ? buttonDisabled : buttonActive}`}
           aria-disabled={currentPage === 1}
           tabIndex={currentPage === 1 ? -1 : undefined}
@@ -67,7 +67,7 @@ const Pagination = ({
           &laquo;
         </Link>
         <Link
-          href={createPageUrl(basePath, params, currentPage - 1)}
+          href={createPageUrl(basePath, searchParams, currentPage - 1)}
           className={`${pageButtonClass} ${currentPage === 1 ? buttonDisabled : buttonActive}`}
           aria-disabled={currentPage === 1}
           tabIndex={currentPage === 1 ? -1 : undefined}
@@ -86,7 +86,7 @@ const Pagination = ({
           return (
             <Link
               key={page}
-              href={createPageUrl(basePath, params, Number(page))}
+              href={createPageUrl(basePath, searchParams, Number(page))}
               className={`${pageButtonClass} ${page === currentPage ? buttonActive : "hover:bg-secondary/25"}`}
             >
               {page}
@@ -94,7 +94,7 @@ const Pagination = ({
           );
         })}
         <Link
-          href={createPageUrl(basePath, params, currentPage + 1)}
+          href={createPageUrl(basePath, searchParams, currentPage + 1)}
           className={`${pageButtonClass} ${currentPage === totalPages ? buttonDisabled : buttonActive}`}
           aria-disabled={currentPage === totalPages}
           tabIndex={currentPage === totalPages ? -1 : undefined}
@@ -102,7 +102,7 @@ const Pagination = ({
           &rsaquo;
         </Link>
         <Link
-          href={createPageUrl(basePath, params, totalPages)}
+          href={createPageUrl(basePath, searchParams, totalPages)}
           className={`${pageButtonClass} ${currentPage === totalPages ? buttonDisabled : buttonActive}`}
           aria-disabled={currentPage === totalPages}
           tabIndex={currentPage === totalPages ? -1 : undefined}
