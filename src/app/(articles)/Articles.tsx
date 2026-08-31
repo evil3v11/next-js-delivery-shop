@@ -11,7 +11,7 @@ const Articles = async () => {
   return (
     <ArticlesSection
       title="Статьи"
-      viewAllBtn={{ text: "Все статьи", href: "/articles" }}
+      viewAllBtn={{ text: "Все статьи", href: "/blog" }}
       articles={products}
     />
   );

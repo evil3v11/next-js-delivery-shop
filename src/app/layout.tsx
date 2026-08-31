@@ -10,13 +10,16 @@ import StateProvider from "@/store/StateProvider";
 import StoreProvider from "./provider";
 import { ProductProvider } from "./contexts/ProductContext";
 import { generateSiteMetadata } from "@/utils/metadata/generateSiteMetadata";
+import CategoryProvider from "./contexts/CategoryContext";
+import ArticleProvider from "./contexts/ArticleContext";
 
 const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin", "cyrillic"],
 });
 
-export const generateMetadata = async (): Promise<Metadata> => await generateSiteMetadata()
+export const generateMetadata = async (): Promise<Metadata> =>
+  await generateSiteMetadata();
 
 export default function RootLayout({
   children,
@@ -33,10 +36,14 @@ export default function RootLayout({
           <StateProvider>
             <RegFormProvider>
               <ProductProvider>
-                <Header />
-                <Breadcrumbs />
-                {children}
-                <Footer />
+                <CategoryProvider>
+                  <ArticleProvider>
+                    <Header />
+                    <Breadcrumbs />
+                    {children}
+                    <Footer />
+                  </ArticleProvider>
+                </CategoryProvider>
               </ProductProvider>
             </RegFormProvider>
           </StateProvider>

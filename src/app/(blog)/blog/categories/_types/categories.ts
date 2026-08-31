@@ -1,4 +1,4 @@
-import { Category } from "@/app/(admin)/admin/(cms)/cms/_types/entities";
+import { Category } from "@/types/entities";
 
 export type BlogCategory = Omit<Category, "keywords"> & {
   articleCount?: number;

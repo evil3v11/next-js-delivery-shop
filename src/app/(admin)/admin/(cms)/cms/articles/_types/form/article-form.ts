@@ -1,4 +1,4 @@
-import { ArticleStatus } from "../../../_types";
+import { ArticleStatus } from "@/types/entities";
 import { CategoryFormProps } from "../../../categories/_types";
 
 export type ArticleFormData = {

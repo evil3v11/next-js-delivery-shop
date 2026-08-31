@@ -1,4 +1,4 @@
-import { Article } from "./articles";
+import { Article } from "@/types/entities";
 import { Product } from "./product";
 
 type ContentItem = Product | Article;

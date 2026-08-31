@@ -3,7 +3,7 @@ import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
 import { transliterateText } from "@/utils/transliterateText";
 
-import type { Category } from "../../_types/entities";
+import type { Category } from "../../../../../../../types/entities";
 
 export const useCategoryFormState = () => {
   const [tempImageFile, setTempImageFile] = useState<File | null>(null);

@@ -38,6 +38,12 @@ export const generateMetadata = async (): Promise<Metadata> => {
       canonical: `${baseUrl}/blog`,
     },
     keywords: [...new Set(keywords)],
+    openGraph: {
+      title: 'Блог "Северяночка"',
+      description,
+      type: "article",
+      url: `${baseUrl}/blog`,
+    },
   };
 };
 

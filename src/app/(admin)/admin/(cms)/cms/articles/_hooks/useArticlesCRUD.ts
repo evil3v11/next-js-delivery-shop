@@ -82,7 +82,7 @@ export const useArticlesCRUD = (
       const { success, message, data } = await createArticle(articleData);
       if (success) {
         if (data?._id && !currentArticleId) {
-          setCurrentArticleId(data._id);
+          setCurrentArticleId(String(data._id));
         }
 
         setNotification({

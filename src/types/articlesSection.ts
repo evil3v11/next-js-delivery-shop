@@ -1,4 +1,4 @@
-import { Article } from "./articles";
+import { Article } from "@/types/entities";
 
 export interface ArticlesSectionProps {
   title: string;

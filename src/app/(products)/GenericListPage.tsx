@@ -1,6 +1,6 @@
 import { GenericListPageProps } from "@/types/genericListPageProps";
 import { Product } from "@/types/product";
-import { Article } from "@/types/articles";
+import { Article } from "@/types/entities/article";
 import { CONFIG } from "../../../config/config";
 
 import ProductsSection from "./ProductsSection";

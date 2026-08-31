@@ -4,7 +4,7 @@ import { useCategoryFormValidation } from "./useCategoryFormValidation";
 import { useCategoryFormState } from "./useCategoryFormState";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import type { Category } from "../../_types/entities";
+import type { Category } from "../../../../../../../types/entities";
 
 export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: string; fileName: string; } | null>) => {
   const [notification, setNotification] = useState<{

@@ -16,7 +16,7 @@ const CategorySelect = ({ value, onChange }: CategorySelectProps) => {
   const selectedCategory = categories.find((c) => c._id === value);
 
   const handleSelect = (category: Category): void => {
-    onChange(category._id, category.name, category.slug);
+    onChange(String(category._id), category.name, category.slug);
     setIsOpen(false);
   };
 
@@ -49,7 +49,7 @@ const CategorySelect = ({ value, onChange }: CategorySelectProps) => {
           >
             {categories.map((category) => (
               <button
-                key={category._id}
+                key={String(category._id)}
                 type="button"
                 onClick={() => handleSelect(category)}
                 className="w-full px-3 py-2 text-left hover:bg-gray-100 flex items-center justify-between"
