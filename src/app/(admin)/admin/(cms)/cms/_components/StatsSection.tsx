@@ -11,7 +11,7 @@ import StatItem from "./StatItem";
 import StatsSkeleton from "./StatsSkeleton";
 
 const StatsSection = () => {
-  const { categoriesCount, keywordsCount } = useStatsValue();
+  const { categoriesCount, keywordsCount, publishedCount, viewsCount } = useStatsValue();
   const { isLoading: areSettingsLoading } = useSiteSettings();
   const { isLoading: areCategoriesLoading } = useArticleCategoriesStore();
 
@@ -33,6 +33,8 @@ const StatsSection = () => {
               stat.title,
               String(categoriesCount),
               String(keywordsCount),
+              String(publishedCount),
+              String(viewsCount)
             )}
           />
         ))}

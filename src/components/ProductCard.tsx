@@ -88,7 +88,7 @@ const ProductCard = ({
             alt="Товар"
             fill
             priority={isPriorityImage}
-            className="object-contain cursor-pointer hover:scale-110 duration-300"
+            className="object-contain cursor-pointer"
             sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 272px"
           />
           {!isAdminOrderPage && !isOrderCard && discountPercent > 0 && (
