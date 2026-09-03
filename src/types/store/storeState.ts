@@ -1,6 +1,6 @@
 import { CartItem } from "../cart";
 import { UserDataOrNull } from "../userData";
-import { Category } from "@/types/entities";
+import { Article, ArticleStatus, Category } from "@/types/entities";
 
 import { ApiResponse } from "../api/default-response";
 import {
@@ -9,12 +9,16 @@ import {
 } from "@/app/(admin)/admin/(cms)/cms/articles/_types";
 import {
   CategoryFormData,
-  FilterType,
-  SortDirection,
-  SortField,
   UpdateCategoryFormData,
 } from "@/app/(admin)/admin/(cms)/cms/categories/_types";
 import { CreateArticleResponse } from "@/app/(admin)/admin/(cms)/cms/_types";
+import {
+  CategorySortField,
+  ArticleSortField,
+  SortDirection,
+  CategoryFilterType,
+  ArticleFilterType,
+} from "../filters";
 
 export interface CartState {
   cart: CartItem[];
@@ -57,9 +61,8 @@ export interface AuthState {
 }
 
 export interface ArticleCategoriesState {
+  // data for CRUD ops
   categories: Category[];
-  totalPages: number;
-  totalAllItems: number;
   editingId: string | null;
   isLoading: boolean;
   isSubmitting: boolean;
@@ -67,29 +70,7 @@ export interface ArticleCategoriesState {
   showForm: boolean;
   originalImageUrl: string;
   formData: CategoryFormData;
-  currentPage: number;
-  totalFilteredItems: number;
-  itemsPerPage: number;
-  sortField: SortField;
-  sortDirection: SortDirection;
-  searchQuery: string;
-  filterType: FilterType;
-
-  // DnD
-  draggedId: string | null;
-  draggedOverId: string | null;
-  tempOrder: Map<string, number>;
-  isReordering: boolean;
-  setDraggedId: (draggedId: string | null) => void;
-  setDraggedOverId: (draggedOverId: string | null) => void;
-  setTempOrder: (tempOrder: Map<string, number>) => void;
-  setIsReordering: (isReordering: boolean) => void;
-  reorderItems: <T>(items: T[]) => Promise<ApiResponse>;
-  //
-
   setCategories: (categories: Category[]) => void;
-  setTotalPages: (totalPages: number) => void;
-  setTotalAllItems: (totalAllItems: number) => void;
   setEditingId: (editingId: string | null) => void;
   clearEditingId: () => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -100,15 +81,13 @@ export interface ArticleCategoriesState {
   setFormData: (formData: CategoryFormData) => void;
   updateFormField: (field: keyof CategoryFormData, value: string) => void;
   resetFormData: () => void;
-  setCurrentPage: (currentPage: number) => void;
-  setTotalFilteredItems: (totalFilteredItems: number) => void;
-  setItemsPerPage: (itemsPerPage: number) => void;
-  setSortField: (sortField: SortField) => void;
-  setSortDirection: (sortDirection: SortDirection) => void;
+  //
+
+  // CRUD ops
   fetchArticleCategories: (queryParams?: {
     page?: number;
     query?: string;
-    filterBy?: FilterType;
+    filterBy?: CategoryFilterType;
     unlimited?: boolean;
   }) => Promise<void>;
   createCategory: (
@@ -119,24 +98,111 @@ export interface ArticleCategoriesState {
     editingId: string,
     categoryData: UpdateCategoryFormData,
   ) => Promise<ApiResponse>;
+  //
+
+  // pagination
+  totalPages: number;
+  totalAllItems: number;
+  currentPage: number;
+  totalFilteredItems: number;
+  itemsPerPage: number;
+  setTotalPages: (totalPages: number) => void;
+  setTotalAllItems: (totalAllItems: number) => void;
+  setCurrentPage: (currentPage: number) => void;
+  setTotalFilteredItems: (totalFilteredItems: number) => void;
+  setItemsPerPage: (itemsPerPage: number) => void;
+  //
+
+  // filters
+  sortField: CategorySortField;
+  sortDirection: SortDirection;
+  searchQuery: string;
+  filterType: CategoryFilterType;
+  setSortField: (sortField: CategorySortField) => void;
+  setSortDirection: (sortDirection: SortDirection) => void;
   setSearchQuery: (searchQuery: string) => void;
-  setFilterType: (filterType: FilterType) => void;
+  setFilterType: (filterType: CategoryFilterType) => void;
   clearSearchQuery: () => void;
+  //
 }
+
 export interface ArticleState {
+  // data for CRUD ops
+  articles: Article[];
+  isLoading: boolean;
   isSubmitting: boolean;
   formData: ArticleFormData;
   originalImageUrl: string;
-  editingId?: string;
   isUploading: boolean;
-  setIsUploading: (isUploading: boolean) => void;
+  setArticles: (articles: Article[]) => void;
+  setArticleData: (articleData: Article) => void;
+  setIsLoading: (isLoading: boolean) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
   setFormData: (formData: ArticleFormData) => void;
-  setOriginalImageUrl: (originalImageUrl: string) => void;
   updateFormField: (
     field: keyof ArticleFormData,
     value: string | boolean,
   ) => void;
   resetFormData: () => void;
-  createArticle: (articleData: UpdateArticleFormData) => Promise<CreateArticleResponse>;
+  setOriginalImageUrl: (originalImageUrl: string) => void;
+  setIsUploading: (isUploading: boolean) => void;
+  //
+
+  // CRUD ops
+  fetchArticle: (articleId: string) => Promise<ApiResponse & { data?: Article }>;
+  fetchArticles: (queryParams?: {
+    page?: number;
+    query?: string;
+    filterBy?: ArticleFilterType;
+  }) => Promise<void>;
+  createArticle: (
+    articleData: UpdateArticleFormData,
+  ) => Promise<CreateArticleResponse>;
+  deleteArticle: (articleId: string) => Promise<ApiResponse>;
+  updateArticleStatus: (articleId: string, newStatus: ArticleStatus) => Promise<ApiResponse>;
+  updateArticleFeatured: (articleId: string, isFeatured: boolean) => Promise<ApiResponse>; 
+  //
+
+  // pagination
+  totalAllItems: number;
+  totalPages: number;
+  currentPage: number;
+  itemsPerPage: number;
+  totalFilteredItems: number;
+  setTotalAllItems: (totalAllItems: number) => void;
+  setTotalPages: (totalPages: number) => void;
+  setCurrentPage: (currentPage: number) => void;
+  setItemsPerPage: (itemsPerPage: number) => void;
+  setTotalFilteredItems: (totalFilteredItems: number) => void
+  //
+
+  // filters
+  sortField: ArticleSortField;
+  sortDirection: SortDirection;
+  searchQuery: string;
+  filterType: ArticleFilterType;
+  setSortField: (sortField: ArticleSortField) => void;
+  setSortDirection: (sortDirection: SortDirection) => void;
+  setSearchQuery: (searchQuery: string) => void;
+  setFilterType: (filterType: ArticleFilterType) => void;
+  clearSearchQuery: () => void;
+  //
+}
+
+export interface DnDState {
+  // DnD
+  draggedId: string | null;
+  draggedOverId: string | null;
+  tempOrder: Map<string, number>;
+  isReordering: boolean;
+  setDraggedId: (draggedId: string | null) => void;
+  setDraggedOverId: (draggedOverId: string | null) => void;
+  setTempOrder: (tempOrder: Map<string, number>) => void;
+  setIsReordering: (isReordering: boolean) => void;
+  reorderItems: <T>(
+    items: T[],
+    itemType: "articles" | "categories",
+  ) => Promise<ApiResponse>;
+  resetDnDStore: () => void;
+  //
 }

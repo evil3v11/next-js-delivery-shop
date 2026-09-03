@@ -5,7 +5,7 @@ import { Activity, useState } from "react";
 import type { CategoryRowProps } from "../_types";
 
 import { ChevronDown } from "lucide-react";
-import DragCategoriesElement from "./DragCategoriesElement";
+import DragElement from "../../_components/DragElement";
 import MobileCategoryHeader from "./MobileCategoryHeader";
 import MobileExpandableContent from "./MobileExpandableContent";
 
@@ -30,7 +30,7 @@ const MobileCategoryCard = ({
       <div className="flex justify-between items-start">
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-3 mb-1">
-            <DragCategoriesElement />
+            <DragElement />
             <MobileCategoryHeader
               category={category}
               displayNumericId={displayNumericId}

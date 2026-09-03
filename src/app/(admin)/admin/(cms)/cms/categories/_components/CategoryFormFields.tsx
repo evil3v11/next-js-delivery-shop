@@ -65,7 +65,7 @@ const CategoryFormFields = ({
             {charCount.slug}/{SEO_LIMITS.slug.max}
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col lg:flex-row gap-2">
           <input
             required
             placeholder="soki"

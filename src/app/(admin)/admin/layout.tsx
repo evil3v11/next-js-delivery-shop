@@ -5,6 +5,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 
 import Loader from "@/components/Loader";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 const AdminPageLayout = ({ children }: { children: ReactNode }) => {
   const { user, isLoading, checkAuth } = useAuthStore();
@@ -22,7 +23,8 @@ const AdminPageLayout = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!isCheckingAuth) {
-      const hasAccess = user && (user.role === "admin" || user.role === "manager");
+      const hasAccess =
+        user && (user.role === "admin" || user.role === "manager");
       if (!hasAccess) router.replace("/");
     }
   }, [isCheckingAuth, user, router]);
@@ -31,7 +33,12 @@ const AdminPageLayout = ({ children }: { children: ReactNode }) => {
 
   if (isLoading || isCheckingAuth) return <Loader />;
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ScrollToTopButton appearPos={300} finishPos={600} />
+    </>
+  );
 };
 
 export default AdminPageLayout;

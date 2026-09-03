@@ -6,7 +6,7 @@ import { buildFilterQuery } from "../../_utils/buildFilterQuery";
 
 import { ObjectId } from "mongodb";
 import type { Category } from "../../../../../../../types/entities";
-import type { FilterType, SortDirection, SortField } from "../../categories/_types";
+import type { CategoryFilterType, SortDirection, CategorySortField } from "@/types/filters";
 import type {
   CreateCategoryResponse,
   GetCategoriesResponse,
@@ -19,10 +19,10 @@ export const GET = async (
     const searchParams = request.nextUrl.searchParams;
     const page = Number(searchParams.get("page") || "1");
     const limit = Number(searchParams.get("limit"))
-    const sortBy = (searchParams.get("sortBy") as SortField) || "numericId";
+    const sortBy = (searchParams.get("sortBy") as CategorySortField) || "numericId";
     const sortOrder = (searchParams.get("sortOrder") as SortDirection) || "asc";
     const query = searchParams.get("query") || "";
-    const filterBy = (searchParams.get("filterBy") as FilterType) || "all";
+    const filterBy = (searchParams.get("filterBy") as CategoryFilterType) || "all";
 
     const validPage = Math.max(1, page);
     const validLimit = limit ? Math.max(1, Math.min(limit, 100)) : 100;
@@ -154,6 +154,7 @@ export const POST = async (
       author: data.author || "",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      numberOfArticles: 0,
     };
 
     await db.collection("article-category").insertOne(newCategory);

@@ -5,6 +5,18 @@ import { Article } from "@/types/entities";
 import Image from "next/image";
 import Link from "next/link";
 
+type ArticleCard = Pick<
+  Article,
+  | "slug"
+  | "categorySlug"
+  | "name"
+  | "image"
+  | "imageAlt"
+  | "categoryName"
+  | "description"
+  | "publishedAt"
+>;
+
 const ArticleCard = ({
   slug,
   categorySlug,
@@ -14,7 +26,7 @@ const ArticleCard = ({
   categoryName,
   description,
   publishedAt,
-}: Article) => {
+}: ArticleCard) => {
   const articleUrl = `/blog/${categorySlug}/${slug}`;
   const gradientClass = getColorFromName(name);
 

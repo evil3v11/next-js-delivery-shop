@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { FiltersState } from "@/types/filters";
+import { FiltersState } from "@/types/props";
 
 interface FiltersProps {
   filters: FiltersState;

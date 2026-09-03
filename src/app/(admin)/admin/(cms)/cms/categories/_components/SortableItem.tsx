@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useDnDStore } from "@/store/dndStore";
 
 import { SortableItemProps } from "../_types";
 
@@ -16,7 +16,8 @@ const SortableItem = ({
   onEdit,
 }: SortableItemProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
-  const { draggedId } = useArticleCategoriesStore();
+  
+  const { draggedId } = useDnDStore();
 
   useEffect(() => {
     const checkMobile = () => setIsMobileView(window.innerWidth < 1024);

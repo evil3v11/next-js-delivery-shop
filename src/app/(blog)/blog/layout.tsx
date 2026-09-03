@@ -1,4 +1,6 @@
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import BlogSearch from "./_components/BlogSearch";
+import BlogShareButtons from "./_components/BlogShareButtons";
 
 const BlogLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -7,6 +9,8 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
         <BlogSearch />
       </div>
       {children}
+      <BlogShareButtons />
+      <ScrollToTopButton appearPos={300} />
     </div>
   );
 };

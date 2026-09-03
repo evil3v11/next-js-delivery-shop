@@ -19,11 +19,11 @@ const ImageSection = ({
   onRemoveImage,
   onSaveImageFile,
 }: ImageSectionProps) => {
-  const categoryData = useArticleCategoriesStore();
+  const { editingId, ...categoryData} = useArticleCategoriesStore();
   const articleData = useArticleStore();
   const storeData = type === "category" ? categoryData : articleData;
 
-  const { formData, editingId, isUploading, isSubmitting, setIsUploading } = storeData;
+  const { formData, isUploading, isSubmitting, setIsUploading } = storeData;
 
   const entityName = type === "category" ? "категории" : "статьи";
 
@@ -60,7 +60,7 @@ const ImageSection = ({
       <div className="space-y-4">
         {formData.image && (
           <div className="bg-white p-4 rounded border border-gray-200">
-            <div className="flex items-start gap-4">
+            <div className="flex flex-col lg:flex-row items-start gap-4">
               <div className="shrink-0">
                 <Image
                   src={formData.image}

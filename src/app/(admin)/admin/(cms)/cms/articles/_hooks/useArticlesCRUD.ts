@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useArticleStore } from "@/store/articleStore";
 import { useAuthStore } from "@/store/authStore";
-import { useArticleFormState } from "./useArticleFormState";
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useDnDStore } from "@/store/dndStore";
+import { useArticleFormState } from "./useArticleFormState";
+
+import { Article } from "@/types/entities";
 
 export const useArticlesCRUD = (
-  uploadImageToServer: () => Promise<{ url: string; fileName: string } | null>,
+  uploadImageToServer?: () => Promise<{ url: string; fileName: string } | null>,
 ) => {
   const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
   const [notification, setNotification] = useState<{
@@ -16,11 +20,61 @@ export const useArticlesCRUD = (
   const { user } = useAuthStore();
   const author = `${user?.lastName} ${user?.name}`.trim() || "Неизвестен";
 
-  const { formData, setIsSubmitting, createArticle } = useArticleStore();
+  const searchParams = useSearchParams();
+
+  const {
+    fetchArticle,
+    fetchArticles,
+    formData,
+    setIsSubmitting,
+    createArticle,
+    currentPage,
+    // deleteArticle,
+    setItemsPerPage,
+    setCurrentPage,
+    setIsLoading,
+    setArticleData,
+    resetFormData,
+  } = useArticleStore();
+
+  const { setIsReordering, reorderItems } = useDnDStore();
 
   const { getKeywordsArray } = useArticleFormState();
 
   const { fetchArticleCategories } = useArticleCategoriesStore();
+
+  useEffect(() => {
+    const getArticleWithId = async () => {
+      const articleId = searchParams.get("id");
+      if (!articleId) return;
+
+      try {
+        setIsLoading(true);
+        setCurrentArticleId(articleId);
+
+        const { success, message, data } = await fetchArticle(articleId);
+        if (success && data) {
+          setArticleData(data);
+        } else {
+          setNotification({
+            type: "error",
+            message,
+          });
+        }
+      } catch (e) {
+        console.error("Ошибка при загрузке статьи: ", e);
+        setNotification({
+          type: "error",
+          message: e instanceof Error ? e.message : "Неизвестная ошибка",
+        });
+        resetFormData();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getArticleWithId();
+  }, [searchParams, setIsLoading, fetchArticle, setArticleData, resetFormData]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -33,6 +87,10 @@ export const useArticlesCRUD = (
 
     fetchCategories();
   }, [fetchArticleCategories]);
+
+  useEffect(() => {
+    fetchArticles({ page: currentPage });
+  }, [fetchArticles, currentPage]);
 
   useEffect(() => {
     if (notification) {
@@ -48,7 +106,11 @@ export const useArticlesCRUD = (
       setIsSubmitting(true);
 
       let finalImageUrl = "";
-      if (formData.image && formData.image.startsWith("blob:")) {
+      if (
+        formData.image &&
+        formData.image.startsWith("blob:") &&
+        uploadImageToServer
+      ) {
         try {
           const uploadResult = await uploadImageToServer();
           if (uploadResult) finalImageUrl = uploadResult.url;
@@ -109,7 +171,7 @@ export const useArticlesCRUD = (
     }
   };
 
-  // const handleDeleteCategory = async (categoryId: string): Promise<void> => {
+  // const handleDeleteArticle = async (categoryId: string): Promise<void> => {
   //   if (!confirm("Вы уверены, что хотите удалить эту категорию?")) return;
   //   const categoryToDelete = categories.find(
   //     (c) => String(c._id) === categoryId,
@@ -137,117 +199,49 @@ export const useArticlesCRUD = (
   //   }
   // };
 
-  // const handleUpdateCategory = async (e: React.SubmitEvent): Promise<void> => {
-  //   e.preventDefault();
-  //   if (!editingId) return;
+  const handleReorder = async (reorderedItems: Article[]): Promise<void> => {
+    try {
+      setIsReordering(true);
 
-  //   try {
-  //     setIsSubmitting(true);
-  //     if (!validateForm(formData)) {
-  //       console.error("Ошибка валидации формы");
-  //       setNotification({
-  //         type: "error",
-  //         message: "Проверьте введенные данные в форму на наличие ошибок",
-  //       });
-  //       setIsSubmitting(false);
-  //       return;
-  //     }
+      const updateData = reorderedItems;
 
-  //     let finalImageUrl = formData.image;
-  //     let shouldDeleteOldImage = false;
+      const { success, message } = await reorderItems(updateData, "articles");
+      if (success) {
+        setNotification({
+          type: "success",
+          message,
+        });
+        await fetchArticles({ page: currentPage });
+      } else {
+        setNotification({
+          type: "error",
+          message,
+        });
+        throw new Error(message);
+      }
+    } catch (e) {
+      console.log("Ошибка при обновлении порядка: ", e);
+      setNotification({
+        type: "error",
+        message: `Ошибка при обновлении порядка: ${e}`,
+      });
+    } finally {
+      setIsReordering(false);
+    }
+  };
 
-  //     if (formData.image && formData.image.startsWith("blob:")) {
-  //       try {
-  //         const uploadResult = await uploadImageToServer();
-  //         if (uploadResult) {
-  //           finalImageUrl = uploadResult.url;
-  //           shouldDeleteOldImage = true;
-  //         } else throw new Error("Не удалось загрузить изображение");
-  //       } catch (uploadError) {
-  //         console.error("Ошибка при загрузке изображения: ", uploadError);
-  //         setNotification({
-  //           type: "error",
-  //           message: "Не удалось загрузить изображение",
-  //         });
-  //         setIsSubmitting(false);
-  //         return;
-  //       }
-  //     } else if (!formData.image && originalImageUrl) {
-  //       shouldDeleteOldImage = true;
-  //     }
-
-  //     if (shouldDeleteOldImage && originalImageUrl) {
-  //       const deleteSuccess = await deleteOldImage(originalImageUrl);
-  //       if (deleteSuccess) console.log("Старое изображение успешно удалено");
-  //     }
-
-  //     const updateData = {
-  //       ...formData,
-  //       image: finalImageUrl,
-  //       keywords: getKeywordsArray(),
-  //     };
-
-  //     const { success, message } = await updateArticle(editingId, updateData);
-  //     if (success) {
-  //       setNotification({
-  //         type: "success",
-  //         message: "Категория успешно обновлена",
-  //       });
-  //       resetForm();
-  //     } else {
-  //       setNotification({
-  //         type: "error",
-  //         message: message || "Ошибка обновления категории",
-  //       });
-  //     }
-  //   } catch (e) {
-  //     console.error("Непредвиденная ошибка: ", e);
-  //     setNotification({
-  //       type: "error",
-  //       message: "Непредвиденная ошибка сервера",
-  //     });
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
-  // const handleReorder = async (reorderedItems: Category[]): Promise<void> => {
-  //   try {
-  //     setIsReordering(true);
-  //     const updateData = reorderedItems.map((category) => ({
-  //       _id: String(category._id),
-  //       numericId: category.numericId || 0,
-  //     }));
-
-  //     const { success } = await reorderItems(updateData);
-  //     if (success) {
-  //       setNotification({
-  //         type: "success",
-  //         message: "Порядок успешно обновлен",
-  //       });
-  //     } else {
-  //       setNotification({
-  //         type: "error",
-  //         message: "Ошибка при обновлении порядка",
-  //       });
-  //     }
-  //   } catch (e) {
-  //     console.log("Ошибка при обновлении порядка: ", e);
-  //     setNotification({
-  //       type: "error",
-  //       message: `Ошибка при обновлении порядка: ${e}`,
-  //     });
-  //   } finally {
-  //     setIsReordering(false);
-  //   }
-  // };
+  const handleItemsPerPageChange = (itemsPerPage: number): void => {
+    setItemsPerPage(itemsPerPage);
+    setCurrentPage(1);
+    fetchArticles({ page: 1 });
+  };
 
   return {
     notification,
     setNotification,
     handleCreateArticle,
-    // handleDeleteCategory,
-    // handleUpdateCategory,
-    // handleReorder,
+    // handleDeleteArticle,
+    handleReorder,
+    handleItemsPerPageChange,
   };
 };

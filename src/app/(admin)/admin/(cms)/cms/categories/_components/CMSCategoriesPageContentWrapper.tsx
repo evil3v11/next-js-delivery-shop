@@ -1,11 +1,11 @@
 "use client";
 
 import { Activity } from "react";
-
+import { useDnDStore } from "@/store/dndStore";
+import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 import { useCategoriesCRUD } from "../_hooks/useCategoriesCRUD";
 import { useCategoryFormState } from "../_hooks/useCategoryFormState";
 import { useCategoryFormValidation } from "../_hooks/useCategoryFormValidation";
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
 import { CATEGORY_SEO_RECOMMENDATIONS } from "../../_utils/recommendations";
 
@@ -41,8 +41,9 @@ const CMSCategoriesPageContentWrapper = () => {
 
   const { errors } = useCategoryFormValidation();
 
-  const { totalPages, totalAllItems, isReordering, showForm, editingId } =
-    useArticleCategoriesStore();
+  const { totalPages, totalAllItems, showForm, editingId } = useArticleCategoriesStore();
+
+  const { isReordering } = useDnDStore()
 
   return (
     <>
@@ -76,7 +77,7 @@ const CMSCategoriesPageContentWrapper = () => {
         onEdit={startEditing}
         onReorder={handleReorder}
       />
-      {totalPages > 1 && <CMSPagination />}
+      {totalPages > 1 && <CMSPagination type="categories" />}
       <SEORecommendations recommendations={CATEGORY_SEO_RECOMMENDATIONS} />
     </>
   );

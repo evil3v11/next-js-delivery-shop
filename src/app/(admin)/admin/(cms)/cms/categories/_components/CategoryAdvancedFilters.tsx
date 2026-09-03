@@ -2,7 +2,7 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import type { FilterType, SortField } from "../_types";
+import { CategoryFilterType, CategorySortField } from "@/types/filters";
 
 const CategoryAdvancedFilters = () => {
   const {
@@ -23,7 +23,7 @@ const CategoryAdvancedFilters = () => {
           </label>
           <select
             value={filterType}
-            onChange={(e) => setFilterType(e.target.value as FilterType)}
+            onChange={(e) => setFilterType(e.target.value as CategoryFilterType)}
             className="text-sm w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 
             focus:ring-green-500 focus:border-green-500 outline-none"
           >
@@ -41,7 +41,7 @@ const CategoryAdvancedFilters = () => {
           </label>
           <select
             value={sortField}
-            onChange={(e) => setSortField(e.target.value as SortField)}
+            onChange={(e) => setSortField(e.target.value as CategorySortField)}
             className="text-sm w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 
             focus:ring-green-500 focus:border-green-500 outline-none"
           >

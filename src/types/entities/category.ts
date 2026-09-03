@@ -12,6 +12,7 @@ export type Category = {
   author: string;
   createdAt: string;
   updatedAt: string;
+  numberOfArticles: number;
 };
 
 export interface CategoryImageProps {
