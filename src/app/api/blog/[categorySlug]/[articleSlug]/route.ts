@@ -8,12 +8,15 @@ import type {
 } from "@/types/entities";
 
 export const GET = async (
-  _request: NextRequest,
+  request: NextRequest,
   {
     params,
   }: { params: Promise<{ categorySlug: string; articleSlug: string }> },
 ): Promise<NextResponse<ArticlePageData | { error: string }>> => {
   try {
+    const searchParams = request.nextUrl.searchParams
+    const role = searchParams.get('role')
+
     const { categorySlug, articleSlug } = await params;
     const db = await getDB();
 
@@ -31,7 +34,7 @@ export const GET = async (
     const articleDocument = await db.collection<Article>("articles").findOne({
       categoryId: String(categoryDocument._id),
       slug: articleSlug,
-      status: "published",
+      status: { $in: ["archived", "published"] },
     });
 
     if (!articleDocument) {
@@ -41,11 +44,13 @@ export const GET = async (
       );
     }
 
+    const shouldIncrementViews = role === 'user'
+
     const articleAfterIncrement = await db
       .collection<ArticleData>("articles")
       .findOneAndUpdate(
         { _id: articleDocument._id },
-        { $inc: { views: 1 } },
+        shouldIncrementViews ? { $inc: { views: 1 } } : { $set: {} },
         {
           returnDocument: "after",
           projection: {
@@ -58,8 +63,11 @@ export const GET = async (
             description: 1,
             content: 1,
             publishedAt: 1,
+            updatedAt: 1,
+            createdAt: 1,
             author: 1,
             views: 1,
+            status: 1,
           },
         },
       );

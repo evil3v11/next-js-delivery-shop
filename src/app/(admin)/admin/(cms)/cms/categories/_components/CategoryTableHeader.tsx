@@ -2,7 +2,7 @@
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
-import type { SortField } from "../_types";
+import { CategorySortField } from "@/types/filters";
 
 import { ChevronUp, ImageIcon } from "lucide-react";
 
@@ -18,7 +18,7 @@ const CategoryTableHeader = () => {
     fetchArticleCategories,
   } = useArticleCategoriesStore();
 
-  const handleSort = async (field: SortField): Promise<void> => {
+  const handleSort = async (field: CategorySortField): Promise<void> => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
@@ -33,7 +33,7 @@ const CategoryTableHeader = () => {
     });
   };
 
-  const renderSortIcon = (field: SortField): React.JSX.Element | null => {
+  const renderSortIcon = (field: CategorySortField): React.JSX.Element | null => {
     if (sortField !== field) return null;
     return (
       <ChevronUp
@@ -45,9 +45,10 @@ const CategoryTableHeader = () => {
   };
 
   return (
-    <div className="hidden lg:block border border-gray-200">
-      <div className="grid grid-cols-[0.3fr_0.5fr_1fr_2fr_2fr_2fr_2fr_1fr_1fr_2fr] gap-2 px-2 py-4 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wider">
-        <div />
+    <div className="hidden p-4 lg:block border border-gray-200">
+      <div className="grid lg:grid-cols-[32px_40px_50px_100px_80px_120px_120px_80px_80px_80px_100px] 
+      xl:grid-cols-[32px_40px_50px_120px_80px_160px_160px_80px_80px_80px_100px] gap-2 items-center justify-between">
+        <div className="w-6" />
         <div
           title="Сортировать по ID"
           onClick={() => handleSort("numericId")}
@@ -87,6 +88,13 @@ const CategoryTableHeader = () => {
         >
           Автор
           {renderSortIcon("author")}
+        </div>
+        <div
+          className="text-center cursor-pointer hover:text-gray-700 flex items-center justify-center"
+          onClick={() => handleSort("articles")}
+          title="Сортировать по кол-ву статей"
+        >
+          Статей {renderSortIcon("articles")}
         </div>
         <div
           title="Сортировать по дате создания"

@@ -25,7 +25,7 @@ export const GET = async (request: NextRequest) => {
       .collection("articles")
       .find({
         $and: [
-          { status: "published" },
+          { status: { $in: ["published", "archived"] } },
           {
             $or: [
               { name: { $regex: query, $options: "i" } },

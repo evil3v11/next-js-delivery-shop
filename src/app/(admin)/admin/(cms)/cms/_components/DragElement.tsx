@@ -2,7 +2,7 @@
 
 import { GripVertical } from "lucide-react";
 
-const DragCategoriesElement = () => {
+const DragElement = () => {
   return (
     <div
       title="Перетащить для сортировки"
@@ -14,4 +14,4 @@ const DragCategoriesElement = () => {
   );
 };
 
-export default DragCategoriesElement;
+export default DragElement;

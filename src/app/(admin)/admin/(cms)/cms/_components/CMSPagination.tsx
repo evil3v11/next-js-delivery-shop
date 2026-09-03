@@ -3,15 +3,21 @@
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
 import { CMS_CONFIG } from "../cms_config";
+import { useArticleStore } from "@/store/articleStore";
 
-const CMSPagination = () => {
+const CMSPagination = ({ type = 'categories' }: { type: 'categories' | 'articles' }) => {
+  const categoryStore = useArticleCategoriesStore()
+  const articlesStore = useArticleStore()
+
+  const store = type === 'categories' ? categoryStore : articlesStore
+
   const {
     totalPages,
     totalFilteredItems,
     itemsPerPage,
     currentPage,
     setCurrentPage,
-  } = useArticleCategoriesStore();
+  } = store;
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalFilteredItems);

@@ -1,8 +1,9 @@
-import { useAuthStore } from "@/store/authStore";
 import { useEffect, useState } from "react";
+import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useAuthStore } from "@/store/authStore";
+import { useDnDStore } from "@/store/dndStore";
 import { useCategoryFormValidation } from "./useCategoryFormValidation";
 import { useCategoryFormState } from "./useCategoryFormState";
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 
 import type { Category } from "../../../../../../../types/entities";
 
@@ -16,8 +17,7 @@ export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: stri
   const author = `${user?.lastName} ${user?.name}`.trim() || "Неизвестен";
 
   const { validateForm } = useCategoryFormValidation();
-  const { getKeywordsArray, deleteOldImage, resetForm } =
-    useCategoryFormState();
+  const { getKeywordsArray, deleteOldImage, resetForm } = useCategoryFormState();
 
   const {
     categories,
@@ -30,9 +30,9 @@ export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: stri
     createCategory,
     deleteCategory,
     updateCategory,
-    setIsReordering,
-    reorderItems,
   } = useArticleCategoriesStore();
+
+  const { setIsReordering, reorderItems, resetDnDStore } = useDnDStore()
 
   useEffect(() => {
     if (notification) {
@@ -217,18 +217,21 @@ export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: stri
         numericId: category.numericId || 0,
       }));
 
-      const { success } = await reorderItems(updateData);
+      const { success } = await reorderItems(updateData, 'categories');
       if (success) {
         setNotification({
           type: "success",
           message: "Порядок успешно обновлен",
         });
+        await fetchArticleCategories({ page: currentPage })
       } else {
         setNotification({
           type: "error",
           message: "Ошибка при обновлении порядка",
         });
       }
+
+      
     } catch (e) {
       console.log("Ошибка при обновлении порядка: ", e);
       setNotification({
@@ -237,7 +240,8 @@ export const useCategoriesCRUD = (uploadImageToServer: () => Promise<{ url: stri
       });
     } finally {
       setIsReordering(false);
-    }
+      resetDnDStore()
+    } 
   };
 
   return {

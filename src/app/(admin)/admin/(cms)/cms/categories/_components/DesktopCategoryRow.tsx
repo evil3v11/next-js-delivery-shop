@@ -6,7 +6,7 @@ import { CategoryRowProps } from "../_types";
 
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
-import DragCategoriesElement from "./DragCategoriesElement";
+import DragElement from "../../_components/DragElement";
 
 const DesktopCategoryRow = ({
   category,
@@ -15,7 +15,7 @@ const DesktopCategoryRow = ({
   onEdit,
   isBeingDragged = false,
 }: CategoryRowProps) => {
-  const [imageError, setImageError] = useState(false)
+  const [imageError, setImageError] = useState(false);
 
   const handleEdit = (e: React.MouseEvent): void => {
     e.stopPropagation();
@@ -27,7 +27,7 @@ const DesktopCategoryRow = ({
     onDelete(category._id);
   };
 
-  const showImage = category.image && !imageError
+  const showImage = category.image && !imageError;
 
   return (
     <div
@@ -37,9 +37,9 @@ const DesktopCategoryRow = ({
           : "hover:shadow-sm"
       }`}
     >
-      <div className="grid grid-cols-[0.3fr_0.5fr_1fr_2fr_2fr_2fr_2fr_1fr_1fr_2fr] gap-2 items-center">
+      <div className="grid lg:grid-cols-[32px_40px_50px_100px_80px_120px_120px_80px_80px_80px_100px] xl:grid-cols-[32px_40px_50px_120px_80px_160px_160px_80px_80px_80px_100px] gap-2 items-center justify-between">
         <div>
-          <DragCategoriesElement />
+          <DragElement />
         </div>
         <div className="flex justify-center">
           <span
@@ -121,6 +121,14 @@ const DesktopCategoryRow = ({
             title={category.author || "Автор неизвестен"}
           >
             {category.author || <span className="text-gray-400">—</span>}
+          </div>
+        </div>
+        <div className="min-w-0 flex justify-center">
+          <div
+            className="text-gray-600 text-xs wrap-break-word text-center"
+            title='Количество статей'
+          >
+            {category.numberOfArticles || 0}
           </div>
         </div>
         <div className="min-w-0">

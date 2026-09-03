@@ -1,23 +1,19 @@
 "use client";
 
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { CMSSearchBarProps } from "@/types/props";
 
 import { Search, X } from "lucide-react";
 
-const CategorySearchBar = () => {
-  const {
-    searchQuery,
-    setSearchQuery,
-    clearSearchQuery,
-    fetchArticleCategories,
-    setCurrentPage,
-  } = useArticleCategoriesStore();
-
+const CMSSearchBar = ({
+  searchQuery,
+  fetchItems,
+  setCurrentPage,
+  clearSearchQuery,
+  setSearchQuery,
+}: CMSSearchBarProps) => {
   const handleSearchClick = async (): Promise<void> => {
-    if (searchQuery.trim()) {
-      setCurrentPage(1);
-      await fetchArticleCategories({ page: 1, query: searchQuery });
-    }
+    setCurrentPage(1);
+    await fetchItems({ page: 1, query: searchQuery });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent): void => {
@@ -30,7 +26,7 @@ const CategorySearchBar = () => {
   const handleClear = async (): Promise<void> => {
     clearSearchQuery();
     setCurrentPage(1);
-    await fetchArticleCategories({ page: 1 });
+    await fetchItems({ page: 1 });
   };
 
   return (
@@ -67,4 +63,4 @@ const CategorySearchBar = () => {
   );
 };
 
-export default CategorySearchBar;
+export default CMSSearchBar;

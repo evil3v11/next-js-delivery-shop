@@ -1,9 +1,88 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
-import { ObjectId } from "mongodb";
-import type { CreateArticleResponse } from "../../_types";
+
 import { sanitizeArticleHTML } from "@/utils/sanitizeArticleHTML";
 import { processArticleImages } from "../../articles/editor/_utils/processArticleImages";
+import { buildSortObject } from "../../_utils/buildSortObject";
+import { buildFilterQuery } from "../../_utils/buildFilterQuery";
+
+import { ObjectId } from "mongodb";
+import type { Article } from "@/types/entities";
+import type {
+  ArticleFilterType,
+  ArticleSortField,
+  SortDirection,
+} from "@/types/filters";
+import type {
+  CreateArticleResponse,
+  FetchArticlesResponse,
+} from "../../_types";
+
+export const GET = async (
+  request: NextRequest,
+): Promise<NextResponse<FetchArticlesResponse>> => {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+
+    const page = Number(searchParams.get("page")) ?? 10;
+    const limit = Number(searchParams.get("limit")!);
+    const sortBy =
+      (searchParams.get("sortBy") as ArticleSortField) ?? "numericId";
+    const sortOrder = (searchParams.get("sortOrder") as SortDirection) ?? "asc";
+    const query = searchParams.get("query") ?? "";
+    const filterBy =
+      (searchParams.get("filterBy") as ArticleFilterType) ?? "all";
+
+    const validPage = Math.max(1, page);
+    const validLimit = Math.max(1, Math.min(limit, 10000));
+
+    const sortObject = buildSortObject(sortBy, sortOrder);
+    const filterQuery = buildFilterQuery(query, filterBy);
+    const skip = (validPage - 1) * validLimit;
+
+    const db = await getDB();
+    const articles = await db
+      .collection<Article>("articles")
+      .find(filterQuery)
+      .sort(sortObject)
+      .skip(skip)
+      .limit(validLimit)
+      .toArray();
+
+    const totalAmount = await db
+      .collection<Article>("articles")
+      .countDocuments({});
+    const totalFilteredItems = await db
+      .collection("articles")
+      .countDocuments(filterQuery);
+    const totalPages = Math.ceil(totalFilteredItems / validLimit);
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Запрос успешно обработан",
+        data: {
+          articles: articles.map((a) => ({ ...a, _id: String(a._id) })),
+          totalAmount,
+          pagination: {
+            totalFilteredItems,
+            totalPages,
+          },
+        },
+      },
+      { status: 200 },
+    );
+  } catch (e) {
+    console.error("Ошибка при получении статей: ", e);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Внутренняя ошибка сервера",
+      },
+      { status: 500 },
+    );
+  }
+};
 
 export const POST = async (
   request: NextRequest,
@@ -185,6 +264,13 @@ export const POST = async (
       ...newArticle,
       _id: String(newArticle._id),
     };
+
+    await db
+      .collection("article-category")
+      .findOneAndUpdate(
+        { _id: new ObjectId(categoryId) },
+        { $inc: { numberOfArticleds: 1 } },
+      );
 
     return NextResponse.json(
       {

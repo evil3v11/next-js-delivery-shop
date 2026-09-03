@@ -6,80 +6,28 @@ import type { ArticleCategoriesState } from "@/types/store/storeState";
 
 export const useArticleCategoriesStore = create<ArticleCategoriesState>(
   (set, get) => ({
+    // data for CRUD ops
     categories: [],
-    totalPages: 0,
-    totalAllItems: 0,
+    formData: CMS_CONFIG.INITIAL_FORM_DATA,
+    showForm: false,
     editingId: null,
     isLoading: false,
     isSubmitting: false,
     isUploading: false,
-    showForm: false,
     originalImageUrl: "",
-    formData: CMS_CONFIG.INITIAL_FORM_DATA,
-    currentPage: 1,
-    totalFilteredItems: 0,
-    itemsPerPage: CMS_CONFIG.ITEMS_PER_PAGE,
-    sortField: "numericId",
-    sortDirection: "asc",
-    searchQuery: "",
-    filterType: "all",
-    // DnD
-    draggedId: null,
-    draggedOverId: null,
-    tempOrder: new Map(),
-    isReordering: false,
-    //
     setCategories: (categories) => set({ categories }),
-    setTotalPages: (totalPages) => set({ totalPages }),
-    setTotalAllItems: (totalAllItems) => set({ totalAllItems }),
+    setFormData: (formData) => set({ formData }),
+    setShowForm: (showForm) => set({ showForm }),
     setEditingId: (editingId) => set({ editingId }),
     clearEditingId: () => set({ editingId: null }),
     setIsLoading: (isLoading) => set({ isLoading }),
     setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
     setIsUploading: (isUploading) => set({ isUploading }),
-    setShowForm: (showForm) => set({ showForm }),
     setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
-    setFormData: (formData) => set({ formData }),
-    updateFormField: (field, value) =>
-      set((state) => ({ formData: { ...state.formData, [field]: value } })),
+    updateFormField: (field, value) => set((state) => ({ formData: { ...state.formData, [field]: value } })),
     resetFormData: () => set({ formData: CMS_CONFIG.INITIAL_FORM_DATA }),
-    setTotalFilteredItems: (totalFilteredItems) => set({ totalFilteredItems }),
-    setCurrentPage: (currentPage) => set({ currentPage }),
-    setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
-    setSortField: (sortField) => set({ sortField }),
-    setSortDirection: (sortDirection) => set({ sortDirection }),
-    setSearchQuery: (searchQuery) => set({ searchQuery }),
-    setFilterType: (filterType) => set({ filterType }),
-    clearSearchQuery: () => set({ searchQuery: "" }),
-    // DnD
-    setDraggedId: (draggedId) => set({ draggedId }),
-    setDraggedOverId: (draggedOverId) => set({ draggedOverId }),
-    setTempOrder: (tempOrder) => set({ tempOrder }),
-    setIsReordering: (isReordering) => set({ isReordering }),
-    reorderItems: async (items) => {
-      try {
-        const state = get();
-        const response = await fetch("/admin/cms/api/categories/reorder", {
-          method: "PUT",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(items),
-        });
 
-        const { success, message } = await response.json();
-        if (response.ok && success) {
-          await state.fetchArticleCategories({ page: state.currentPage });
-        }
-
-        return { success, message };
-      } catch (e) {
-        console.error("Ошибка при изменении порядка предметов: ", e);
-        return {
-          success: false,
-          message: `Ошибка при изменении порядка предметов: ${e}`,
-        };
-      }
-    },
-    //
+    // CRUD ops
     fetchArticleCategories: async (queryParams) => {
       try {
         set({ isLoading: true });
@@ -193,5 +141,31 @@ export const useArticleCategoriesStore = create<ArticleCategoriesState>(
         };
       }
     },
+    //
+
+    // pagination 
+    totalPages: 0,
+    totalAllItems: 0,
+    totalFilteredItems: 0,
+    currentPage: 1,
+    itemsPerPage: CMS_CONFIG.ITEMS_PER_PAGE,
+    setTotalPages: (totalPages) => set({ totalPages }),
+    setTotalAllItems: (totalAllItems) => set({ totalAllItems }),
+    setTotalFilteredItems: (totalFilteredItems) => set({ totalFilteredItems }),
+    setCurrentPage: (currentPage) => set({ currentPage }),
+    setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
+    //
+
+    // filters
+    sortField: "numericId",
+    sortDirection: "asc",
+    searchQuery: "",
+    filterType: "all",
+    setSortField: (sortField) => set({ sortField }),
+    setSortDirection: (sortDirection) => set({ sortDirection }),
+    setSearchQuery: (searchQuery) => set({ searchQuery }),
+    setFilterType: (filterType) => set({ filterType }),
+    clearSearchQuery: () => set({ searchQuery: "" }),
+    //
   }),
 );

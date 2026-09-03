@@ -17,7 +17,7 @@ export const dashboardCards: DashboardCard[] = [
     description: "Просмотр и управление статьями",
     icon: <FileText className="w-6 h-6" />,
     color: "indigo",
-    path: "/admin/cms/articles",
+    path: "/admin/cms/articles/manage-articles",
     actionText: "Перейти",
   },
   {

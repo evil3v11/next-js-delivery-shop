@@ -17,7 +17,6 @@ const ArticlesList = ({
           className={`animate-gentle-appear ${delayClass}`}
         >
           <ArticleCard
-            _id={String(article._id)}
             slug={article.slug}
             categorySlug={categorySlug}
             name={article.name}

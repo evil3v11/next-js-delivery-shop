@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { getDB } from "./api-routes";
 import { ObjectId } from "mongodb";
+import { UserData } from "@/types/userData";
 
 export const getBetterAuthSession = async (headers: Headers) => {
   try {
@@ -29,7 +30,7 @@ export const validateCustomSession = async (sessionToken: string) => {
 export const getUserById = async (userId: string) => {
   const db = await getDB();
   const user = await db
-    .collection("user")
+    .collection<UserData>("user")
     .findOne({ _id: new ObjectId(userId) });
 
   if (!user) return null;

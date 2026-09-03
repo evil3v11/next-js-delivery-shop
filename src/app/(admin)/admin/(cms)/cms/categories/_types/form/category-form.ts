@@ -2,7 +2,12 @@ import { Category } from "../../../_types";
 
 export type UpdateCategoryFormData = Omit<
   Category,
-  "_id" | "numericId" | "author" | "createdAt" | "updatedAt"
+  | "_id"
+  | "numericId"
+  | "author"
+  | "createdAt"
+  | "updatedAt"
+  | "numberOfArticles"
 >;
 
 export type CategoryFormData = Omit<UpdateCategoryFormData, "keywords"> & {
@@ -18,4 +23,3 @@ export interface CategoryFormProps {
   onSubmit: (e: React.SubmitEvent) => Promise<void>;
   onCancel: () => void;
 }
-

@@ -10,9 +10,16 @@ export type Article = {
   publishedAt?: string;
   content?: string;
   author?: string;
+  categoryId: string;
   categoryName: string;
   categorySlug: string;
-  status?: ArticleStatus;
+  status: ArticleStatus;
+  numericId: number;
+  createdAt: string;
+  updatedAt: string;
+  keywords: string[];
+  isFeatured: boolean;
+  views: number;
 };
 
 export type ArticlesListProps = Pick<

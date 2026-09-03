@@ -38,6 +38,20 @@ export type GetBlogCategoriesResponse =
     })
   | ApiResponse;
 
+export type FetchArticleResponse = ApiResponse & {
+  data?: Article;
+};
+
+export type FetchArticlesResponse = ApiResponse & {
+  data?: {
+    articles: Article[];
+    totalAmount: number;
+    pagination: {
+      totalFilteredItems: number;
+      totalPages: number;
+    };
+  };
+};
 
 export type CreateArticleResponse = ApiResponse & {
   data?: Article;

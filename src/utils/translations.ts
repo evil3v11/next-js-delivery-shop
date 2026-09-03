@@ -36,4 +36,5 @@ export const TRANSLATIONS: Record<string, string> = {
   categories: "Категории",
   blog: "Блог",
   editor: "Текстовый редактор",
+  "manage-articles": "Управление статьями",
 };

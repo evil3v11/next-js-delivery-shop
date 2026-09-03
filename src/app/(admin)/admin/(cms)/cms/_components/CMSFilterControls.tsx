@@ -1,27 +1,33 @@
-"ue client";
+"use client";
 
 import { useState } from "react";
-import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+
+import { CMSFilterControlsProps } from "@/types/props";
 
 import { Filter, X } from "lucide-react";
+import {
+  ArticleFilterType,
+  ArticleSortField,
+  CategoryFilterType,
+  CategorySortField,
+} from "@/types/filters";
 
-const CategoryFilterControls = ({
+const CMSFilterControls = <
+  Field extends ArticleSortField | CategorySortField,
+  Filter extends ArticleFilterType | CategoryFilterType,
+>({
+  sortField,
+  sortDirection,
+  filterType,
+  searchQuery,
+  setSearchQuery,
+  setSortField,
+  setSortDirection,
+  setFilterType,
+  fetchItems,
   onToggleFilters,
-}: {
-  onToggleFilters?: (showFilters: boolean) => void;
-}) => {
+}: CMSFilterControlsProps<Field, Filter>) => {
   const [localShowFilters, setLocalShowFilters] = useState(false);
-  const {
-    searchQuery,
-    sortField,
-    sortDirection,
-    filterType,
-    setSearchQuery,
-    setSortField,
-    setSortDirection,
-    setFilterType,
-    fetchArticleCategories,
-  } = useArticleCategoriesStore();
 
   const hasActiveFilters = !!(
     sortField !== "numericId" ||
@@ -32,10 +38,10 @@ const CategoryFilterControls = ({
 
   const resetFilters = () => {
     setSearchQuery("");
-    setSortField("numericId");
+    setSortField("numericId" as Field);
     setSortDirection("asc");
-    setFilterType("all");
-    fetchArticleCategories({ page: 1, query: "" });
+    setFilterType("all" as Filter);
+    fetchItems({ page: 1, query: "" });
   };
 
   const handleToggleFilters = () => {
@@ -72,4 +78,4 @@ const CategoryFilterControls = ({
   );
 };
 
-export default CategoryFilterControls;
+export default CMSFilterControls;

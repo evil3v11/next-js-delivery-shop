@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { CONFIG } from "../../../../../config/config";
 
 import { UserData } from "@/types/userData";
-import { FiltersState } from "@/types/filters";
+import { FiltersState } from "@/types/props";
 import { SortUsersBy } from "@/types/AdminPanelUsersListSortBy";
 
 import NavigationAndInfo from "./_components/NavigationAndInfo";

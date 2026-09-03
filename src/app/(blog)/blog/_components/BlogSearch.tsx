@@ -9,6 +9,7 @@ import type { SearchResult } from "../_types";
 import { Search, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
 const BlogSearch = () => {
   const [query, setQuery] = useState("");
@@ -18,6 +19,7 @@ const BlogSearch = () => {
   const [showResults, setShowResults] = useState(false);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const dropdownRef = useClickOutsideModal<HTMLDivElement>(() => setShowResults(false))
 
   useEffect(() => {
     return () => {
@@ -81,7 +83,7 @@ const BlogSearch = () => {
                 value={query}
                 onChange={handleSearchTermChange}
                 placeholder="Название или описание статьи"
-                className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 
+                className="w-full text-xs md:text-base pl-10 pr-10 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 
                 focus:border-green-500 outline-none"
                 disabled={isSearching}
               />
@@ -123,12 +125,9 @@ const BlogSearch = () => {
             </p>
           )}
         </form>
-
-        {/* Результаты поиска */}
         {showResults && searchResults.articles && (
-          <div className="mt-4">
+          <div className="mt-4 relative">
             <div className="bg-white rounded shadow-lg border border-gray-200 overflow-hidden">
-              {/* Заголовок результатов */}
               <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
                 <h3 className="font-semibold text-main-text">
                   {searchResults.articles === null
@@ -145,10 +144,8 @@ const BlogSearch = () => {
                   <X className="w-5 h-5" />
                 </button>
               </div>
-
-              {/* Список результатов */}
               {searchResults.articles && searchResults.articles.length > 0 && (
-                <div className="divide-y divide-gray-100 max-h-96 overflow-y-auto">
+                <div ref={dropdownRef} className="absolute w-full z-250 bg-inherit divide-y divide-gray-100 max-h-96 overflow-y-auto rounded-b">
                   {searchResults.articles.map((article) => (
                     <Link
                       key={String(article._id)}
@@ -202,8 +199,6 @@ const BlogSearch = () => {
                   ))}
                 </div>
               )}
-
-              {/* Сообщение "ничего не найдено" */}
               {searchResults.articles &&
                 searchResults.articles.length === 0 && (
                   <div className="p-6 text-center">

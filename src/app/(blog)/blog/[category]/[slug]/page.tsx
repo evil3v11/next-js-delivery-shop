@@ -10,6 +10,10 @@ import ArticleMeta from "./_components/ArticleMeta";
 import ArticleImage from "./_components/ArticleImage";
 import ArticleContent from "./_components/ArticleContent";
 import ArticleAuthor from "./_components/ArticleAuthor";
+import ArticleArchiveNotice from "./_components/ArticleArchiveNotice";
+import EditLink from "./_components/EditLink";
+import { getRelatedArticles } from "../_utils/getRelatedArticles";
+import ArticleCard from "@/app/(articles)/ArticleCard";
 
 const fetchCachedArticlesData = cache(fetchArticlePageData);
 
@@ -49,6 +53,12 @@ export const generateMetadata = async ({
       type: "article",
       url: canonicalUrl,
     },
+    ...(article.status === "archived" && {
+      robots: {
+        index: false,
+        follow: true,
+      },
+    }),
   };
 };
 
@@ -95,13 +105,19 @@ const BlogArticlePage = async ({
   const { article, category: categoryData } = result;
   const safeContent = sanitizeArticleHTML(article.content || "");
   const publishedDate = article.publishedAt;
+  const isArchived = article.status === "archived";
+  const lastUpdated = article.updatedAt ?? article.publishedAt;
 
+  const relatedArticles = await getRelatedArticles(categoryData._id, article.slug)
+  
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <article className="p-4 max-w-4xl mx-auto">
+      {isArchived && <ArticleArchiveNotice lastUpdated={lastUpdated} />}
       <ArticleHeader
         articleTitle={article.name}
         categoryName={categoryData.name}
       />
+      <EditLink articleId={article._id} />
       <ArticleMeta
         categoryName={categoryData.name}
         publishedDate={publishedDate}
@@ -114,7 +130,33 @@ const BlogArticlePage = async ({
       />
       <ArticleContent html={safeContent} />
       <ArticleAuthor author={article.author!} />
-    </div>
+      {relatedArticles.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">
+            Читайте также
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {relatedArticles.map((related) => (
+              <ArticleCard
+                key={related._id}
+                slug={related.slug}
+                categorySlug={categoryData.slug}
+                categoryName={categoryData.name}
+                image={related.image}
+                imageAlt={related.imageAlt}
+                name={related.name}
+                description={related.description}
+                publishedAt={
+                  typeof related.publishedAt === "string"
+                    ? related.publishedAt
+                    : related.publishedAt
+                }
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
   );
 };
 
