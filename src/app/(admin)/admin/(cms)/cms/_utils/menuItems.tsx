@@ -1,4 +1,4 @@
-import { FileText, FolderTree, Home, Plus, Tags } from "lucide-react";
+import { Brain, FileText, FolderTree, Home, Plus, Tags } from "lucide-react";
 
 export const menuItems = [
   {
@@ -50,5 +50,15 @@ export const menuItems = [
     hoverColor: "hover:from-purple-600 hover:to-purple-700",
     shadow: "shadow-lg shadow-purple-500/20",
     path: "/admin/cms/semantic-core",
+  },
+  {
+    id: "article-generation",
+    title: "Генерация статей",
+    description: "Генерация статей с помощью AI",
+    icon: <Brain className="w-6 h-6" />,
+    color: "from-orange-500 to-orange-600",
+    hoverColor: "hover:from-orange-600 hover:to-orange-700",
+    shadow: "shadow-lg shadow-orange-500/20",
+    path: "/admin/cms/articles/generate",
   },
 ];

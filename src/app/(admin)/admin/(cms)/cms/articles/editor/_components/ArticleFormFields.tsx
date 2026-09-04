@@ -133,7 +133,7 @@ const ArticleFormFields = ({
               SEO_LIMITS.keywords.maxLength,
             )
           }
-          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 
+          className="w-full text-xs px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 
           border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 
           disabled:bg-gray-100 placeholder:text-gray-400"
         />
