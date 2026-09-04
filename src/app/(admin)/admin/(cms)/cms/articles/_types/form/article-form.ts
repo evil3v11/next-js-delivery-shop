@@ -17,6 +17,7 @@ export type ArticleFormData = {
   metaTitle?: string;
   metaDescription?: string;
   isFeatured?: boolean;
+  author?: string;
 };
 
 export type UpdateArticleFormData = Omit<ArticleFormData, "keywords"> & {

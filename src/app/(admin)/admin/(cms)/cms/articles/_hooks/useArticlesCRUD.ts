@@ -105,7 +105,7 @@ export const useArticlesCRUD = (
     try {
       setIsSubmitting(true);
 
-      let finalImageUrl = "";
+      let finalImageUrl = formData.image;
       if (
         formData.image &&
         formData.image.startsWith("blob:") &&
@@ -114,15 +114,18 @@ export const useArticlesCRUD = (
         try {
           const uploadResult = await uploadImageToServer();
           if (uploadResult) finalImageUrl = uploadResult.url;
-          else throw new Error("Не удалось загрузить изображение");
+          else {
+            setNotification({
+              type: "error",
+              message: "Не удалось загрузить новое изображение, оставляем старое",
+            });
+          }
         } catch (uploadError) {
           console.error("Ошибка при загрузке изображения: ", uploadError);
           setNotification({
             type: "error",
             message: "Не удалось загрузить изображение",
           });
-          setIsSubmitting(false);
-          return;
         }
       }
 

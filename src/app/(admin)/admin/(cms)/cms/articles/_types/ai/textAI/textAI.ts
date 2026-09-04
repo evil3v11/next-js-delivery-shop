@@ -2,7 +2,7 @@ import { ApiResponse } from "@/types/api/default-response";
 import { quickActions } from "../../../editor/_utils/quickAction";
 
 export type AIStatus = "idle" | "loading" | "success" | "error";
-export type QuickAction = (typeof quickActions)[number]["id"] | "custom";
+export type QuickAction = (typeof quickActions)[number]["id"] | "custom" | 'generate';
 
 export interface TextAIMenuModalProps {
   isGenerating: boolean;

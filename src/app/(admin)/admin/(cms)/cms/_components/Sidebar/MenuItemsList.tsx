@@ -9,7 +9,7 @@ interface MenuItemsListProps {
 
 const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
   return (
-    <div className="space-y-5 flex-1">
+    <div className="space-y-4 flex-1">
       {items.map((item, index) => (
         <button
           key={item.id}
@@ -19,7 +19,7 @@ const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
             animationDelay: `${index * 100}ms`,
             animationFillMode: "both",
           }}
-          className={`group w-full flex items-center gap-4 p-6 rounded-2xl text-left cursor-pointer transition-all 
+          className={`group w-full flex items-center gap-3 px-3 py-2 rounded-2xl text-left cursor-pointer transition-all 
             duration-500 transform hover:scale-[1.02] active:scale-[0.99] ${item.shadow} animate-slideIn`}
         >
           <div

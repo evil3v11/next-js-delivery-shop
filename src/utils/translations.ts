@@ -37,4 +37,5 @@ export const TRANSLATIONS: Record<string, string> = {
   blog: "Блог",
   editor: "Текстовый редактор",
   "manage-articles": "Управление статьями",
+  generate: "Сгенерировать статью",
 };
