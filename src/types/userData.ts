@@ -1,10 +1,12 @@
 import { CartItem } from "@/types/cart";
+import { ObjectId } from "mongodb";
 
 export type UserRole = "user" | "manager" | "admin";
 
 export type UserDataOrNull = UserData | null;
 
 export type UserData = {
+  _id: ObjectId | string
   id: string;
   name: string;
   lastName: string;

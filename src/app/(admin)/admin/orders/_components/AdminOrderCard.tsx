@@ -9,7 +9,7 @@ import {
 
 import { updateOrderStatus } from "@/app/(cart)/cart/_utils/orderHelperFunctions";
 import { getMappedStatus } from "../_utils/getMappedStatus";
-import { formatPhoneNumber } from "../_utils/formatPhoneNumber";
+import { formatPhoneNumber } from "../../../../../utils/formatPhoneNumber";
 import { getEnglishStatuses } from "../_utils/getEnglishStatuses";
 import { exportOrderToExcel } from "../_utils/exportOrderToExcel";
 
