@@ -14,6 +14,7 @@ import ArticleArchiveNotice from "./_components/ArticleArchiveNotice";
 import EditLink from "./_components/EditLink";
 import { getRelatedArticles } from "../_utils/getRelatedArticles";
 import ArticleCard from "@/app/(articles)/ArticleCard";
+import BlogComments from "./_components/comments/BlogComments";
 
 const fetchCachedArticlesData = cache(fetchArticlePageData);
 
@@ -108,8 +109,11 @@ const BlogArticlePage = async ({
   const isArchived = article.status === "archived";
   const lastUpdated = article.updatedAt ?? article.publishedAt;
 
-  const relatedArticles = await getRelatedArticles(categoryData._id, article.slug)
-  
+  const relatedArticles = await getRelatedArticles(
+    categoryData._id,
+    article.slug,
+  );
+
   return (
     <article className="p-4 max-w-4xl mx-auto">
       {isArchived && <ArticleArchiveNotice lastUpdated={lastUpdated} />}
@@ -130,6 +134,7 @@ const BlogArticlePage = async ({
       />
       <ArticleContent html={safeContent} />
       <ArticleAuthor author={article.author!} />
+      <BlogComments articleId={article._id} />
       {relatedArticles.length > 0 && (
         <div className="mt-12 pt-8 border-t border-gray-200">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">
