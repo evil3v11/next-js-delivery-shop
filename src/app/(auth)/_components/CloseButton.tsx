@@ -6,10 +6,15 @@ import Image from "next/image";
 
 const CloseButton = () => {
   const router = useRouter();
-  const handleClose = () => router.replace("/");
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    router.replace("/")
+  };
+
   return (
     <button
-      onClick={handleClose}
+      type="button"
+      onClick={(e) => handleClose(e)}
       aria-label="Закрыть"
       className="bg-[#f3f2f1] rounded duration-300 cursor-pointer mb-8 absolute top-0 right-0"
     >

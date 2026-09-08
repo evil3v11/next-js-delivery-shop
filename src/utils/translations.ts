@@ -41,4 +41,8 @@ export const TRANSLATIONS: Record<string, string> = {
   rules: "Правила сообщества",
   comments: "Управление комментариями",
   cards: "Карты лояльности",
+  "about-us": "О компании",
+  contacts: "Контакты",
+  vacancies: "Вакансии",
+  policy: "Политика обработки персональных данных",
 };
