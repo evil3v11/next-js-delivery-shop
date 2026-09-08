@@ -37,7 +37,7 @@ export type EditedCommentData = Pick<
 export type LikeCommentData = {
   likeCount: number;
   isLiked: boolean;
-}
+};
 
 export type GetCommentsResponse = ApiResponse & {
   data: ArticleComment[];
@@ -56,8 +56,8 @@ export type DeleteCommentResponse = ApiResponse & {
 };
 
 export type LikeCommentResponse = ApiResponse & {
-  data?: LikeCommentData
-}
+  data?: LikeCommentData;
+};
 
 export interface CommentItemProps {
   comment: ArticleComment;

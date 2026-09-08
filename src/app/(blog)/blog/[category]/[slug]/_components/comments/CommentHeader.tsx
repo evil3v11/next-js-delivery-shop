@@ -1,6 +1,6 @@
 import { CommentHeaderProps } from "@/app/(blog)/blog/_types";
 
-import { formatCommentDate } from "../../../_utils/formatCommentDate";
+import { formatLocaleDate } from "../../../../../../../utils/formatLocaleDate";
 import { getAuthorBadges } from "../../../_utils/getAuthorBadges";
 
 import { Edit, Trash2 } from "lucide-react";
@@ -17,7 +17,7 @@ const CommentHeader = ({
   deleteButtonTitle,
 }: CommentHeaderProps) => {
   const authorBadges = getAuthorBadges(comment)
-  const formattedDate = formatCommentDate(String(comment.createdAt));
+  const formattedDate = formatLocaleDate(String(comment.createdAt));
 
   return (
     <div className="flex justify-between items-start mb-2">

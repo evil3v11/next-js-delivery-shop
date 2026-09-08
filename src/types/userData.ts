@@ -6,7 +6,7 @@ export type UserRole = "user" | "manager" | "admin";
 export type UserDataOrNull = UserData | null;
 
 export type UserData = {
-  _id: ObjectId | string
+  _id: ObjectId | string;
   id: string;
   name: string;
   lastName: string;
@@ -27,4 +27,13 @@ export type UserData = {
   favorites?: string[];
   cart: CartItem[];
   bonusesAmount?: number;
+  isBanned?: boolean;
+  bannedUntil?: string;
+  bannedAt?: string | Date;
+};
+
+export type UserBanData = {
+  isBanned: boolean;
+  bannedUntil: string | null;
+  bannedAt?: string;
 };

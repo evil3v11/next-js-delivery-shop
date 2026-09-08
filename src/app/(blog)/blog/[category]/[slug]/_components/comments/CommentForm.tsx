@@ -6,10 +6,11 @@ import { useCreateCommentMutation } from "@/store/redux/api/commentsApi";
 import { useClickOutsideModal } from "@/hooks/useClickOutsideModal";
 
 import { acceptRules, checkRulesAcceptence } from "@/actions/acceptRules";
+import { formatBanDate } from "@/utils/formatBanDate";
 
 import { CommentFormProps } from "@/app/(blog)/blog/_types";
 
-import { AlertCircle, Loader2, Send, Shield } from "lucide-react";
+import { AlertCircle, Ban, Loader2, Send, Shield } from "lucide-react";
 import Link from "next/link";
 import CommentsRulesModal from "./CommentsRulesModal";
 
@@ -35,6 +36,8 @@ const CommentForm = ({
   const userId = user?.id;
   const userName = `${user?.lastName} ${user?.name}`;
   const userRole = user?.role ?? "user";
+  const isBanned = user?.isBanned ?? false;
+  const bannedUntil = user?.bannedUntil ?? null;
 
   useEffect(() => {
     const checkRules = async () => {
@@ -61,6 +64,13 @@ const CommentForm = ({
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
+
+    if (isBanned) {
+      if (bannedUntil) setError(`Вы забанены до ${formatBanDate(bannedUntil)}`);
+      else setError(`Вы забанены навсегда`);
+      return;
+    }
+
     if (!userId || !userName) {
       setError("Войдите в систему, чтобы оставить комментарий");
       return;
@@ -103,6 +113,23 @@ const CommentForm = ({
       );
     }
   };
+
+  if (isBanned) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+        <Ban className="w-12 h-12 text-red-500 mx-auto mb-3" />
+        <h3 className="text-lg font-semibold text-red-700 mb-2">
+          Вы заблокированы {!bannedUntil ? 'навсегда' : ""}
+        </h3>
+        <p className="text-red-600">
+          {bannedUntil ? `До ${formatBanDate(bannedUntil)}` : ""}
+        </p>
+        <p className="text-sm text-gray-600 mt-4">
+          По всем вопросам обращайтесь к администрации
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>
