@@ -1,5 +1,5 @@
 import { CartItem } from "../cart";
-import { UserDataOrNull } from "../userData";
+import { UserBanData, UserDataOrNull } from "../userData";
 import { Article, ArticleStatus, Category } from "@/types/entities";
 
 import { ApiResponse } from "../api/default-response";
@@ -19,6 +19,7 @@ import {
   CategoryFilterType,
   ArticleFilterType,
 } from "../filters";
+import { ArticleComment } from "@/app/(blog)/blog/_types";
 
 export interface CartState {
   cart: CartItem[];
@@ -149,7 +150,9 @@ export interface ArticleState {
   //
 
   // CRUD ops
-  fetchArticle: (articleId: string) => Promise<ApiResponse & { data?: Article }>;
+  fetchArticle: (
+    articleId: string,
+  ) => Promise<ApiResponse & { data?: Article }>;
   fetchArticles: (queryParams?: {
     page?: number;
     query?: string;
@@ -159,8 +162,14 @@ export interface ArticleState {
     articleData: UpdateArticleFormData,
   ) => Promise<CreateArticleResponse>;
   deleteArticle: (articleId: string) => Promise<ApiResponse>;
-  updateArticleStatus: (articleId: string, newStatus: ArticleStatus) => Promise<ApiResponse>;
-  updateArticleFeatured: (articleId: string, isFeatured: boolean) => Promise<ApiResponse>; 
+  updateArticleStatus: (
+    articleId: string,
+    newStatus: ArticleStatus,
+  ) => Promise<ApiResponse>;
+  updateArticleFeatured: (
+    articleId: string,
+    isFeatured: boolean,
+  ) => Promise<ApiResponse>;
   //
 
   // pagination
@@ -173,7 +182,7 @@ export interface ArticleState {
   setTotalPages: (totalPages: number) => void;
   setCurrentPage: (currentPage: number) => void;
   setItemsPerPage: (itemsPerPage: number) => void;
-  setTotalFilteredItems: (totalFilteredItems: number) => void
+  setTotalFilteredItems: (totalFilteredItems: number) => void;
   //
 
   // filters
@@ -204,5 +213,34 @@ export interface DnDState {
     itemType: "articles" | "categories",
   ) => Promise<ApiResponse>;
   resetDnDStore: () => void;
+  //
+}
+
+export interface CommentsState {
+  comments: ArticleComment[];
+  isLoading: boolean;
+  bannedUsers: Record<string, UserBanData>;
+  setComments: (comments: ArticleComment[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  setBannedUsers: (
+    userId: string,
+    isBanned: boolean,
+    bannedUntil: string | null,
+  ) => void;
+  fetchCommentsWithPagination: (
+    params?: Record<string, string>,
+  ) => Promise<void>;
+
+  // pagination
+  totalAllItems: number;
+  totalPages: number;
+  currentPage: number;
+  itemsPerPage: number;
+  totalFilteredItems: number;
+  setTotalAllItems: (totalAllItems: number) => void;
+  setTotalPages: (totalPages: number) => void;
+  setCurrentPage: (currentPage: number) => void;
+  setItemsPerPage: (itemsPerPage: number) => void;
+  setTotalFilteredItems: (totalFilteredItems: number) => void;
   //
 }

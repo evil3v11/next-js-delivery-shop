@@ -1,4 +1,4 @@
-export const formatCommentDate = (date: string): string => {
+export const formatLocaleDate = (date: string): string => {
   return new Date(date).toLocaleDateString("ru-RU", {
     day: "numeric",
     month: "numeric",

@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type {
   ArticleComment,
-  GetCommentsResponse,
   PostCommentResponse,
   DeleteCommentResponse,
   PatchCommentResponse,
@@ -13,11 +12,14 @@ export const commentsApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "/api/blog" }),
   tagTypes: ["Comments"],
   endpoints: (builder) => ({
-    getComments: builder.query<ArticleComment[], string, GetCommentsResponse>({
+    getComments: builder.query<ArticleComment[], string>({
       query: (articleId) => `/comments?articleId=${articleId}`,
       providesTags: ["Comments"],
     }),
-    createComment: builder.mutation<PostCommentResponse, Partial<ArticleComment>>({
+    createComment: builder.mutation<
+      PostCommentResponse,
+      Partial<ArticleComment>
+    >({
       query: (commentData) => ({
         url: `/comments`,
         method: "POST",
@@ -25,7 +27,10 @@ export const commentsApi = createApi({
       }),
       invalidatesTags: ["Comments"],
     }),
-    updateComment: builder.mutation<PatchCommentResponse, Record<string, string>>({
+    updateComment: builder.mutation<
+      PatchCommentResponse,
+      Record<string, string>
+    >({
       query: ({ commentId, ...rest }) => ({
         url: `/comments/${commentId}`,
         method: "PATCH",

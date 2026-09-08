@@ -1,15 +1,27 @@
 "use client";
 
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
+import { useArticleStore } from "@/store/articleStore";
+import { useCommentsStore } from "@/store/commentsStore";
 
 import { CMS_CONFIG } from "../cms_config";
-import { useArticleStore } from "@/store/articleStore";
 
-const CMSPagination = ({ type = 'categories' }: { type: 'categories' | 'articles' }) => {
-  const categoryStore = useArticleCategoriesStore()
-  const articlesStore = useArticleStore()
+const CMSPagination = ({
+  type = "categories",
+}: {
+  type: "categories" | "articles" | "comments";
+}) => {
+  const stores = {
+    articles: useArticleStore(),
+    categories: useArticleCategoriesStore(),
+    comments: useCommentsStore(),
+  };
 
-  const store = type === 'categories' ? categoryStore : articlesStore
+  const store = stores[type];
+  if (!store) {
+    console.log(`Неизвестный тип обьект для пагинации: ${type}`);
+    return null;
+  }
 
   const {
     totalPages,
@@ -46,7 +58,7 @@ const CMSPagination = ({ type = 'categories' }: { type: 'categories' | 'articles
         pageButtons.push(i);
       }
     }
-    
+
     return pageButtons.map((page) => (
       <button
         key={page}
@@ -78,7 +90,7 @@ const CMSPagination = ({ type = 'categories' }: { type: 'categories' | 'articles
             <span className="font-medium">{totalPages}</span>
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
