@@ -5,7 +5,7 @@ import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 import type { HeaderActionsProps } from "../_types";
 
 import { Plus } from "lucide-react";
-import ItemsPerPageSelector from "../../_components/ItemsPerPageSelector";
+import ItemsPerPageSelector from "../../../../_components/ItemsPerPageSelector";
 
 const HeaderActions = ({ onCreate }: HeaderActionsProps) => {
   const {

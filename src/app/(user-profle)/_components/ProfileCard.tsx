@@ -58,7 +58,7 @@ const ProfileCard = () => {
       const response = await fetch("/api/users/update-card", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ card, userId: user?.id }),
+        body: JSON.stringify({ cardNumber: card, userId: user?.id }),
       });
 
       const data = await response.json();

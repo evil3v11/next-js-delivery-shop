@@ -53,8 +53,8 @@ const RegistrationPage = () => {
 
     if (invalidFormMessage) setInvalidFormMessage("");
 
-    if (id === "hasCard" && value === true) {
-      setRegisterForm((prev) => ({ ...prev, hasCard: true, card: "" }));
+    if (id === "hasNoCard" && value === false) {
+      setRegisterForm((prev) => ({ ...prev, hasNoCard: false, card: "" }));
       return;
     }
 

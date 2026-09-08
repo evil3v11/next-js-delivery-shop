@@ -332,7 +332,7 @@ export const auth = betterAuth({
 //       location: { type: "string", input: true, required: true },
 //       gender: { type: "string", input: true, required: true },
 //       card: { type: "string", input: true, required: false },
-//       hasCard: { type: "boolean", input: true, required: false },
+//       hasNoCard: { type: "boolean", input: true, required: false },
 //     },
 //   },
 // });

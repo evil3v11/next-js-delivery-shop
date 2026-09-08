@@ -159,7 +159,7 @@ export const GET = async (request: NextRequest) => {
       location: u.location || "",
       gender: u.gender || "",
       card: u.card || "",
-      hasCard: u.hasCard || false,
+      hasNoCard: u.hasNoCard || true,
       createdAt: u.createdAt
         ? u.createdAt.toISOString()
         : new Date().toISOString(),

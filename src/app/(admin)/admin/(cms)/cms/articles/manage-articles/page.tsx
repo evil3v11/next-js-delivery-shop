@@ -5,8 +5,8 @@ import { useArticlesCRUD } from "../_hooks/useArticlesCRUD";
 
 import CMSHeader from "../../_components/CMSHeader";
 import Notification from "../../_components/Notification";
-import ItemsPerPageSelector from "../../_components/ItemsPerPageSelector";
-import CMSPagination from "../../_components/CMSPagination";
+import ItemsPerPageSelector from "../../../../_components/ItemsPerPageSelector";
+import CMSPagination from "../../../../_components/AdminPagination";
 import ArticleTable from "./_components/ArticleTable";
 
 const ManageArticlesPage = () => {

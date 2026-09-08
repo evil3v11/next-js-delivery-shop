@@ -14,6 +14,12 @@ const AdminPage = () => {
           Управления пользователями
         </Link>
         <Link
+          href="/admin/cards"
+          className={`${buttonStyles.active} px-4 py-3 rounded w-full`}
+        >
+          Карты лояльности
+        </Link>
+        <Link
           href="/admin/add-product"
           className={`${buttonStyles.active} px-4 py-3 rounded w-full`}
         >
