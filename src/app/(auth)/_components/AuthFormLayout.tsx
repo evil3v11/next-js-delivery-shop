@@ -18,7 +18,7 @@ const AuthFormLayout = ({
     >
       <div
         className={`bg-white rounded shadow-auth-form w-full max-h-[calc(100vh-80px)] flex
-        flex-col relative ${variant === "register" ? "max-w-[687px]" : "max-w-[420px]"}`}
+        flex-col relative ${variant === "register" ? "max-w-171.75" : "max-w-105"}`}
       >
         <CloseButton />
         <div className="overflow-y-auto flex-1">{children}</div>

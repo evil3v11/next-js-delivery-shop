@@ -120,7 +120,7 @@ const RegistrationPage = () => {
       <form
         onSubmit={handleSubmit}
         autoComplete="off"
-        className="w-full max-w-[552px] mx-auto flex flex-col justify-center overflow-y-hidden -mb-10"
+        className="w-full max-w-138 mx-auto flex flex-col justify-center overflow-y-hidden -mb-10"
       >
         <div className="w-full flex flex-wrap justify-center gap-x-8 gap-y-4">
           <div className="flex flex-col gap-y-4 items-start">

@@ -44,10 +44,28 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       changeFrequency: "weekly",
       priority: 0.5,
     },
+    {
+      url: `${baseUrl}/about-us`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/contacts`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/vacancies`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.5,
+    },
   ];
 
   const data = await getSitemapData();
-  
+
   const categoryPages: MetadataRoute.Sitemap = data.categories.map(
     (category) => ({
       url: `${baseUrl}/catalog/${category.slug}`,
@@ -56,14 +74,14 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       priority: 0.5,
     }),
   );
-  
+
   const productsPages: MetadataRoute.Sitemap = data.products.map((product) => {
     const productSlug = createSlug(product.title, product.id);
     return {
       url: `${baseUrl}/catalog/${product.categorySlug}/${productSlug}`,
       lastModified: product.updatedAt
-      ? formatDateToString(new Date(product.updatedAt))
-      : currentDate,
+        ? formatDateToString(new Date(product.updatedAt))
+        : currentDate,
       changeFrequency: "weekly" as const,
       priority: 0.5,
     };
