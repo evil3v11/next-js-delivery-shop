@@ -20,6 +20,11 @@ import {
   ArticleFilterType,
 } from "../filters";
 import { ArticleComment } from "@/app/(blog)/blog/_types";
+import {
+  Card,
+  FilterType,
+  GetCardsParams,
+} from "@/app/(admin)/admin/cards/_types";
 
 export interface CartState {
   cart: CartItem[];
@@ -243,4 +248,37 @@ export interface CommentsState {
   setItemsPerPage: (itemsPerPage: number) => void;
   setTotalFilteredItems: (totalFilteredItems: number) => void;
   //
+}
+
+export interface CardsState {
+  cards: Card[];
+  isLoading: boolean;
+  searchCardNumber: string;
+  searchOwner: string;
+  setCards: (cards: Card[]) => void;
+  setIsLoading: (isLoading: boolean) => void;
+  setSearchCardNumber: (search: string) => void;
+  setSearchOwner: (search: string) => void;
+  getCardsWithPagination: (params?: GetCardsParams) => Promise<void>;
+
+  // pagination
+  totalFilteredItems: number;
+  totalPages: number;
+  totalAllItems: number;
+  currentPage: number;
+  itemsPerPage: number;
+  setTotalFilteredItems: (totalFilteredItems: number) => void;
+  setTotalPages: (totalPages: number) => void;
+  setTotalAllItems: (totalAllItems: number) => void;
+  setCurrentPage: (currentPage: number) => void;
+  setItemsPerPage: (itemsPerPage: number) => void;
+  //
+
+  // filters
+  currentFilter: FilterType;
+  setCurrentFilter: (filter: FilterType) => void;
+  resetFilters: () => void;
+  //
+
+  clearStore: () => void;
 }

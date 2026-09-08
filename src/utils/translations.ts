@@ -40,4 +40,5 @@ export const TRANSLATIONS: Record<string, string> = {
   generate: "Сгенерировать статью",
   rules: "Правила сообщества",
   comments: "Управление комментариями",
+  cards: "Карты лояльности",
 };

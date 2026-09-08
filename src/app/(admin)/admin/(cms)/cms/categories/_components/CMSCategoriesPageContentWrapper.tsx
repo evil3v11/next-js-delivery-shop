@@ -16,7 +16,7 @@ import CategoryForm from "./CategoryForm";
 import Notification from "../../_components/Notification";
 import WarningAlert from "./WarningAlert";
 import HeaderActions from "./HeaderActions";
-import CMSPagination from "../../_components/CMSPagination";
+import CMSPagination from "../../../../_components/AdminPagination";
 import CategoryReorderStatus from "./CategoryReorderStatus";
 
 const CMSCategoriesPageContentWrapper = () => {

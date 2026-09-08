@@ -3,18 +3,20 @@
 import { useArticleCategoriesStore } from "@/store/articleCategoriesStore";
 import { useArticleStore } from "@/store/articleStore";
 import { useCommentsStore } from "@/store/commentsStore";
+import { useCardsStore } from "@/store/cardsStore";
 
-import { CMS_CONFIG } from "../cms_config";
+import { CMS_CONFIG } from "../(cms)/cms/cms_config";
 
 const CMSPagination = ({
   type = "categories",
 }: {
-  type: "categories" | "articles" | "comments";
+  type: "categories" | "articles" | "comments" | "cards";
 }) => {
   const stores = {
     articles: useArticleStore(),
     categories: useArticleCategoriesStore(),
     comments: useCommentsStore(),
+    cards: useCardsStore()
   };
 
   const store = stores[type];

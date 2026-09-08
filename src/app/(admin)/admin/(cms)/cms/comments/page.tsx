@@ -6,10 +6,10 @@ import { useCommentsStore } from "@/store/commentsStore";
 import { formatDateToString } from "@/utils/formatDateToString";
 
 import CMSHeader from "../_components/CMSHeader";
-import ItemsPerPageSelector from "../_components/ItemsPerPageSelector";
+import ItemsPerPageSelector from "../../../_components/ItemsPerPageSelector";
 import CommentsTableHeader from "./_components/CommentsTableHeader";
 import CommentsList from "./_components/CommentsList";
-import CMSPagination from "../_components/CMSPagination";
+import CMSPagination from "../../../_components/AdminPagination";
 import CommentsFilters from "./_components/CommentsFilters";
 
 const CommentsManagementPage = () => {
