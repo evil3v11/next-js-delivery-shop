@@ -27,13 +27,13 @@ export const POST = async (
     const random = Math.floor(Math.random() * 10000)
     const fileName = `${timestamp}_${random}.${originalExtension}`;
 
-    const uploadDir = path.join(process.cwd(), "public", 'uploads', "articles");
+    const uploadDir = path.join(process.cwd(), 'uploads', "articles");
     await fs.mkdir(uploadDir, { recursive: true });
 
     const filePath = path.join(uploadDir, fileName);
     await fs.writeFile(filePath, buffer);
 
-    const publicUrl = `/uploads/articles/${fileName}`;
+    const publicUrl = `/api/uploads/articles/${fileName}`;
 
     return NextResponse.json(
       { success: true, url: publicUrl, fileName },
@@ -55,7 +55,7 @@ export const DELETE = async (
     const fileName = request.nextUrl.searchParams.get("file");
     if (!fileName) return NextResponse.json({ success: false }, { status: 400 });
 
-    const uploadDir = path.join(process.cwd(), "public", 'uploads', "articles");
+    const uploadDir = path.join(process.cwd(), 'uploads', "articles");
     const pathToImage = path.join(uploadDir, fileName)
 
     try {

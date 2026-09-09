@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { unsubscribeFromPriceAlert } from "@/actions/priceAlerts";
+import { baseUrl } from "@/utils/baseUrl";
 
 export const GET = async (request: NextRequest): Promise<NextResponse> => {
   try {
@@ -10,7 +11,7 @@ export const GET = async (request: NextRequest): Promise<NextResponse> => {
 
     if (!token || !email) {
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=${encodeURIComponent("Неверные параметры для отписки от уведомлений")}`,
+        `${baseUrl}/catalog/product/unsubscribe/error?message=${encodeURIComponent("Неверные параметры для отписки от уведомлений")}`,
       );
     }
 
@@ -18,17 +19,17 @@ export const GET = async (request: NextRequest): Promise<NextResponse> => {
 
     if (error) {
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=${encodeURIComponent(error)}`,
+        `${baseUrl}/catalog/product/unsubscribe/error?message=${encodeURIComponent(error)}`,
       );
     }
 
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/success`,
+      `${baseUrl}/catalog/product/unsubscribe/success`,
     );
   } catch (e) {
     console.error("Ошибка при отписке: ", e);
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=${encodeURIComponent("Внутренняя ошибка сервера")}`,
+      `${baseUrl}/catalog/product/unsubscribe/error?message=${encodeURIComponent("Внутренняя ошибка сервера")}`,
     );
   }
 };

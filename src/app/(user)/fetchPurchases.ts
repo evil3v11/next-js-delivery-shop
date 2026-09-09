@@ -1,4 +1,5 @@
 import { FetchPurchasesResponse } from "@/types/purchases";
+import { baseUrl } from "@/utils/baseUrl";
 
 const fetchPurchases = async (options?: {
   userPurchasesLimit?: number;
@@ -7,7 +8,7 @@ const fetchPurchases = async (options?: {
 }): Promise<FetchPurchasesResponse> => {
   try {
     const url = new URL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/purchases`,
+      `${baseUrl}/api/users/purchases`,
     );
 
     if (options?.userPurchasesLimit) {

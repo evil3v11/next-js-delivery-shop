@@ -1,6 +1,7 @@
 import { Product } from "@/types/product";
 
 import ProductsSection from "@/app/(products)/ProductsSection";
+import { baseUrl } from "@/utils/baseUrl";
 
 const SameBrandProducts = async ({
   currentProduct,
@@ -13,7 +14,7 @@ const SameBrandProducts = async ({
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand?productId=${currentProduct.id}&brand=${currentProduct.brand}`,
+      `${baseUrl}/api/products/brand?productId=${currentProduct.id}&brand=${currentProduct.brand}`,
       { next: { revalidate: 3600 } },
     );
 

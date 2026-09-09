@@ -17,7 +17,7 @@ const ViewAllButton = ({
         {btnText}
       </p>
       <Image
-        src="icons-header/icon-arrow-right.svg"
+        src="/icons-header/icon-arrow-right.svg"
         alt={btnText}
         width={24}
         height={24}

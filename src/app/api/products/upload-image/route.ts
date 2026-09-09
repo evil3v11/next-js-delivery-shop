@@ -40,20 +40,20 @@ export const POST = async (request: NextRequest): Promise<NextResponse> => {
     }
 
     const filename = `img-${imageId}.jpeg`;
-    const imagePath = `/images/products/${filename}`;
-    const publicDir = path.join(process.cwd(), "public");
-    const imagesDir = path.join(publicDir, "images", "products");
-    const fullPath = path.join(imagesDir, filename);
+    const uploadDir = path.join(process.cwd(), "uploads", 'products');
+    const fullPath = path.join(uploadDir, filename);
 
     try {
-      await fs.access(imagesDir);
+      await fs.access(uploadDir);
     } catch {
-      await fs.mkdir(imagesDir, { recursive: true });
+      await fs.mkdir(uploadDir, { recursive: true });
     }
 
     const bytes = await image.arrayBuffer();
     const buffer = Buffer.from(bytes);
     await fs.writeFile(fullPath, buffer);
+
+    const imagePath = `/api/uploads/products/${filename}`
 
     return NextResponse.json({
       success: true,
