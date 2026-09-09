@@ -7,13 +7,13 @@ import {
 
 export const proxy = async (request: NextRequest) => {
   const protectedPaths = ["/profile", "/admin", "/favorites", "/cart"];
-  const isPathProtected = protectedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path),
-  );
+  const pathname = request.nextUrl?.pathname;
+  const isPathProtected = pathname && protectedPaths.some((path) => pathname.startsWith(path));
 
   if (isPathProtected) {
     try {
       const sessionCookie =
+        request.cookies.get("__Secure-better-auth.session_token") ||
         request.cookies.get("better-auth.session_token") ||
         request.cookies.get("session");
 
@@ -31,9 +31,7 @@ export const proxy = async (request: NextRequest) => {
 
   for (const handler of redirectHandlers) {
     const redirectResponse = await handler(request);
-    if (redirectResponse) {
-      return redirectResponse;
-    }
+    if (redirectResponse) return redirectResponse;
   }
 
   return NextResponse.next();

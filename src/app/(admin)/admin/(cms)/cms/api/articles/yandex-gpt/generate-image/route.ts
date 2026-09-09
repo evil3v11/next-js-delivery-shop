@@ -124,20 +124,14 @@ export const GET = async (
             .toBuffer();
         }
 
-        const publicDir = path.join(
-          process.cwd(),
-          "public",
-          "uploads",
-          "aricles",
-          "yandex-art",
-        );
+        const uploadDir = path.join(process.cwd(), "uploads", "articles");
 
-        await fs.mkdir(publicDir, { recursive: true });
+        await fs.mkdir(uploadDir, { recursive: true });
 
-        const filePath = path.join(publicDir, fileName);
+        const filePath = path.join(uploadDir, fileName);
         await fs.writeFile(filePath, optimizedBuffer);
 
-        const publicUrl = `/uploads/articles/yandex-art/${fileName}`;
+        const publicUrl = `/api/uploads/articles/${fileName}`;
 
         return NextResponse.json({
           success: true,
@@ -246,7 +240,8 @@ export const POST = async (
     let enhancedPrompt = prompt;
     const styleMap: Record<ImageStyle, string> = {
       default: "",
-      realistic: "фотореалистично, высокое качество, детализированно, профессиональная фотография",
+      realistic:
+        "фотореалистично, высокое качество, детализированно, профессиональная фотография",
       artistic: "художественная живопись, шедевр, цифровое искусство, арт",
       sketch: "эскиз, рисунок, карандашный набросок, черно-белое",
       cartoon: "мультяшный стиль, анимация, диснеевский стиль",
@@ -288,7 +283,7 @@ export const POST = async (
         {
           success: false,
           message: "Ошибка YandexArt API",
-          details: `${response.status === 403 ? 'Запрещено' : response.status}`,
+          details: `${response.status === 403 ? "Запрещено" : response.status}`,
         },
         { status: response.status },
       );

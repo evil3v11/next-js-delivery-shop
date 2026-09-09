@@ -7,7 +7,9 @@ import { Product } from "@/types/product";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async (request: Request): Promise<NextResponse<FetchPurchasesResponse | FetchPurchasesError>> => {
+export const GET = async (
+  request: Request,
+): Promise<NextResponse<FetchPurchasesResponse | FetchPurchasesError>> => {
   try {
     const db = await getDB();
 
@@ -18,13 +20,18 @@ export const GET = async (request: Request): Promise<NextResponse<FetchPurchases
 
     const userPurchasesLimit = url.searchParams.get("userPurchasesLimit");
     const startIndex = Number(url.searchParams.get("startIndex") || "0");
-    const perPage = Number(url.searchParams.get("perPage") || String(CONFIG.ITEMS_PER_PAGE));
+    const perPage = Number(
+      url.searchParams.get("perPage") || String(CONFIG.ITEMS_PER_PAGE),
+    );
 
-    const user = await db.collection("user").findOne({ _id: new ObjectId(userId) });
+    const user = await db
+      .collection("user")
+      .findOne({ _id: new ObjectId(userId) });
 
-    if (!user?.purchases?.length) return NextResponse.json({ products: [], totalCount: 0 });
+    if (!user?.purchases?.length)
+      return NextResponse.json({ products: [], totalCount: 0 });
 
-    const productIds = user.purchases
+    const productIds = user.purchases;
 
     if (userPurchasesLimit) {
       const limit = Number(userPurchasesLimit);
@@ -36,8 +43,11 @@ export const GET = async (request: Request): Promise<NextResponse<FetchPurchases
         .toArray();
 
       return NextResponse.json({
-        products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as Product),
-        totalCount: purchasedProducts.length
+        products: purchasedProducts.map(({ discountPercent, ...rest }) => {
+          void discountPercent;
+          return rest as Product;
+        }),
+        totalCount: purchasedProducts.length,
       });
     }
 
@@ -52,7 +62,10 @@ export const GET = async (request: Request): Promise<NextResponse<FetchPurchases
       .toArray();
 
     return NextResponse.json({
-      products: purchasedProducts.map(({ discountPercent, ...rest }) => rest as Product),
+      products: purchasedProducts.map(({ discountPercent, ...rest }) => {
+        void discountPercent;
+        return rest as Product;
+      }),
       totalCount,
     });
   } catch (e) {

@@ -11,7 +11,7 @@ import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordR
 import EmailChangeVerification from "@/app/(user-profle)/_components/EmailChangeVerification";
 import DeleteVerify from "@/app/(auth)/(registration)/_components/DeleteVerify";
 
-const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
+const client = new MongoClient(process.env.DB_CONNECTION_STRING!);
 const db = client.db("delivery-shop");
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -21,6 +21,7 @@ export const auth = betterAuth({
     expiresIn: 30 * 24 * 60 * 60,
     updateAge: 24 * 60 * 60,
   },
+  trustedOrigins: ["http://localhost:3000", "http://192.168.1.100:3000"],
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -29,7 +30,7 @@ export const auth = betterAuth({
     resetPasswordTokenExpiresIn: 86400,
     sendResetPassword: async ({ user, url }) => {
       void resend.emails.send({
-        from: "Северяночка <onboarding@resend.dev>",
+        from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
         to: user.email,
         subject: "Сброс пароля для Северяночки",
         react: PasswordResetEmail({ username: user.name, resetUrl: url }),
@@ -39,7 +40,7 @@ export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       void resend.emails.send({
-        from: "Северяночка <onboarding@resend.dev>",
+        from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
         to: user.email,
         subject: "Подтвердите ваш e-mail",
         react: VerifyEmail({ username: user.name, verifyUrl: url }),
@@ -83,7 +84,7 @@ export const auth = betterAuth({
       enabled: true,
       sendDeleteAccountVerification: async ({ user, url }) => {
         await resend.emails.send({
-          from: "Северяночка <onboard@resend.dev>",
+          from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
           to: user.email,
           subject: "Удаление аккаунта в Северяночке",
           react: DeleteVerify({ username: user.name, verifyUrl: url }),
@@ -95,7 +96,7 @@ export const auth = betterAuth({
       enabled: true,
       sendChangeEmailConfirmation: async ({ user, newEmail, url }) => {
         await resend.emails.send({
-          from: "Северяночка <onboarding@resend.dev>",
+          from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
           to: user.email,
           subject: "Подтверждение смены email в Северяночке",
           react: EmailChangeVerification({

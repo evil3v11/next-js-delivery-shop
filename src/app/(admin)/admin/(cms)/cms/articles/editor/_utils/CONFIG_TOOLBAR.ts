@@ -8,7 +8,7 @@ import ImageMenu from "../tiptap-components/ImageMenu";
 import LinkMenu from "../tiptap-components/LinkMenu";
 import ListMenu from "../tiptap-components/ListMenu";
 import QuoteButton from "../tiptap-components/QuoteButton";
-import TableMenu from "../tiptap-components/TableMenu";
+import TableMenu from "../tiptap-components/table-menu/TableMenu";
 import TextColorMenu from "../tiptap-components/color-menu/TextColorMenu";
 import TextFormattingMenu from "../tiptap-components/TextFormattingMenu";
 import TextLevelMenu from "../tiptap-components/TextLevelMenu";

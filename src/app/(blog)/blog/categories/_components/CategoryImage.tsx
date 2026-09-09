@@ -1,4 +1,4 @@
-import { getImagePath } from "../_utils/getImagePath";
+import { getImagePath } from "../../../../../utils/getImagePath";
 
 import { CategoryImageProps } from "../_types/categories";
 
@@ -12,7 +12,10 @@ const CategoryImage = ({
   gradientClass,
   name,
 }: CategoryImageProps) => {
-  const imagePath = getImagePath(hasImage ? image : "");
+  const imagePath =
+    hasImage && image
+      ? `/api/uploads/article-categories/${getImagePath(image)}`
+      : "";
 
   return (
     <div className="relative w-full h-48">

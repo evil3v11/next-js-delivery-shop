@@ -30,6 +30,8 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   const keywords = [...categoryNames.map((name) => name.toLowerCase())];
 
+  const ogImage = `${baseUrl}/og-images/blog-og.jpg`;
+
   return {
     metadataBase: new URL(`${baseUrl}/blog`),
     title,
@@ -40,12 +42,17 @@ export const generateMetadata = async (): Promise<Metadata> => {
     keywords: [...new Set(keywords)],
     openGraph: {
       title: 'Блог "Северяночка"',
-      description,
-      type: "article",
-      url: `${baseUrl}/blog`,
+      description: description.substring(0, 200),
+      url: `${baseUrl}/blog/`,
+      images: {
+        url: ogImage,
+        alt: "Северяночка - Блог",
+        width: 512,
+        height: 512,
+      },
     },
   };
-};
+}
 
 const BlogPage = async () => {
   const categories = await getCategories();

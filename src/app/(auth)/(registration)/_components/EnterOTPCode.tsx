@@ -66,9 +66,9 @@ const EnterOTPCode = ({ phoneNumber }: { phoneNumber: string }) => {
       let userDataToUpdate = { ...regFormData };
 
       if (verifyData.user.phoneNumberVerified) {
-        // Better Auth cannot update email and phone number with .updateUser() method after verification
-        // If not excluded, it will throw an error and registration fails
         const { email, phoneNumber, ...rest } = userDataToUpdate;
+        void email
+        void phoneNumber
         userDataToUpdate = rest as typeof regFormData;
       }
 

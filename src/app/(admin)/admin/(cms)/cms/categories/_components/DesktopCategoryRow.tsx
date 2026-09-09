@@ -7,6 +7,7 @@ import { CategoryRowProps } from "../_types";
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
 import DragElement from "../../_components/DragElement";
+import { getImagePath } from "@/utils/getImagePath";
 
 const DesktopCategoryRow = ({
   category,
@@ -28,6 +29,7 @@ const DesktopCategoryRow = ({
   };
 
   const showImage = category.image && !imageError;
+  const imagePath = category.image ? `/api/uploads/article-categories/${getImagePath(category.image)}` : ""
 
   return (
     <div
@@ -53,7 +55,7 @@ const DesktopCategoryRow = ({
         <div className="flex items-center justify-center">
           {showImage ? (
             <Image
-              src={category.image}
+              src={imagePath}
               alt={category.imageAlt || category.name}
               title={category.imageAlt}
               width={50}

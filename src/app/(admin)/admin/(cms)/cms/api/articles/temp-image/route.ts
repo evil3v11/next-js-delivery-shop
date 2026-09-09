@@ -44,7 +44,7 @@ export const POST = async (
     const random = Math.random().toString(36).substring(2, 9);
 
     const filename = `temp_${timestamp}_${random}${extension}`;
-    const uploadDir = path.join(process.cwd(), "public", "temp");
+    const uploadDir = path.join(process.cwd(), "uploads", "temp");
     const filePath = path.join(uploadDir, filename);
 
     const bytes = await file.arrayBuffer();
@@ -52,17 +52,15 @@ export const POST = async (
     await fs.mkdir(uploadDir, { recursive: true });
     await fs.writeFile(filePath, buffer);
 
-    const url = `/temp/${filename}`;
+    const url = `/api/uploads/temp/${filename}`;
 
     return NextResponse.json({
       success: true,
       message: "Временное изображение успешно загружено",
       data: {
         url,
-        filename: filename,
-        originalName: originalName,
-        // fullOriginalName: file.name,
-        // size: file.size,
+        filename,
+        originalName,
       },
     });
   } catch (e) {

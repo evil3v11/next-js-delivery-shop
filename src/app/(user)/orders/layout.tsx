@@ -1,8 +1,9 @@
+import { baseUrl } from "@/utils/baseUrl";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
+    baseUrl || "http://localhost:3000",
   ),
   title: {
     default: "Заказы",

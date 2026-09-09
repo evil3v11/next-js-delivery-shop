@@ -1,10 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getDB } from "@/utils/api-routes";
 import { ApiResponse } from "@/types/api/default-response";
 
-export const GET = async (
-  _request: NextRequest,
-): Promise<
+export const GET = async (): Promise<
   NextResponse<ApiResponse & { publishedCount?: number; totalViews?: number }>
 > => {
   try {

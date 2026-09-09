@@ -71,13 +71,13 @@ export const POST = async (
         .toBuffer();
     }
 
-    const publicDir = path.join(process.cwd(), "public", "blogCategories");
-    await fs.mkdir(publicDir, { recursive: true });
+    const uploadDir = path.join(process.cwd(), "uploads", "article-categories");
+    await fs.mkdir(uploadDir, { recursive: true });
 
-    const filePath = path.join(publicDir, fileName);
+    const filePath = path.join(uploadDir, fileName);
     await fs.writeFile(filePath, optimizedBuffer);
 
-    const publicUrl = `/blogCategories/${fileName}`;
+    const publicUrl = `/api/uploads/article-categories/${fileName}`;
 
     return NextResponse.json(
       { success: true, url: publicUrl, fileName: fileName },
@@ -99,8 +99,8 @@ export const DELETE = async (
     const fileName = request.nextUrl.searchParams.get("file");
     if (!fileName) return NextResponse.json({ success: false }, { status: 400 });
     
-    const publicDir = path.join(process.cwd(), "public", "blogCategories");
-    const pathToImage = path.join(publicDir, fileName);
+    const uploadDir = path.join(process.cwd(), "uploads", "article-categories");
+    const pathToImage = path.join(uploadDir, fileName);
 
     try {
       await fs.access(pathToImage);

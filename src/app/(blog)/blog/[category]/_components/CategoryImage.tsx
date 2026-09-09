@@ -1,16 +1,21 @@
+import { getImagePath } from "../../../../../utils/getImagePath";
 import { CategoryImageProps } from "@/types/entities";
-
 import Image from "next/image";
 
 const CategoryImage = ({
   category,
   gradientColor,
   hasImage,
-}: CategoryImageProps) =>
-  hasImage && category.image ? (
+}: CategoryImageProps) => {
+  const imagePath =
+    hasImage && category.image
+      ? `/api/uploads/article-categories/${getImagePath(category.image)}`
+      : "";
+
+  return hasImage && category.image ? (
     <div className="relative mb-6 w-full max-w-100 h-50 md:h-50 mx-auto rounded overflow-hidden shadow-lg">
       <Image
-        src={category.image}
+        src={imagePath}
         alt={category.imageAlt || category.name}
         fill
         className="object-cover"
@@ -36,5 +41,6 @@ const CategoryImage = ({
       </div>
     </div>
   );
+};
 
 export default CategoryImage;

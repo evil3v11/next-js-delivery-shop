@@ -29,25 +29,37 @@ export const generateMetadata = async ({
     };
   }
 
-  const title = `${result.category.name}`;
-  const keywords = [...(result.category.keywords || [])];
-  const description = result.category.description
-    ? `${result.category.description} ${result.totalArticles > 0 ? `Читайте ${result.totalArticles} статей по теме.` : "Статьи по данной теме."}`
-    : `Читайте "${result.category.name}". ${result.totalArticles > 0 ? `Доступно ${result.totalArticles} статей.` : ""}`;
+  const { category: categoryData, totalArticles } = result;
+
+  const title = `${categoryData.name}`;
+  const description = categoryData.description
+    ? `${categoryData.description} ${totalArticles > 0 ? `Читайте ${totalArticles} статей по теме.` : "Статьи по данной теме."}`
+    : `Читайте "${categoryData.name}". ${totalArticles > 0 ? `Доступно ${totalArticles} статей.` : ""}`;
+
+  const keywords = [...(categoryData.keywords || []), "статьи", "блог"];
+
+  const ogImage = categoryData.image
+    ? `${baseUrl}${categoryData.image}`
+    : `${baseUrl}/og-images/blog-og.jpg`;
 
   return {
     metadataBase: new URL(`${baseUrl}/blog`),
     title,
     description,
     alternates: {
-      canonical: `${baseUrl}/blog/${result.category.slug}`,
+      canonical: `${baseUrl}/blog/${categoryData.slug}`,
     },
     keywords,
     openGraph: {
-      title: `${result.category.name}`,
+      title: `${categoryData.name}`,
       description: description.substring(0, 200),
-      type: "website",
-      url: `${baseUrl}/blog/${result.category.slug}`,
+      url: `${baseUrl}/blog/${categoryData.slug}`,
+      images: {
+        url: ogImage,
+        alt: `${categoryData.name}`,
+        width: 512,
+        height: 512,
+      },
     },
   };
 };
@@ -88,9 +100,9 @@ const BlogCategoryPage = async ({
   } = result;
 
   const gradientColor = getColorFromName(categoryData.name);
-  const hasImage = !!(categoryData.image && categoryData.imageAlt?.startsWith("/"));
-  const basePath = `/blog/${categoryData.slug}`
-  const searchQuery = `page=${currentPage}&itemsPerPage=${itemsPerPage}`
+  const hasImage = !!(categoryData.image && categoryData.image.startsWith("/"));
+  const basePath = `/blog/${categoryData.slug}`;
+  const searchQuery = `page=${currentPage}&itemsPerPage=${itemsPerPage}`;
 
   return (
     <div className="p-4 max-w-6xl mx-auto">

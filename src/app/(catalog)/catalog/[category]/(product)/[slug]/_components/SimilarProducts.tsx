@@ -1,4 +1,5 @@
 import { Product } from "@/types/product";
+import { baseUrl } from "@/utils/baseUrl";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +16,7 @@ const SimilarProducts = async ({
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/similar-products?productId=${currentProduct.id}&category=${category}&limit=4`,
+      `${baseUrl}/api/products/similar-products?productId=${currentProduct.id}&category=${category}&limit=4`,
       { next: { revalidate: 3600 } },
     );
 

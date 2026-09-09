@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { baseUrl } from "@/utils/baseUrl";
 import { getProduct } from "../getProduct";
 
-import { Product } from "@/types/product";
+import type { Product } from "@/types/product";
 
 import ErrorComponent from "@/components/ErrorComponent";
 import ProductPageContent from "./_components/ProductPageContent";
@@ -20,36 +20,34 @@ const extractIdFromSlug = (slug: string): string => {
 export const generateMetadata = async ({
   params,
 }: ProductPageProps): Promise<Metadata> => {
-  try {
-    const { category, slug } = await params;
-    const productId = extractIdFromSlug(slug);
-    const product = await getProduct(productId);
+  const { category, slug } = await params;
+  const productId = extractIdFromSlug(slug);
+  const product: Product = await getProduct(productId);
 
-    const canonicalUrl = `${baseUrl}/catalog/${category}/${slug}`;
+  const canonicalUrl = `${baseUrl}/catalog/${category}/${slug}`;
 
-    return {
+  return {
+    title: product.title,
+    description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
       title: product.title,
-      description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия хорошего качества`,
-      metadataBase: new URL(baseUrl),
-      alternates: {
-        canonical: canonicalUrl,
-      },
-      openGraph: {
-        title: product.title,
-        description:
-          product.description || `Заказывайте ${product.title} по лучшей цене`,
-        images: product.img ? [product.img[0]] : [],
-        url: canonicalUrl,
-      },
-    };
-  } catch {
-    return {
-      title: "Товар",
-      description: "Страница товара",
-      metadataBase: new URL(baseUrl),
-    };
-  }
-};
+      description:
+        product.description || `Заказывайте ${product.title} по лучшей цене`,
+      url: canonicalUrl,
+      images: product.img
+        ? {
+            url: `${baseUrl}${product.img}`,
+            alt: product.title,
+            width: 512,
+            height: 512,
+          }
+        : undefined,
+    },
+  };
+}
 
 const ProductPage = async ({ params }: ProductPageProps) => {
   let product: Product;

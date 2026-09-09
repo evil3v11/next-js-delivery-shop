@@ -1,6 +1,5 @@
 import { unstable_cache } from "next/cache";
 import { getDB } from "../api-routes";
-import { baseUrl } from "../baseUrl";
 
 import type { SiteSettings } from "@/app/(admin)/admin/(cms)/cms/_types/siteSettings";
 
@@ -8,7 +7,6 @@ export type SiteMetadata = {
   title: string;
   description: string;
   keywords: string;
-  ogImage: string;
 };
 
 export const getSiteMetadata = unstable_cache(
@@ -17,7 +15,6 @@ export const getSiteMetadata = unstable_cache(
       title: "Северяночка",
       description: "Доставка и покупка продуктов питания",
       keywords: "доставка, продукты, питание",
-      ogImage: `${baseUrl}/og-image.jpg`,
     };
 
     try {
@@ -32,7 +29,6 @@ export const getSiteMetadata = unstable_cache(
         keywords: Array.isArray(settings.semanticCore)
           ? settings.semanticCore.join(", ")
           : defaultMetadata.keywords,
-        ogImage: `${baseUrl}/og-image.jpeg`,
       };
     } catch (e) {
       console.error("Ошибка обращения к БД для SEO: ", e);

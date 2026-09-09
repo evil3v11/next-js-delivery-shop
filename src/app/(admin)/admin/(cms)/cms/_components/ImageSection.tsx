@@ -10,6 +10,7 @@ import { ImageSectionProps } from "../_types/imageSection";
 
 import { AlertCircle, Upload, XCircle } from "lucide-react";
 import Image from "next/image";
+import { getImagePath } from "@/utils/getImagePath";
 
 const ImageSection = ({
   type,
@@ -19,7 +20,7 @@ const ImageSection = ({
   onRemoveImage,
   onSaveImageFile,
 }: ImageSectionProps) => {
-  const { editingId, ...categoryData} = useArticleCategoriesStore();
+  const { editingId, ...categoryData } = useArticleCategoriesStore();
   const articleData = useArticleStore();
   const storeData = type === "category" ? categoryData : articleData;
 
@@ -54,6 +55,18 @@ const ImageSection = ({
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  const getImageSrc = () => {
+    if (!formData.image) return "";
+    if (formData.image.startsWith("blob:")) return formData.image;
+    if (type === "category") {
+      return `/api/uploads/article-categories/${getImagePath(formData.image)}`;
+    } else {
+      return `/api/uploads/articles/${getImagePath(formData.image)}`;
+    }
+  };
+
+  const imageSrc = getImageSrc();
+
   return (
     <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
       <h3 className="text-lg font-medium mb-4">Изображение {entityName}</h3>
@@ -63,7 +76,7 @@ const ImageSection = ({
             <div className="flex flex-col lg:flex-row items-start gap-4">
               <div className="shrink-0">
                 <Image
-                  src={formData.image}
+                  src={imageSrc}
                   alt="Предпросмотр"
                   width={800}
                   height={450}
